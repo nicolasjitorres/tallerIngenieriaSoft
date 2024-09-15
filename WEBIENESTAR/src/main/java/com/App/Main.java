@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import com.miapp.DAO.Conexion;
 
-public class App {
+public class Main {
     public static void main(String[] args) {
         try {
             // Obtener la conexión a la base de datos
