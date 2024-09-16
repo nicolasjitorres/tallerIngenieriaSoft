@@ -1,8 +1,10 @@
 package modelos;
 
-@MappedSuperclass
 @Data
-public class Usuario {
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmpleadoDTO {
+    private Long id;
     private Long dni;
     private String contraseña;
     private String nombre;

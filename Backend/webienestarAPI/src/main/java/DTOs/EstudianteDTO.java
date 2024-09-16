@@ -1,8 +1,13 @@
 package modelos;
 
-@MappedSuperclass
 @Data
-public class Usuario {
+@AllArgsConstructor
+@NoArgsConstructor
+public class EstudianteDTO{
+    private Long id;
+    private String legajo;
+    private String carrera;
+    private String facultad;
     private Long dni;
     private String contraseña;
     private String nombre;
