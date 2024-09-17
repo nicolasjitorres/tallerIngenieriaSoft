@@ -1,8 +1,12 @@
 package modelos;
 
-import java.time.Year;
-
-import javax.annotation.processing.Generated;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -12,10 +16,10 @@ public class Vianda{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private varchar tipo;
-    private varchar plato;
-    private varchar postre;
+    private Long id;
+    private String tipo;
+    private String plato;
+    private String postre;
 
     
 

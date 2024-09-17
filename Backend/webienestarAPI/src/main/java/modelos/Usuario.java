@@ -1,5 +1,8 @@
 package modelos;
 
+import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+
 @MappedSuperclass
 @Data
 public class Usuario {

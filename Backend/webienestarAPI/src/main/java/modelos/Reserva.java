@@ -1,6 +1,13 @@
 package modelos;
 
-import java.time.Year;
+import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -10,12 +17,12 @@ public class Reserva{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private int idVianda;
     private Date fecha;
-    private varcharLong opinion;
-    private varchar calificacion;
+    private String opinion;
+    private String calificacion;
     private String estado;
 
 
