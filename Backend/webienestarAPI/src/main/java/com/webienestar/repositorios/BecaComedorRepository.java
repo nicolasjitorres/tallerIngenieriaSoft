@@ -1,8 +1,9 @@
-package repositorios;
+package com.webienestar.repositorios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import modelos.BecaComedor;
+
+import com.webienestar.modelos.BecaComedor;
 
 @Repository
 public interface BecaComedorRepository extends JpaRepository<BecaComedor, Long>{
