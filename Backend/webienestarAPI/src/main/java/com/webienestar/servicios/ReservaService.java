@@ -16,22 +16,25 @@ public class ReservaService {
     @Autowired
     private ReservaRepository reservaRepository;
 
+    @Autowired
+    private ReservaMapper reservaMapper;
+
     public List<ReservaDTO> obtenerTodos() {
         return reservaRepository.findAll().stream()
-                .map(ReservaMapper.INSTANCE::toDto)
+                .map(reservaMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public ReservaDTO obtenerPorId(Long id) {
         return reservaRepository.findById(id)
-                .map(ReservaMapper.INSTANCE::toDto)
+                .map(reservaMapper::toDto)
                 .orElse(null);
     }
 
     public ReservaDTO guardar(ReservaDTO reservaDTO) {
-        Reserva reserva = ReservaMapper.INSTANCE.toEntity(reservaDTO);
+        Reserva reserva = reservaMapper.toEntity(reservaDTO);
         reserva = reservaRepository.save(reserva);
-        return ReservaMapper.INSTANCE.toDto(reserva);
+        return reservaMapper.toDto(reserva);
     }
 
     public void eliminar(Long id) {

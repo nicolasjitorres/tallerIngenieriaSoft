@@ -16,22 +16,25 @@ public class ViandaService {
     @Autowired
     private ViandaRepository viandaRepository;
 
+    @Autowired
+    private ViandaMapper viandaMapper;
+
     public List<ViandaDTO> obtenerTodos() {
         return viandaRepository.findAll().stream()
-                .map(ViandaMapper.INSTANCE::toDto)
+                .map(viandaMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public ViandaDTO obtenerPorId(Long id) {
         return viandaRepository.findById(id)
-                .map(ViandaMapper.INSTANCE::toDto)
+                .map(viandaMapper::toDto)
                 .orElse(null);
     }
 
     public ViandaDTO guardar(ViandaDTO viandaDTO) {
-        Vianda vianda = ViandaMapper.INSTANCE.toEntity(viandaDTO);
+        Vianda vianda = viandaMapper.toEntity(viandaDTO);
         vianda = viandaRepository.save(vianda);
-        return ViandaMapper.INSTANCE.toDto(vianda);
+        return viandaMapper.toDto(vianda);
     }
 
     public void eliminar(Long id) {

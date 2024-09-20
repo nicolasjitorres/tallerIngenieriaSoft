@@ -16,22 +16,25 @@ public class EmpleadoService {
     @Autowired
     private EmpleadoRepository empleadoRepository;
 
+    @Autowired
+    private EmpleadoMapper empleadoMapper;
+
     public List<EmpleadoDTO> obtenerTodos() {
         return empleadoRepository.findAll().stream()
-                .map(EmpleadoMapper.INSTANCE::toDto)
+                .map(empleadoMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public EmpleadoDTO obtenerPorId(Long id) {
         return empleadoRepository.findById(id)
-                .map(EmpleadoMapper.INSTANCE::toDto)
+                .map(empleadoMapper::toDto)
                 .orElse(null);
     }
 
     public EmpleadoDTO guardar(EmpleadoDTO empleadoDTO) {
-        Empleado empleado = EmpleadoMapper.INSTANCE.toEntity(empleadoDTO);
-        empleado = empledoRepository.save(empleado);
-        return EmpleadoMapper.INSTANCE.toDto(empleado);
+        Empleado empleado = empleadoMapper.toEntity(empleadoDTO);
+        empleado = empleadoRepository.save(empleado);
+        return empleadoMapper.toDto(empleado);
     }
 
     public void eliminar(Long id) {

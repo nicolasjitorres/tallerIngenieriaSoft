@@ -12,4 +12,5 @@ public class BecaComedorDTO {
     private String grupoFamiliar;
     private String archivos;
     private Year anio;
+    private Long idEstudiante;
 }

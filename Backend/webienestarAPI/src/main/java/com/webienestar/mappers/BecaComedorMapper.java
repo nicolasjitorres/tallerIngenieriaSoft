@@ -3,12 +3,15 @@ package com.webienestar.mappers;
 import com.webienestar.modelos.BecaComedor;
 import com.webienestar.dtos.BecaComedorDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BecaComedorMapper {
-    BecaComedorMapper INSTANCE = Mappers.getMapper(BecaComedorMapper.class);
 
+    @Mapping(source = "estudiante.id", target = "idEstudiante")
     BecaComedorDTO toDto(BecaComedor becaComedor);
+
+    @Mapping(source = "idEstudiante", target = "estudiante.id")
     BecaComedor toEntity(BecaComedorDTO becaComedorDTO);
 }
+

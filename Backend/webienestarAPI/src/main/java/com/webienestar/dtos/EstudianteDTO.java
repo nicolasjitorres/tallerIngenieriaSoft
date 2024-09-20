@@ -1,6 +1,7 @@
 package com.webienestar.dtos;
 
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class EstudianteDTO{
@@ -17,4 +18,7 @@ public class EstudianteDTO{
     private String mail;
     private Long celular;
     private String rol;
+    
+    private List<BecaComedorDTO> becasComedorDTO;
+    private List<ReservaDTO> reservasDTO;
 }

@@ -4,5 +4,6 @@ public enum Rol {
     ESTUDIANTE,
     ADMIN,
     EMPLEADO_COMEDOR,
-    EMPLEADO_CONTROL
+    EMPLEADO_CONTROL,
+    SECRETARIO
 }

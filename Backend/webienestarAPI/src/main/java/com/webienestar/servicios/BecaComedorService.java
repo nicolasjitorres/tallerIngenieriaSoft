@@ -15,23 +15,26 @@ public class BecaComedorService {
 
     @Autowired
     private BecaComedorRepository becaComedorRepository;
+    
+    @Autowired
+    private BecaComedorMapper becaComedorMapper;
 
     public List<BecaComedorDTO> obtenerTodos() {
         return becaComedorRepository.findAll().stream()
-                .map(BecaComedorMapper.INSTANCE::toDto)
+                .map(becaComedorMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public BecaComedorDTO obtenerPorId(Long id) {
         return becaComedorRepository.findById(id)
-                .map(BecaComedorMapper.INSTANCE::toDto)
+                .map(becaComedorMapper::toDto)
                 .orElse(null);
     }
 
     public BecaComedorDTO guardar(BecaComedorDTO becaComedorDTO) {
-        BecaComedor becaComedor = BecaComedorMapper.INSTANCE.toEntity(becaComedorDTO);
+        BecaComedor becaComedor = becaComedorMapper.toEntity(becaComedorDTO);
         becaComedor = becaComedorRepository.save(becaComedor);
-        return BecaComedorMapper.INSTANCE.toDto(becaComedor);
+        return becaComedorMapper.toDto(becaComedor);
     }
 
     public void eliminar(Long id) {

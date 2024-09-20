@@ -1,6 +1,7 @@
 package com.webienestar.dtos;
 
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class ViandaDTO {
@@ -8,4 +9,5 @@ public class ViandaDTO {
     private String tipo;
     private String plato;
     private String postre;
+    private List<ReservaDTO> reservasDTO;
 }

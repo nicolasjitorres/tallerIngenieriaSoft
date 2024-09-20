@@ -16,22 +16,25 @@ public class EstudianteService {
     @Autowired
     private EstudianteRepository estudianteRepository;
 
+    @Autowired
+    private EstudianteMapper estudianteMapper;
+
     public List<EstudianteDTO> obtenerTodos() {
         return estudianteRepository.findAll().stream()
-                .map(EstudianteMapper.INSTANCE::toDto)
+                .map(estudianteMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public EstudianteDTO obtenerPorId(Long id) {
         return estudianteRepository.findById(id)
-                .map(EstudianteMapper.INSTANCE::toDto)
+                .map(estudianteMapper::toDto)
                 .orElse(null);
     }
 
     public EstudianteDTO guardar(EstudianteDTO estudianteDTO) {
-        Estudiante estudiante = EstudianteMapper.INSTANCE.toEntity(estudianteDTO);
+        Estudiante estudiante = estudianteMapper.toEntity(estudianteDTO);
         estudiante = estudianteRepository.save(estudiante);
-        return EstudianteMapper.INSTANCE.toDto(estudiante);
+        return estudianteMapper.toDto(estudiante);
     }
 
     public void eliminar(Long id) {

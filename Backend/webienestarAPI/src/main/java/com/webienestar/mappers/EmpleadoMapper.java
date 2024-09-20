@@ -3,12 +3,10 @@ package com.webienestar.mappers;
 import com.webienestar.modelos.Empleado;
 import com.webienestar.dtos.EmpleadoDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EmpleadoMapper {
-    EmpleadoMapper INSTANCE = Mappers.getMapper(EmpleadoMapper.class);
 
-    EmpleadoDTO toDto(Empleado Empleado);
-    Empleado toEntity(EmpleadoDTO EmpleadoDTO);
+    EmpleadoDTO toDto(Empleado empleado);
+    Empleado toEntity(EmpleadoDTO empleadoDTO);
 }

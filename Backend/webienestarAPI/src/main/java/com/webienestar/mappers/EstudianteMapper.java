@@ -1,14 +1,20 @@
 package com.webienestar.mappers;
-
 import com.webienestar.modelos.Estudiante;
 import com.webienestar.dtos.EstudianteDTO;
+
+
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring", uses = {BecaComedorMapper.class, ReservaMapper.class})
 public interface EstudianteMapper {
-    EstudianteMapper INSTANCE = Mappers.getMapper(EstudianteMapper.class);
 
+    @Mapping(source = "becasComedor", target = "becasComedorDTO")
+    @Mapping(source = "reservas", target = "reservasDTO")
     EstudianteDTO toDto(Estudiante estudiante);
+
+    @Mapping(source = "becasComedorDTO", target = "becasComedor")
+    @Mapping(source = "reservasDTO", target = "reservas")
     Estudiante toEntity(EstudianteDTO estudianteDTO);
+
 }
