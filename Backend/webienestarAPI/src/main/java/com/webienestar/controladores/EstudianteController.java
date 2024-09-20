@@ -2,6 +2,9 @@ package com.webienestar.controladores;
 
 import com.webienestar.dtos.EstudianteDTO;
 import com.webienestar.servicios.EstudianteService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +28,7 @@ public class EstudianteController {
     }
 
     @PostMapping
-    public EstudianteDTO guardar(@RequestBody EstudianteDTO estudianteDTO) {
+    public EstudianteDTO guardar(@Valid @RequestBody EstudianteDTO estudianteDTO) {
         return estudianteService.guardar(estudianteDTO);
     }
 
