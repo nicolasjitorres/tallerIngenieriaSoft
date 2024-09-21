@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.webienestar.dtos.ReservaDTO;
 import com.webienestar.servicios.ReservaService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

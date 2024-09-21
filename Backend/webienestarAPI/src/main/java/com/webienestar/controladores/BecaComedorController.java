@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.webienestar.dtos.BecaComedorDTO;
 import com.webienestar.servicios.BecaComedorService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +28,7 @@ public class BecaComedorController {
     }
 
     @PostMapping
-    public BecaComedorDTO guardar(@RequestBody BecaComedorDTO becaComedorDTO) {
+    public BecaComedorDTO guardar(@Valid @RequestBody BecaComedorDTO becaComedorDTO) {
         return becaComedorService.guardar(becaComedorDTO);
     }
 

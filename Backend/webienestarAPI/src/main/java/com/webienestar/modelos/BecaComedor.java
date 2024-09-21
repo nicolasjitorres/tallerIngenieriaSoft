@@ -3,6 +3,7 @@ package com.webienestar.modelos;
 import java.time.Year;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 import com.webienestar.modelos.enums.CondVivienda;
 import com.webienestar.modelos.enums.TipoVivienda;
 
@@ -31,7 +32,7 @@ public class BecaComedor{
     private CondVivienda condVivienda;
     private String grupoFamiliar;
     private String archivos;
-    private Year anio;
+    private String anio;
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id")

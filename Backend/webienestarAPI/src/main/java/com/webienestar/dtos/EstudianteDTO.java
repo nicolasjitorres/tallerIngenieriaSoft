@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -40,6 +41,7 @@ public class EstudianteDTO {
     private String nombre;
 
     @NotBlank(message = "El campo 'género' es obligatorio.")
+    @Pattern(regexp = "MASCULINO|FEMENINO|OTRO", message = "El género debe ser 'MASCULINO', 'FEMENINO' u 'OTRO'.")
     private String genero;
 
     @NotBlank(message = "El campo 'localidad' es obligatorio.")
@@ -53,10 +55,11 @@ public class EstudianteDTO {
     private String mail;
 
     @NotNull(message = "El campo 'celular' es obligatorio.")
-    //@Digits(integer = 10, fraction = 0, message = "El número de celular debe tener hasta 10 dígitos.")
+    @Digits(integer = 10, fraction = 0, message = "El número de celular debe tener hasta 10 dígitos.")
     private Long celular;
 
     @NotBlank(message = "El campo 'rol' es obligatorio.")
+    @Pattern(regexp = "ESTUDIANTE|ADMIN|EMPLEADO_COMEDOR|EMPLEADO_CONTROL|SECRETARIO", message = "El rol debe ser 'ESTUDIANTE', 'ADMIN', 'EMPLEADO_COMEDOR', 'EMPLEADO_CONTROL' o 'SECRETARIO'.")
     private String rol;
 
     private List<BecaComedorDTO> becasComedorDTO;

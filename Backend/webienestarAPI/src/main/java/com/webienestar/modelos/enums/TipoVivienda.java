@@ -3,7 +3,7 @@ package com.webienestar.modelos.enums;
 public enum TipoVivienda {
     DEPARTAMENTO,
     CASA,
-    ALQUILER,
+    RESIDENCIA,
     PENSION,
     OTRO
 }
