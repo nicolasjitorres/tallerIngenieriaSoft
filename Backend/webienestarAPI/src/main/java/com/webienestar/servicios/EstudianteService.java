@@ -32,6 +32,11 @@ public class EstudianteService {
     }
 
     public EstudianteDTO guardar(EstudianteDTO estudianteDTO) {
+
+        // Esto de aqui abajo lo que deberia hacer es buscar si existe el DNI que ingresamos y en ese caso devolver un msj de que el dni ya existe
+        // if (estudianteRepository.existsByDni(estudianteDTO.getDni())) {
+        //     throw new DniYaExisteException("El DNI ya está en uso.");
+        // }
         Estudiante estudiante = estudianteMapper.toEntity(estudianteDTO);
         estudiante = estudianteRepository.save(estudiante);
         return estudianteMapper.toDto(estudiante);

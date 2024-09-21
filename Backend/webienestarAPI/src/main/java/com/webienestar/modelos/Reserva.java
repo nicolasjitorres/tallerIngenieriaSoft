@@ -1,7 +1,5 @@
 package com.webienestar.modelos;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;

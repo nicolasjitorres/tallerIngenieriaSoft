@@ -8,5 +8,5 @@ import com.webienestar.modelos.Estudiante;
 
 @Repository
 public interface EstudianteRepository extends JpaRepository<Estudiante, Long>{
-
+    boolean existsByDni(Long dni);
 }
