@@ -1,27 +1,17 @@
 // Login.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
+
+  const navigate = useNavigate(); // Hook para manejar la navegación
+
+  const handleRegisterClick = () => {
+    navigate('/register'); // Redirige a la ruta de registro
+  };
+  
   return (
-    /*<div className="login-container">
-      <div className="login-logo">
-      <img src="/logo.png" alt="Logo" className="logo-image" />
-      </div>
-      <h2 className="login-title">Iniciar Sesión</h2>
-      <form className="login-form">
-        <input type="email" placeholder="Email address" className="input-field" />
-        <input type="password" placeholder="Password" className="input-field" />
-        <div className="remember-me">
-          <input type="checkbox" id="remember" />
-          <label htmlFor="remember">Remember me</label>
-        </div>
-        <button type="submit" className="sign-in-button">Sign in</button>
-      </form>
-      <footer className="footer">
-        © 2017-2019
-      </footer>
-    </div>*/
     <div className="login-clean">
     <form method="post">
       <h2 className="sr-only">WEBIENESTAR</h2>
@@ -34,7 +24,7 @@ const Login = () => {
           className="form-control"
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="DNI"
         />
       </div>
       <div className="form-group">
@@ -42,17 +32,26 @@ const Login = () => {
           className="form-control"
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Contraseña"
         />
       </div>
       <div className="form-group">
         <button className="btn btn-primary btn-block" type="submit">
-          Log In
+          Ingresar
         </button>
       </div>
       <a href="#" className="forgot">
-        Forgot your email or password?
+        ¿Olvidaste tu contraseña?
       </a>
+      <div className="form-group">
+          <button
+            className="btn btn-primary btn-block"
+            type="button"
+            onClick={handleRegisterClick} // Maneja el clic del botón
+          >
+            Crear cuenta nueva
+          </button>
+        </div>
     </form>
   </div>
   );
