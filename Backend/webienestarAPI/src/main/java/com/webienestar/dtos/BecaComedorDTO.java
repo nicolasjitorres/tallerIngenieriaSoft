@@ -2,6 +2,9 @@ package com.webienestar.dtos;
 
 import java.time.Year;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +12,7 @@ import lombok.Data;
 
 @Data
 public class BecaComedorDTO {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotNull(message = "El campo 'ingresos' es obligatorio.")
@@ -25,6 +29,7 @@ public class BecaComedorDTO {
     @NotBlank(message = "El campo 'grupoFamiliar' es obligatorio.")
     private String grupoFamiliar;
 
+    @JsonIgnore 
     @NotBlank(message = "El campo 'archivos' es obligatorio.")
     private String archivos;
 

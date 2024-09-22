@@ -1,5 +1,8 @@
 package com.webienestar.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -12,6 +15,7 @@ import lombok.Data;
 
 @Data
 public class EmpleadoDTO {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotNull(message = "El campo 'dni' es obligatorio.")
@@ -19,6 +23,7 @@ public class EmpleadoDTO {
     @Max(value = 99999999, message = "El DNI debe tener 8 dígitos.")
     private Long dni;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "El campo 'contraseña' es obligatorio.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
     private String contraseña;

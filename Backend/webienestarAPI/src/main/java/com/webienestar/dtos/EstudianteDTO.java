@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +19,7 @@ import jakarta.validation.constraints.Min;
 
 @Data
 public class EstudianteDTO {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotBlank(message = "El campo 'legajo' es obligatorio.")
@@ -32,6 +36,7 @@ public class EstudianteDTO {
     @Max(value = 99999999, message = "El DNI debe tener 8 dígitos.")
     private Long dni;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "El campo 'contraseña' es obligatorio.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
     private String contraseña;
