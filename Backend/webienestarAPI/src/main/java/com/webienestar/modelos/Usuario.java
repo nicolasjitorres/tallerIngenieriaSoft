@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Usuario {
     private Long dni;
-    private String contraseña;
+    private String contrasenia;
     private String nombre;
     private Genero genero;
     private String localidad;

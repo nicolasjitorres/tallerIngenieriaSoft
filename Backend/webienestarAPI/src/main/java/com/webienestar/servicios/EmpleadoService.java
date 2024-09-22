@@ -1,5 +1,6 @@
 package com.webienestar.servicios;
 
+import com.webienestar.autenticacion.SecurityHasher;
 import com.webienestar.dtos.EmpleadoDTO;
 import com.webienestar.mappers.EmpleadoMapper;
 import com.webienestar.modelos.Empleado;
@@ -17,6 +18,9 @@ public class EmpleadoService {
     private EmpleadoRepository empleadoRepository;
 
     @Autowired
+    private SecurityHasher securityHasher;
+
+    @Autowired
     private EmpleadoMapper empleadoMapper;
 
     public List<EmpleadoDTO> obtenerTodos() {
@@ -31,20 +35,12 @@ public class EmpleadoService {
                 .orElse(null);
     }
 
-    /*public EmpleadoDTO guardar(EmpleadoDTO empleadoDTO) {
-        Empleado empleado = empleadoMapper.toEntity(empleadoDTO);
-        empleado = empleadoRepository.save(empleado);
-        return empleadoMapper.toDto(empleado);
-    }*/
-
-    @Autowired
-    private ContraseñaService contraseñaService;
 
     public EmpleadoDTO guardar(EmpleadoDTO empleadoDTO) {
-        // Hashear la contraseña antes de guardar
-        if (empleadoDTO.getContraseña() != null) {
-            String contraseñaHasheada = contraseñaService.hashearContraseña(empleadoDTO.getContraseña());
-            empleadoDTO.setContraseña(contraseñaHasheada);
+
+        if (empleadoDTO.getContrasenia() != null) {
+            String contraseniaHasheada = securityHasher.passwordEncoder().encode(empleadoDTO.getContrasenia());
+            empleadoDTO.setContrasenia(contraseniaHasheada);
         }
 
         Empleado empleado = empleadoMapper.toEntity(empleadoDTO);

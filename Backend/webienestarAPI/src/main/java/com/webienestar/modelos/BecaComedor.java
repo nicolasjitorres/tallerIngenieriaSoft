@@ -1,9 +1,6 @@
 package com.webienestar.modelos;
 
-import java.time.Year;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 import com.webienestar.modelos.enums.CondVivienda;
 import com.webienestar.modelos.enums.TipoVivienda;
 

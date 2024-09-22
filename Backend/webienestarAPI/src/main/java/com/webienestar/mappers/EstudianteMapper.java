@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {BecaComedorMapper.class, ReservaMapper.class})
-/*public interface EstudianteMapper {
+public interface EstudianteMapper {
 
     @Mapping(source = "becasComedor", target = "becasComedorDTO")
     @Mapping(source = "reservas", target = "reservasDTO")
@@ -17,10 +17,10 @@ import org.mapstruct.Mapping;
     @Mapping(source = "reservasDTO", target = "reservas")
     Estudiante toEntity(EstudianteDTO estudianteDTO);
 
-}*/
-public interface EstudianteMapper {
-
-    EstudianteDTO toDto(Estudiante estudiante);
-
-    Estudiante toEntity(EstudianteDTO estudianteDTO);
 }
+// public interface EstudianteMapper {
+
+//     EstudianteDTO toDto(Estudiante estudiante);
+
+//     Estudiante toEntity(EstudianteDTO estudianteDTO);
+// }

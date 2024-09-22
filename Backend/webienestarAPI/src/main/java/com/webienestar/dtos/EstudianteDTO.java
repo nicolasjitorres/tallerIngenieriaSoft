@@ -1,25 +1,13 @@
 package com.webienestar.dtos;
 
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.*;
 
 @Data
 public class EstudianteDTO {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotBlank(message = "El campo 'legajo' es obligatorio.")
@@ -32,14 +20,14 @@ public class EstudianteDTO {
     private String facultad;
 
     @NotNull(message = "El campo 'dni' es obligatorio.")
-    @Min(value = 10000000, message = "El DNI debe tener 8 dígitos.")
-    @Max(value = 99999999, message = "El DNI debe tener 8 dígitos.")
+    @Min(value = 1000000, message = "El dni debe tener al menos 7 dígitos.")
+    @Max(value = 99999999, message = "El dni debe tener como máximo 8 dígitos.")
     private Long dni;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "El campo 'contraseña' es obligatorio.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
-    private String contraseña;
+    private String contrasenia;
 
     @NotBlank(message = "El campo 'nombre' es obligatorio.")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres.")
@@ -63,7 +51,8 @@ public class EstudianteDTO {
     @Digits(integer = 10, fraction = 0, message = "El número de celular debe tener hasta 10 dígitos.")
     private Long celular;
 
-    @NotBlank(message = "El campo 'rol' es obligatorio.")
-    @Pattern(regexp = "ESTUDIANTE|ADMIN|EMPLEADO_COMEDOR|EMPLEADO_CONTROL|SECRETARIO", message = "El rol debe ser 'ESTUDIANTE', 'ADMIN', 'EMPLEADO_COMEDOR', 'EMPLEADO_CONTROL' o 'SECRETARIO'.")
     private String rol;
+
+    private List<BecaComedorDTO> becasComedorDTO;
+    private List<ReservaDTO> reservasDTO;
 }

@@ -3,14 +3,10 @@ package com.webienestar.dtos;
 import lombok.Data;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 @Data
 public class ViandaDTO {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @NotBlank(message = "El campo 'tipo' es obligatorio.")
