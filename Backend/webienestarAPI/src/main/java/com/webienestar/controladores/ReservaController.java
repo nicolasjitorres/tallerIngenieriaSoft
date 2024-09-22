@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.webienestar.dtos.ReservaDTO;
 import com.webienestar.servicios.ReservaService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +29,7 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ReservaDTO guardar(@RequestBody ReservaDTO reservaDTO) {
+    public ReservaDTO guardar(@Valid @RequestBody ReservaDTO reservaDTO) {
         return reservaService.guardar(reservaDTO);
     }
 

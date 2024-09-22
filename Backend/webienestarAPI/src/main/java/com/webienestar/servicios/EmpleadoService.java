@@ -31,7 +31,22 @@ public class EmpleadoService {
                 .orElse(null);
     }
 
+    /*public EmpleadoDTO guardar(EmpleadoDTO empleadoDTO) {
+        Empleado empleado = empleadoMapper.toEntity(empleadoDTO);
+        empleado = empleadoRepository.save(empleado);
+        return empleadoMapper.toDto(empleado);
+    }*/
+
+    @Autowired
+    private ContraseñaService contraseñaService;
+
     public EmpleadoDTO guardar(EmpleadoDTO empleadoDTO) {
+        // Hashear la contraseña antes de guardar
+        if (empleadoDTO.getContraseña() != null) {
+            String contraseñaHasheada = contraseñaService.hashearContraseña(empleadoDTO.getContraseña());
+            empleadoDTO.setContraseña(contraseñaHasheada);
+        }
+
         Empleado empleado = empleadoMapper.toEntity(empleadoDTO);
         empleado = empleadoRepository.save(empleado);
         return empleadoMapper.toDto(empleado);

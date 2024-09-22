@@ -58,7 +58,4 @@ public class EstudianteDTO {
 
     @NotBlank(message = "El campo 'rol' es obligatorio.")
     private String rol;
-
-    private List<BecaComedorDTO> becasComedorDTO;
-    private List<ReservaDTO> reservasDTO;
 }
