@@ -1,9 +1,7 @@
 package com.webienestar.servicios;
 
-public class DniYaExisteException {
-
-    public DniYaExisteException(String string) {
-        //TODO Auto-generated constructor stub
+public class DniYaExisteException extends RuntimeException {
+    public DniYaExisteException(String message) {
+        super(message);
     }
-
 }
