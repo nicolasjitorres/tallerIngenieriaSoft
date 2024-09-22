@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.webienestar.dtos.ViandaDTO;
 import com.webienestar.servicios.ViandaService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +28,7 @@ public class ViandaController {
     }
 
     @PostMapping
-    public ViandaDTO guardar(@RequestBody ViandaDTO viandaDTO) {
+    public ViandaDTO guardar(@Valid @RequestBody ViandaDTO viandaDTO) {
         return viandaService.guardar(viandaDTO);
     }
 

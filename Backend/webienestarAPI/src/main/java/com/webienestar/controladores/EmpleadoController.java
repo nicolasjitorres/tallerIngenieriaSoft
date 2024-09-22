@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.webienestar.dtos.EmpleadoDTO;
 import com.webienestar.servicios.EmpleadoService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +28,7 @@ public class EmpleadoController {
     }
 
     @PostMapping
-    public EmpleadoDTO guardar(@RequestBody EmpleadoDTO empleadoDTO) {
+    public EmpleadoDTO guardar(@Valid @RequestBody EmpleadoDTO empleadoDTO) {
         return empleadoService.guardar(empleadoDTO);
     }
 
