@@ -40,14 +40,6 @@ const Login = () => {
           Ingresar
         </button>
       </div>
-<<<<<<< HEAD
-      <a className="forgot">
-        <button className="btn btn-primary btn-block" type="submit">
-          Ingresar
-        </button>
-      </a>
-=======
->>>>>>> 39fba4a784674778b6e7466a992b0463b31eeec3
       <a href="#" className="forgot">
         ¿Olvidaste tu contraseña?
       </a>

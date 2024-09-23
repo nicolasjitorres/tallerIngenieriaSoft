@@ -7,6 +7,11 @@ import BecaComedor from './components/BecaComedor-Form';
 import ReservarVianda from './components/ReservarVianda';
 import RetroVianda from './components/RetroVianda';
 import CancelarVianda from './components/CancelarVianda';
+import Configuracion from './components/configuracion';
+import ListaBecas from './components/listaBecas';
+import ListaReservas from './components/listaReservas';
+import MenuDia from './components/menuDia';
+import VisualizarBeca from './components/visualizarBeca';
 
 function App() {
   return (
@@ -18,6 +23,12 @@ function App() {
         <Route path="/ReservarVianda" element={<ReservarVianda />} />
         <Route path="/RetroVianda" element={<RetroVianda />} />
         <Route path="/CancelarVianda" element={<CancelarVianda />} />
+        <Route path="/configuracion" element={<Configuracion />} />
+        <Route path="/lista_becas" element={<ListaBecas />} />
+        <Route path="/lista_reservas" element={<ListaReservas />} />
+        <Route path="/menu_dia" element={<MenuDia />} />
+        <Route path="/visualizar_beca" element={<VisualizarBeca />} />
+
       </Routes>
     </Router>
   );

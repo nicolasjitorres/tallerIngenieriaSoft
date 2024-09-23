@@ -35,12 +35,13 @@
   to {
     transform: rotate(360deg);
   }
-}*/
+}
 
 #app {
   background-color: rgb(153, 0, 0);
-  height: 100vh; /* Adjusts height to 100% of viewport height */
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+}*/
+

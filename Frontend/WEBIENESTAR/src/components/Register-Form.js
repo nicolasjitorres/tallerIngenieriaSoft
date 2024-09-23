@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-// Login.js
-import React from 'react';
-import './Login.css';
-
-const Login = () => {
-  return (
-    <div className="register">
-        Hola
-=======
 // Register.js
 import React, { useState } from "react";
 import "./Register-Form.css";
@@ -248,13 +238,7 @@ const Register = () => {
           </a>
         </form>
       </div>
->>>>>>> 39fba4a784674778b6e7466a992b0463b31eeec3
     </div>
   );
 };
-
-<<<<<<< HEAD
-export default Login;
-=======
 export default Register;
->>>>>>> 39fba4a784674778b6e7466a992b0463b31eeec3
