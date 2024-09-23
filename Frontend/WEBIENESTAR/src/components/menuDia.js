@@ -1,38 +1,25 @@
-// MenuDia.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './menuDia.css';
-
-// Opciones de menú categorizadas
-const menuOptions = {
-  Clásico: [
-    ['Asado', 'Dulce de leche'],
-    ['Empanadas', 'Chocotorta'],
-    ['Milanesa', 'Helado artesanal'],
-    ['Locro', 'Pastelito'],
-    ['Provoleta', 'Tarta de ricota'],
-    ['Pizza a la piedra', 'Flan con dulce de leche'],
-    ['Tarta de acelga', 'Panchuker'],
-    ['Choripán', 'Torta frita'],
-    ['Sándwich de miga', 'Galletitas de manteca'],
-    ['Fugazza', 'Budín de pan'],
-    ['Bife de chorizo', 'Torta de manzana'],
-    ['Matambre a la pizza', 'Helado de crema americana'],
-    ['Ñoquis', 'Tarta de frutas'],
-    ['Arroz con pollo', 'Galleta de arroz'],
-    ['Pollo al horno', 'Mousse de maracuyá'],
-  ],
-  Saludable: [
-    ['Pasta al pesto', 'Frutas frescas'],
-    ['Sopa de verduras', 'Yogur natural'],
-    ['Ensalada de quinoa', 'Frutas de temporada'],
-    ['Tortilla española', 'Pudín de chía'],
-    ['Pescado a la parrilla', 'Helado de yogurt'],
-  ],
-};
 
 const MenuDia = () => {
   const [clasico, setClasico] = useState('');
   const [saludable, setSaludable] = useState('');
+  const [viandas, setViandas] = useState([]); // Estado para las viandas obtenidas del backend
+
+  // Obtener las viandas desde el backend al montar el componente
+  useEffect(() => {
+    const fetchViandas = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/viandas');
+        setViandas(response.data); // Guardar los datos de las viandas en el estado
+      } catch (error) {
+        console.error('Error al obtener las viandas:', error);
+      }
+    };
+
+    fetchViandas();
+  }, []);
 
   // Maneja la selección de menú
   const handleSelect = (tipo, value) => {
@@ -60,11 +47,13 @@ const MenuDia = () => {
             onChange={(e) => handleSelect('clasico', e.target.value)}
           >
             <option value="">Selecciona un menú clásico</option>
-            {menuOptions.Clásico.map((menu, index) => (
-              <option key={index} value={`${menu[0]} y ${menu[1]}`}>
-                {menu[0]} y {menu[1]}
-              </option>
-            ))}
+            {viandas
+              .filter((vianda) => vianda.tipo === 'Clasico')
+              .map((vianda) => (
+                <option key={vianda.id} value={`${vianda.plato} y ${vianda.postre}`}>
+                  {vianda.plato} y {vianda.postre}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -76,11 +65,13 @@ const MenuDia = () => {
             onChange={(e) => handleSelect('saludable', e.target.value)}
           >
             <option value="">Selecciona un menú saludable</option>
-            {menuOptions.Saludable.map((menu, index) => (
-              <option key={index} value={`${menu[0]} y ${menu[1]}`}>
-                {menu[0]} y {menu[1]}
-              </option>
-            ))}
+            {viandas
+              .filter((vianda) => vianda.tipo === 'Saludable')
+              .map((vianda) => (
+                <option key={vianda.id} value={`${vianda.plato} y ${vianda.postre}`}>
+                  {vianda.plato} y {vianda.postre}
+                </option>
+              ))}
           </select>
         </div>
 
