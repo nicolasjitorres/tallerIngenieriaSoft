@@ -1,0 +1,36 @@
+.cancelar-section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ccc; 
+    border-radius: 15px;
+    background-color: #f8f9fa; 
+    max-width: 560px; 
+    margin-left: auto;
+    margin-right: auto; 
+    display: flex; 
+    align-items: center; /* Alinea verticalmente */
+}
+
+.menu-icon-c {
+    width: 70px; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin-right: 20px; /* Espacio a la derecha de la imagen */
+}
+.menu-details-c {
+    flex-grow: 1; /* Permite que el contenedor del texto ocupe el espacio restante */
+}
+.btn-white-c {
+    font-size: 18px;
+    padding: 12px 30px;
+    background-color: white; 
+    color: #990000; 
+    border-radius: 50px; 
+    border: 2px solid #990000;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: bold;
+    margin-right: 50px; 
+}
+.btn-white-c:hover {
+    background-color: red;
+    transform: scale(1.05); 
+}

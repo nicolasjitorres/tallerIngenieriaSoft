@@ -6,6 +6,7 @@ import Register from './components/Register-Form'; // Vista de registro
 import BecaComedor from './components/BecaComedor-Form';
 import ReservarVianda from './components/ReservarVianda';
 import RetroVianda from './components/RetroVianda';
+import CancelarVianda from './components/CancelarVianda';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/BecaComedor" element={<BecaComedor />} />
         <Route path="/ReservarVianda" element={<ReservarVianda />} />
         <Route path="/RetroVianda" element={<RetroVianda />} />
+        <Route path="/CancelarVianda" element={<CancelarVianda />} />
       </Routes>
     </Router>
   );
