@@ -29,6 +29,7 @@
     background-color:#ffffff;
     padding:40px 60px;
     color:#505e6c;
+    border-radius: 20px; 
   }
   
   @media (max-width:991px) {
@@ -129,29 +130,87 @@
     font-size: 17px;
 }
 
-.form-group-f{
-    text-align: center;
-    padding-bottom: 15px;
+.form-group-bc {
+    text-align: center; 
+    padding-bottom: 15px; 
+  }
+  .label-bold{
+    font-weight: bold;
+  }
+  
+  .form-check-group-bc {
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
+    margin-top: 10px; 
+  }
+  
+  .form-check-bc {
+    display: flex; 
+    align-items: center;
+  }
+
+.file-upload-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
+  }
+  
+  .file-upload-row {
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 15px; 
+  }
+  
+  .file-upload-column {
+    flex: 1; 
+    margin-right: 10px; 
+  }
+  
+  .file-upload-column:last-child {
+    margin-right: 0; 
+  }
+  
+  .file-upload-column label {
+    display: block; 
+    margin-bottom: 5px; 
+  }
+  .btn-bold {
+    font-weight: bold;
+  }
+ 
+.btn-borrar {
+  background-color: red; 
+  color: white; 
+  padding: 15px;
 }
 
-.form-group-g {
-  text-align: left; 
-  padding-bottom: 15px; 
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
+.btn-borrar,
+.btn-enviar,
+.btn-volver {
+  background-color: red; 
+  color: white;
+  border: none; 
+  border-radius: 25px; 
+  padding: 15px 30px; 
+  font-size: 16px; 
+  transition: background-color 0.3s; 
 }
 
-.form-check-group {
-  display: flex; 
-  gap: 15px; 
-  margin-top: 10px; 
+
+.btn-borrar:hover,
+.btn-enviar:hover,
+.btn-volver:hover {
+  opacity: 0.7; 
 }
 
-.form-check {
-  display: flex; /* Alinea el input y el label en fila */
-  align-items: center; /* Centra verticalmente */
-}
+.btn-borrar {
+    background-color: red;
+  }
+  
+  .btn-enviar {
+    background-color: green;
+  }
+  
+  .btn-volver {
+    background-color: gray;
+  }
