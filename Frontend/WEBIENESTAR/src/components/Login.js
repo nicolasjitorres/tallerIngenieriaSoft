@@ -10,7 +10,11 @@ const Login = () => {
   const handleRegisterClick = () => {
     navigate('/register'); // Redirige a la ruta de registro
   };
-  
+
+  const handleHomeStudentClick = () => {
+    navigate('/inicio_estudiante'); // Redirige a la ruta de registro
+  };
+
   return (
     <div className="login-clean">
     <form method="post">
@@ -36,11 +40,13 @@ const Login = () => {
         />
       </div>
       <div className="form-group">
-        <button className="btn btn-primary btn-block" type="submit">
+        <button className="btn btn-primary btn-block" 
+        type="submit" onClick={handleHomeStudentClick} // Maneja el clic del botón
+        >
           Ingresar
         </button>
       </div>
-      <a href="#" className="forgot">
+      <a className="forgot">
         ¿Olvidaste tu contraseña?
       </a>
       <div className="form-group">

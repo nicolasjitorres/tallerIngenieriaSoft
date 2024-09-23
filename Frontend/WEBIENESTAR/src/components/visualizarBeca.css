@@ -1,0 +1,26 @@
+.container {
+    max-width: 600px; /* Ancho máximo de la tarjeta */
+    margin: 20px auto; /* Centra el contenedor */
+    padding: 20px; /* Espaciado interno */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center; /* Centra el texto */
+}
+
+h2 {
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+.form-group {
+    margin: 1rem 3rem 1rem 3rem;
+}
+
+.btn-secondary {
+    margin: auto; /* Espacio superior para el botón */
+    width: 20%;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    text-align: center;
+}
