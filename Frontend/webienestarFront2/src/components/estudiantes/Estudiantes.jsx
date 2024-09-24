@@ -20,6 +20,7 @@ const Estudiantes = () => {
         fetchEstudiantes();
     }, []);
 
+    console.log("estudiantes");
 
     return (
         <div>
@@ -39,9 +40,6 @@ const Estudiantes = () => {
 
         </div>
     )
-
-
-
 }
 
 export default Estudiantes;

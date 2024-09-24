@@ -9,6 +9,7 @@ import {
   Cog6ToothIcon,
   TagIcon,
 } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 export function Sidebar() {
   // const [open, setOpen] = React.useState(0);
@@ -106,40 +107,73 @@ export function Sidebar() {
           </AccordionBody>
         </Accordion>
         <hr className="my-2 border-blue-gray-50" /> */}
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Estudiantes
-          
 
-          {/* Este sufijo sirve para, por ejemplo, notificaciones */}
-          {/* <ListItemSuffix>
+        <a href="/estudiantes" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Estudiantes
+            {/* Este sufijo sirve para, por ejemplo, notificaciones */}
+            {/* <ListItemSuffix>
             <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
           </ListItemSuffix> */}
+          </ListItem>
+        </a>
 
-        </ListItem>
+        <a href="/empleados" className="text-initial">
+          <ListItem component={Link} to="/estudiantes">
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Empleados
+          </ListItem>
+        </a>
 
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Empleados
-        </ListItem>
+        <a href="/viandas" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Viandas
+          </ListItem>
+        </a>
 
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Configuración
-        </ListItem>
+        <a href="/becasComedor" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Becas Comedor
+          </ListItem>
+        </a>
+        
+        <a href="/reservas" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <UserCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Reservas
+          </ListItem>
+        </a>
 
-        <ListItem>
-          <ListItemPrefix>
-            <TagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Ayuda
-        </ListItem>
+        <a href="/configuracion" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <Cog6ToothIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Configuración
+          </ListItem>
+        </a>
+
+        <a href="/ayuda" className="text-initial">
+          <ListItem>
+            <ListItemPrefix>
+              <TagIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Ayuda
+          </ListItem>
+        </a>
 
       </List>
 
