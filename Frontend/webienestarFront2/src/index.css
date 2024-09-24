@@ -7,13 +7,11 @@
 * {
     margin: 0;
     padding: 0;
-    border: none;
     outline: none;
     list-style: none;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 body{
-    background-color: #eaeaea;
+    background-color: #f0f0f0;
 }
