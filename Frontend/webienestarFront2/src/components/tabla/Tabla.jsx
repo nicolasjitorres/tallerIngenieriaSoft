@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { Card, CardHeader, CardBody } from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from "@material-tailwind/react";
 // import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from "@material-tailwind/react";
 import CardHeaderContent from "./CardHeaderContent";
 import TableHeader from './TableHeader';
@@ -31,13 +31,13 @@ const Tabla = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", c
                     )}
                 </table>
             </CardBody>
-            {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">Page 1 of 10</Typography>
                 <div className="flex gap-2">
                     <Button variant="outlined" size="sm">Anterior</Button>
                     <Button variant="outlined" size="sm">Siguiente</Button>
                 </div>
-            </CardFooter> */}
+            </CardFooter>
         </Card>
     );
 };
