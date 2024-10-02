@@ -27,7 +27,7 @@ function App() {
         <Route path="/lista_becas" element={<ListaBecas />} />
         <Route path="/lista_reservas" element={<ListaReservas />} />
         <Route path="/menu_dia" element={<MenuDia />} />
-        <Route path="/visualizar_beca" element={<VisualizarBeca />} />
+        <Route path="/visualizar_beca/:id" element={<VisualizarBeca />} />
 
       </Routes>
     </Router>

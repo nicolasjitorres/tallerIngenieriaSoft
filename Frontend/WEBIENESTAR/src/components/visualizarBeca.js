@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import './visualizarBeca.css';
 
-const visualizarBeca = () => {
-  const inscripcion = {
-    ingresos: true,
-    tipoVivienda: "CASA",
-    condVivienda: "PROPIA",
-    grupoFamiliar: "Mama, Papa",
-    archivos: "Archivos_1.zip",
-    anio: "2024",
-    idEstudiante: 1,
-  };
+const VisualizarBeca = () => {
+  const { id } = useParams(); // Obtener el ID de la URL
+  const [inscripcion, setInscripcion] = useState(null); // Estado para la inscripción
+
+  useEffect(() => {
+    const fetchInscripcion = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/inscripciones/${id}`);
+        setInscripcion(response.data); // Guardar los datos obtenidos del backend
+      } catch (error) {
+        console.error("Error al obtener la inscripción:", error);
+      }
+    };
+
+    fetchInscripcion();
+  }, [id]); // Ejecutar el efecto cuando cambie el ID
+
+  if (!inscripcion) {
+    return <div>Cargando...</div>; // Mostrar un mensaje mientras se cargan los datos
+  }
 
   return (
     <div className="container mt-5">
@@ -102,4 +114,4 @@ const visualizarBeca = () => {
   );
 };
 
-export default visualizarBeca;
+export default VisualizarBeca;

@@ -24,6 +24,7 @@ public class Vianda{
     private String tipo;
     private String plato;
     private String postre;
+    private int cantidadDelDia;
 
     @OneToMany(mappedBy = "vianda")
     private List<Reserva> reservas = new ArrayList<>();

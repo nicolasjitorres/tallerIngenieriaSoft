@@ -19,5 +19,7 @@ public class ViandaDTO {
     @NotBlank(message = "El campo 'postre' es obligatorio.")
     private String postre;
 
+    private int cantidadDelDia;
+
     private List<ReservaDTO> reservasDTO;
 }

@@ -1,5 +1,8 @@
 package com.webienestar.dtos;
 
+import com.webienestar.mappers.EstudianteMapper;
+import com.webienestar.modelos.enums.EstadoBeca;
+
 // import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.*;
@@ -22,6 +25,8 @@ public class BecaComedorDTO {
 
     @NotBlank(message = "El campo 'grupoFamiliar' es obligatorio.")
     private String grupoFamiliar;
+
+    private EstadoBeca estadoBeca;
 
     // @JsonIgnore 
     // @NotBlank(message = "El campo 'archivos' es obligatorio.")

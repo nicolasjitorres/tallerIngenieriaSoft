@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/empleados")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmpleadoController {
     
     @Autowired

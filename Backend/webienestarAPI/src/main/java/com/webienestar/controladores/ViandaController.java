@@ -37,4 +37,10 @@ public class ViandaController {
     public void eliminar(@PathVariable Long id) {
         viandaService.eliminar(id);
     }
+
+    @PutMapping
+    public void actualizarCantidad(@RequestBody List<ViandaDTO> viandasDTO){
+        viandaService.actualizarCantidad(viandasDTO);
+    }
+
 }
