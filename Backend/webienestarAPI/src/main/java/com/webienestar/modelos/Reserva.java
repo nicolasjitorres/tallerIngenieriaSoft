@@ -1,6 +1,7 @@
 package com.webienestar.modelos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.webienestar.modelos.enums.EstadoReserva;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,14 +22,13 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private int idVianda;
+    private Long idVianda;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String fecha;
     private String opinion;
     private String calificacion;
-    private String estado;
+    private EstadoReserva estado;
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id")

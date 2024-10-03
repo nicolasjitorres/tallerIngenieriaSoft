@@ -12,24 +12,20 @@ const ListaBecas = () => {
   const itemsPerPage = 3; // Cantidad de items por página
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchInscripciones = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/becascomedor");
-        // Filtrar las inscripciones con estadoBeca = EN_EVALUACION
-        const inscripcionesEnEvaluacion = response.data.filter(
-          (inscripcion) => inscripcion.estadoBeca === "EN_EVALUACION"
-        );
-        setInscripciones(inscripcionesEnEvaluacion); // Guardar solo las inscripciones filtradas
-        console.log("Datos recibidos:", inscripcionesEnEvaluacion);
-      } catch (error) {
-        setError(error);
-        console.error("Error al obtener las becas:", error);
-      } finally {
-        setLoading(false); // Cambiar el estado de carga
-      }
-    };
+  const fetchInscripciones = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/becascomedor");
+      const inscripcionesEnEvaluacion = response.data.filter(inscripcion => inscripcion.estadoBeca === 'EN_EVALUACION');
+      setInscripciones(inscripcionesEnEvaluacion);
+    } catch (error) {
+      setError(error);
+      console.error("Error al obtener las becas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchInscripciones();
   }, []);
   console.log(inscripciones);
@@ -66,40 +62,23 @@ const ListaBecas = () => {
   }
 
   const handleAprobar = async (id) => {
-    const confirmAprobar = window.confirm(
-      "¿Estás seguro de aprobar esta beca?"
-    );
+    const confirmAprobar = window.confirm("¿Estás seguro de aprobar esta beca?");
     if (confirmAprobar) {
-      console.log("ID a aprobar:", id); // Agrega esta línea para verificar el id
       try {
-        await axios.put(`http://localhost:8080/becascomedor/aprobar`, { id });
-        // ... el resto de tu código
+        await axios.put(`http://localhost:8080/becascomedor/aprobar`, { id: id });
+        await fetchInscripciones(); // Obtener la lista actualizada
       } catch (error) {
         console.error("Error al aprobar la beca comedor:", error);
       }
     }
   };
-
+  
   const handleDenegar = async (id) => {
-    const confirmDenegar = window.confirm(
-      "¿Estás seguro de denegar esta beca?"
-    );
+    const confirmDenegar = window.confirm("¿Estás seguro de denegar esta beca?");
     if (confirmDenegar) {
       try {
-        const response = await axios.put(
-          `http://localhost:8080/becascomedor/denegar`,
-          {
-            id: id,
-          }
-        );
-        console.log("Respuesta del servidor al denegar:", response.data);
-        setInscripciones((prevInscripciones) =>
-          prevInscripciones.map((inscripcion) =>
-            inscripcion.id === id
-              ? { ...inscripcion, estadoBeca: "DENEGADA" }
-              : inscripcion
-          )
-        );
+        await axios.put(`http://localhost:8080/becascomedor/denegar`, { id: id });
+        await fetchInscripciones(); // Obtener la lista actualizada
       } catch (error) {
         console.error("Error al denegar la inscripción:", error);
       }

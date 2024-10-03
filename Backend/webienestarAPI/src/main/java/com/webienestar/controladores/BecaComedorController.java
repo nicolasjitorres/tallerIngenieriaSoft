@@ -43,6 +43,7 @@ public class BecaComedorController {
     public void eliminar(@PathVariable Long id) {
         becaComedorService.eliminar(id);
     }
+
     @PutMapping("/aprobar")
     public void aprobarBeca(@RequestBody BecaComedorDTO becaComedorDTO) {
         System.out.println("DTO recibido: " + becaComedorDTO.getId() + " Estado: " + becaComedorDTO.getEstadoBeca());

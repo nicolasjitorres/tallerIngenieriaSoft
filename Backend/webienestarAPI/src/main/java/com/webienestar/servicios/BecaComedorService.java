@@ -68,7 +68,7 @@ public class BecaComedorService {
 
     public void aprobarBeca(BecaComedorDTO becaComedorDTO) {
         Optional<BecaComedor> becaAActualizar = becaComedorRepository.findById(becaComedorDTO.getId());
-        if (becaAActualizar.isPresent() && becaComedorDTO.getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
+        if (becaAActualizar.isPresent() && becaAActualizar.get().getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
             BecaComedor becaParaActualizar = becaAActualizar.get();
             becaParaActualizar.setEstadoBeca(EstadoBeca.APROBADA); // Cambiar el estado a APROBADA
             becaComedorRepository.saveAndFlush(becaParaActualizar);
@@ -77,7 +77,7 @@ public class BecaComedorService {
     
     public void denegarBeca(BecaComedorDTO becaComedorDTO) {
         Optional<BecaComedor> becaAActualizar = becaComedorRepository.findById(becaComedorDTO.getId());
-        if (becaAActualizar.isPresent() && becaComedorDTO.getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
+        if (becaAActualizar.isPresent() && becaAActualizar.get().getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
             BecaComedor becaParaActualizar = becaAActualizar.get();
             becaParaActualizar.setEstadoBeca(EstadoBeca.DENEGADA); // Cambiar el estado a DENEGADA
             becaComedorRepository.saveAndFlush(becaParaActualizar);

@@ -3,6 +3,7 @@ package com.webienestar.controladores;
 import java.util.List;
 
 import com.webienestar.dtos.ReservaDTO;
+import com.webienestar.dtos.ViandaDTO;
 import com.webienestar.servicios.ReservaService;
 
 import jakarta.validation.Valid;
@@ -37,4 +38,10 @@ public class ReservaController {
     public void eliminar(@PathVariable Long id) {
         reservaService.eliminar(id);
     }
+
+    @PutMapping
+    public void actualizarEstadoReserva(@RequestBody ReservaDTO reservaDTO){
+        reservaService.actualizarRetirarVianda(reservaDTO);;
+    }
+
 }
