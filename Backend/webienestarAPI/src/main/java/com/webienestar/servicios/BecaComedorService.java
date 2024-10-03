@@ -1,10 +1,13 @@
 package com.webienestar.servicios;
 
 import com.webienestar.dtos.BecaComedorDTO;
+import com.webienestar.dtos.ViandaDTO;
 import com.webienestar.excepciones.ResourceNotFoundException;
 import com.webienestar.mappers.BecaComedorMapper;
 import com.webienestar.modelos.BecaComedor;
 import com.webienestar.modelos.Estudiante;
+import com.webienestar.modelos.Vianda;
+import com.webienestar.modelos.enums.EstadoBeca;
 import com.webienestar.repositorios.BecaComedorRepository;
 import com.webienestar.repositorios.EstudianteRepository;
 
@@ -62,4 +65,23 @@ public class BecaComedorService {
     public void eliminar(Long id) {
         becaComedorRepository.deleteById(id);
     }
+
+    public void aprobarBeca(BecaComedorDTO becaComedorDTO) {
+        Optional<BecaComedor> becaAActualizar = becaComedorRepository.findById(becaComedorDTO.getId());
+        if (becaAActualizar.isPresent() && becaComedorDTO.getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
+            BecaComedor becaParaActualizar = becaAActualizar.get();
+            becaParaActualizar.setEstadoBeca(EstadoBeca.APROBADA); // Cambiar el estado a APROBADA
+            becaComedorRepository.saveAndFlush(becaParaActualizar);
+        }
+    }
+    
+    public void denegarBeca(BecaComedorDTO becaComedorDTO) {
+        Optional<BecaComedor> becaAActualizar = becaComedorRepository.findById(becaComedorDTO.getId());
+        if (becaAActualizar.isPresent() && becaComedorDTO.getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
+            BecaComedor becaParaActualizar = becaAActualizar.get();
+            becaParaActualizar.setEstadoBeca(EstadoBeca.DENEGADA); // Cambiar el estado a DENEGADA
+            becaComedorRepository.saveAndFlush(becaParaActualizar);
+        }
+    }
+
 }

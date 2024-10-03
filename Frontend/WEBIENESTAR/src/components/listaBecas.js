@@ -12,13 +12,16 @@ const ListaBecas = () => {
   const itemsPerPage = 3; // Cantidad de items por página
   const navigate = useNavigate();
 
-  // Obtener las inscripciones desde el backend al montar el componente
   useEffect(() => {
     const fetchInscripciones = async () => {
       try {
         const response = await axios.get("http://localhost:8080/becascomedor");
-        setInscripciones(response.data); // Guardar los datos obtenidos en el estado
-        console.log("Datos recibidos:", response.data);
+        // Filtrar las inscripciones con estadoBeca = EN_EVALUACION
+        const inscripcionesEnEvaluacion = response.data.filter(
+          (inscripcion) => inscripcion.estadoBeca === "EN_EVALUACION"
+        );
+        setInscripciones(inscripcionesEnEvaluacion); // Guardar solo las inscripciones filtradas
+        console.log("Datos recibidos:", inscripcionesEnEvaluacion);
       } catch (error) {
         setError(error);
         console.error("Error al obtener las becas:", error);
@@ -29,7 +32,6 @@ const ListaBecas = () => {
 
     fetchInscripciones();
   }, []);
-
   console.log(inscripciones);
 
   useEffect(() => {
@@ -63,22 +65,44 @@ const ListaBecas = () => {
     pageNumbers.push(i);
   }
 
-  // Funciones para manejar las acciones de los botones
   const handleAprobar = async (id) => {
-    try {
-      await axios.post(`http://localhost:8080/becascomedor/${id}/aprobar`);
-      // Actualizar la inscripción localmente o recargar los datos
-    } catch (error) {
-      console.error("Error al aprobar la beca comedor:", error);
+    const confirmAprobar = window.confirm(
+      "¿Estás seguro de aprobar esta beca?"
+    );
+    if (confirmAprobar) {
+      console.log("ID a aprobar:", id); // Agrega esta línea para verificar el id
+      try {
+        await axios.put(`http://localhost:8080/becascomedor/aprobar`, { id });
+        // ... el resto de tu código
+      } catch (error) {
+        console.error("Error al aprobar la beca comedor:", error);
+      }
     }
   };
 
   const handleDenegar = async (id) => {
-    try {
-      await axios.post(`http://localhost:8080/becascomedor/${id}/denegar`);
-      // Actualizar la inscripción localmente o recargar los datos
-    } catch (error) {
-      console.error("Error al denegar la inscripción:", error);
+    const confirmDenegar = window.confirm(
+      "¿Estás seguro de denegar esta beca?"
+    );
+    if (confirmDenegar) {
+      try {
+        const response = await axios.put(
+          `http://localhost:8080/becascomedor/denegar`,
+          {
+            id: id,
+          }
+        );
+        console.log("Respuesta del servidor al denegar:", response.data);
+        setInscripciones((prevInscripciones) =>
+          prevInscripciones.map((inscripcion) =>
+            inscripcion.id === id
+              ? { ...inscripcion, estadoBeca: "DENEGADA" }
+              : inscripcion
+          )
+        );
+      } catch (error) {
+        console.error("Error al denegar la inscripción:", error);
+      }
     }
   };
 
@@ -128,12 +152,12 @@ const ListaBecas = () => {
                     <td>{estudiante ? estudiante.carrera : "N/A"}</td>
                     <td>{estudiante ? estudiante.mail : "N/A"}</td>
                     <td>
-                      <span className="badge">{inscripcion.estado}</span>
+                      <span className="badge">{inscripcion.estadoBeca}</span>
                     </td>
                     <td>
                       <button
                         className="btn approve-btn"
-                        onClick={() => handleAprobar(inscripcion.id)}
+                        onClick={() => handleAprobar(inscripcion.id)} // Verifica que inscripcion.id no sea null
                       >
                         Aprobar
                       </button>
