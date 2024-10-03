@@ -10,6 +10,7 @@ import com.webienestar.dtos.ReservaDTO;
 import com.webienestar.mappers.ReservaMapper;
 import com.webienestar.modelos.Reserva;
 import com.webienestar.repositorios.ReservaRepository;
+import com.webienestar.dtos.ViandaDTO;
 import com.webienestar.servicios.ReservaService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -141,5 +142,10 @@ public class ReservaController {
      * }
      * }
      */
+
+    @PutMapping
+    public void actualizarEstadoReserva(@RequestBody ReservaDTO reservaDTO){
+        reservaService.actualizarRetirarVianda(reservaDTO);;
+    }
 
 }

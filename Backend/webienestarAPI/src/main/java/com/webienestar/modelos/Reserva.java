@@ -2,6 +2,7 @@ package com.webienestar.modelos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.webienestar.modelos.enums.EstadoReserva;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

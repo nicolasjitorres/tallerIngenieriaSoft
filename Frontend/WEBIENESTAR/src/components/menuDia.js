@@ -5,15 +5,17 @@ import './menuDia.css';
 const MenuDia = () => {
   const [clasico, setClasico] = useState('');
   const [saludable, setSaludable] = useState('');
-  const [viandas, setViandas] = useState([]); // Estado para las viandas obtenidas del backend
-  const [mensaje, setMensaje] = useState(''); // Estado para mostrar mensajes de éxito o error
+  const [viandas, setViandas] = useState([]);
+  const [mensaje, setMensaje] = useState('');
+  const [menuConfirmado, setMenuConfirmado] = useState(false);
+  const [cantidadesActualizadas, setCantidadesActualizadas] = useState(false);
+  const [cantidadesConfirmadas, setCantidadesConfirmadas] = useState([]);
 
-  // Obtener las viandas desde el backend al montar el componente
   useEffect(() => {
     const fetchViandas = async () => {
       try {
         const response = await axios.get('http://localhost:8080/viandas');
-        setViandas(response.data); // Guardar los datos de las viandas en el estado
+        setViandas(response.data);
       } catch (error) {
         console.error('Error al obtener las viandas:', error);
       }
@@ -22,13 +24,11 @@ const MenuDia = () => {
     fetchViandas();
   }, []);
 
-  // Maneja la selección de menú
   const handleSelect = (tipo, value) => {
     if (tipo === 'clasico') setClasico(value);
     else if (tipo === 'saludable') setSaludable(value);
   };
 
-  // Maneja el cambio de cantidad de viandas
   const handleCantidadChange = (id, cantidadDelDia) => {
     setViandas(
       viandas.map((vianda) =>
@@ -37,26 +37,38 @@ const MenuDia = () => {
     );
   };
 
-  // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
       `Menú del día seleccionado:\nClásico: ${clasico}\nSaludable: ${saludable}`
     );
+    setMenuConfirmado(true);
   };
 
-  // Maneja el envío de las cantidades de viandas actualizadas
   const handleActualizarCantidades = async () => {
-    try {
-      const viandasConCantidad = viandas.map((vianda) => ({
-        id: vianda.id,
-        cantidadDelDia: vianda.cantidadDelDia,
-      }));
-      await axios.put('http://localhost:8080/viandas', viandasConCantidad);
-      setMensaje('Cantidades actualizadas correctamente');
-    } catch (error) {
-      setMensaje('Error al actualizar las cantidades');
-      console.error('Error al actualizar las cantidades:', error);
+    const confirmar = window.confirm('¿Está seguro de que desea actualizar las cantidades?');
+
+    if (confirmar) {
+      try {
+        const viandasConCantidad = viandas
+          .filter((vianda) => {
+            const esClasicoSeleccionado = clasico.includes(vianda.plato);
+            const esSaludableSeleccionado = saludable.includes(vianda.plato);
+            return esClasicoSeleccionado || esSaludableSeleccionado;
+          })
+          .map((vianda) => ({
+            id: vianda.id,
+            cantidadDelDia: vianda.cantidadDelDia,
+          }));
+
+        await axios.put('http://localhost:8080/viandas', viandasConCantidad);
+        setMensaje('Cantidades actualizadas correctamente');
+        setCantidadesActualizadas(true);
+        setCantidadesConfirmadas(viandasConCantidad); // Guardar las cantidades confirmadas
+      } catch (error) {
+        setMensaje('Error al actualizar las cantidades');
+        console.error('Error al actualizar las cantidades:', error);
+      }
     }
   };
 
@@ -70,6 +82,7 @@ const MenuDia = () => {
           <select
             value={clasico}
             onChange={(e) => handleSelect('clasico', e.target.value)}
+            disabled={menuConfirmado} // Deshabilita si el menú ya fue confirmado
           >
             <option value="">Selecciona un menú clásico</option>
             {viandas
@@ -88,6 +101,7 @@ const MenuDia = () => {
           <select
             value={saludable}
             onChange={(e) => handleSelect('saludable', e.target.value)}
+            disabled={menuConfirmado} // Deshabilita si el menú ya fue confirmado
           >
             <option value="">Selecciona un menú saludable</option>
             {viandas
@@ -100,29 +114,40 @@ const MenuDia = () => {
           </select>
         </div>
 
-        {/* Botón para enviar el menú */}
-        <button type="submit" disabled={!clasico || !saludable}>
+        <button type="submit" disabled={!clasico || !saludable || menuConfirmado}>
           Confirmar Menú
         </button>
       </form>
 
-      <h3>Actualizar Cantidades de Viandas</h3>
-      <div className="viandas-section">
-        {viandas.map((vianda) => (
-          <div key={vianda.id}>
-            <span>{vianda.plato}</span>
-            <input
-              type="number"
-              value={vianda.cantidadDelDia || ''}
-              onChange={(e) => handleCantidadChange(vianda.id, e.target.value)}
-              placeholder="Cantidad del Día"
-            />
+      {/* Mostrar la sección de actualizar cantidades solo si el menú fue confirmado */}
+      {menuConfirmado && (
+        <div>
+          <h3>Actualizar Cantidades de Viandas</h3>
+          <div className="viandas-section">
+            {viandas
+              .filter((vianda) => {
+                const esClasicoSeleccionado = clasico.includes(vianda.plato);
+                const esSaludableSeleccionado = saludable.includes(vianda.plato);
+                return esClasicoSeleccionado || esSaludableSeleccionado;
+              })
+              .map((vianda) => (
+                <div key={vianda.id} style={{ opacity: cantidadesActualizadas ? 0.5 : 1 }}>
+                  <span>{vianda.plato}</span>
+                  <input
+                    type="number"
+                    value={vianda.cantidadDelDia || ''}
+                    onChange={(e) => handleCantidadChange(vianda.id, e.target.value)}
+                    placeholder="Cantidad del Día"
+                    disabled={cantidadesActualizadas} // Deshabilita el input si las cantidades ya han sido actualizadas
+                  />
+                </div>
+              ))}
+            <button onClick={handleActualizarCantidades} disabled={cantidadesActualizadas}>
+              Actualizar Cantidades
+            </button>
           </div>
-        ))}
-        <button onClick={handleActualizarCantidades}>Actualizar Cantidades</button>
-      </div>
-
-      {mensaje && <p>{mensaje}</p>}
+        </div>
+      )}
     </div>
   );
 };

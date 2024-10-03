@@ -10,7 +10,7 @@ const VisualizarBeca = () => {
   useEffect(() => {
     const fetchInscripcion = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/inscripciones/${id}`);
+        const response = await axios.get(`http://localhost:8080/becascomedor/${id}`);
         setInscripcion(response.data); // Guardar los datos obtenidos del backend
       } catch (error) {
         console.error("Error al obtener la inscripción:", error);
