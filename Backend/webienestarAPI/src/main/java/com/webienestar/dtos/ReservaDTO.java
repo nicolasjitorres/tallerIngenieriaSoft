@@ -16,12 +16,11 @@ public class ReservaDTO {
     @Size(max = 500, message = "La opinión no puede exceder los 500 caracteres")
     private String opinion;
 
-    @NotNull(message = "La calificación es obligatoria")
     @Min(value = 1, message = "La calificación mínima es 1")
     @Max(value = 5, message = "La calificación máxima es 5")
     private Integer calificacion;
 
-    @NotBlank(message = "El estado es obligatorio")
+    //@NotBlank(message = "El estado es obligatorio")
     @Size(min = 2, max = 20, message = "El estado debe tener entre 2 y 20 caracteres")
     private String estado;
     

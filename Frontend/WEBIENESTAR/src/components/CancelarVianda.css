@@ -19,18 +19,31 @@
 .menu-details-c {
     flex-grow: 1; /* Permite que el contenedor del texto ocupe el espacio restante */
 }
-.btn-white-c {
+.pricing-table .btn-back {
     font-size: 18px;
     padding: 12px 30px;
-    background-color: white; 
-    color: #990000; 
-    border-radius: 50px; 
-    border: 2px solid #990000;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    font-weight: bold;
-    margin-right: 50px; 
+    background-color: #6c757d; /* Color de fondo gris */
+    color: #fff; /* Color del texto en blanco */
+    border-radius: 50px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto de transición */
+    font-weight: bold; /* Texto en negrita */
+    margin-bottom: 30px; /* Espacio en la parte inferior */
+    width: 150px;
+    text-align: center;
 }
-.btn-white-c:hover {
-    background-color: red;
-    transform: scale(1.05); 
+  
+.pricing-table .btn-back:hover {
+    background-color: #5a6268; /* Color al pasar el ratón */
+    transform: scale(1.05); /* Efecto de escala */
+}
+
+.no-reserva {
+    font-size: 24px; /* Tamaño de fuente más grande */
+    color: black; /* Color del texto en blanco */
+    background-color: white; /* Color de fondo amarillo */
+    padding: 15px; /* Espaciado alrededor del texto */
+    border-radius: 10px; /* Bordes redondeados */
+    margin: 20px 0; /* Espaciado superior e inferior */
+    font-weight: bold;
 }

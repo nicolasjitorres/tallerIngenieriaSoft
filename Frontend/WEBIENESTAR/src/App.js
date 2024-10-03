@@ -20,9 +20,9 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/BecaComedor" element={<BecaComedor />} />
-        <Route path="/ReservarVianda" element={<ReservarVianda />} />
-        <Route path="/RetroVianda" element={<RetroVianda />} />
-        <Route path="/CancelarVianda" element={<CancelarVianda />} />
+        <Route path="/ReservarVianda/:id" element={<ReservarVianda />} />
+        <Route path="/RetroVianda/:id" element={<RetroVianda />} />
+        <Route path="/CancelarVianda/:id" element={<CancelarVianda />} />
         <Route path="/configuracion" element={<Configuracion />} />
         <Route path="/lista_becas" element={<ListaBecas />} />
         <Route path="/lista_reservas" element={<ListaReservas />} />
