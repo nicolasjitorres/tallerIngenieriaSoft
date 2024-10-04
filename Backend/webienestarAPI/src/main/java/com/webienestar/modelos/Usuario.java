@@ -1,8 +1,9 @@
 package com.webienestar.modelos;
 
 import com.webienestar.modelos.enums.Genero;
-import com.webienestar.modelos.enums.Rol;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
@@ -10,12 +11,13 @@ import lombok.Data;
 @Data
 public class Usuario {
     private Long dni;
-    private String contrasenia;
+    private String password;
+    private String username;
     private String nombre;
+    @Enumerated(EnumType.STRING)
     private Genero genero;
     private String localidad;
     private String direccion;
     private String mail;
     private Long celular;
-    private Rol rol;
 }

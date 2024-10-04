@@ -5,6 +5,8 @@ import com.webienestar.modelos.enums.CondVivienda;
 import com.webienestar.modelos.enums.TipoVivienda;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,10 +27,14 @@ public class BecaComedor{
     private Long id;
 
     private Boolean ingresos;
+
+    @Enumerated(EnumType.STRING)
     private TipoVivienda tipoVivienda;
+
+    @Enumerated(EnumType.STRING)
     private CondVivienda condVivienda;
+    
     private String grupoFamiliar;
-    private String archivos;
     private String anio;
 
     @ManyToOne

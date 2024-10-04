@@ -27,7 +27,11 @@ public class EstudianteDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "El campo 'contraseña' es obligatorio.")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres.")
-    private String contrasenia;
+    private String password;
+
+    @NotBlank(message = "El campo 'nombre' es obligatorio.")
+    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres.")
+    private String username;
 
     @NotBlank(message = "El campo 'nombre' es obligatorio.")
     @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres.")

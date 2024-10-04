@@ -1,6 +1,6 @@
 package com.webienestar.servicios;
 
-import com.webienestar.autenticacion.SecurityHasher;
+import com.webienestar.configuracion.ApplicationConfig;
 import com.webienestar.dtos.EstudianteDTO;
 import com.webienestar.excepciones.DuplicateFieldException;
 import com.webienestar.mappers.EstudianteMapper;
@@ -19,7 +19,7 @@ public class EstudianteService {
     private EstudianteRepository estudianteRepository;
 
     @Autowired
-    private SecurityHasher securityHasher;
+    private ApplicationConfig securityHasher;
 
     @Autowired
     private EstudianteMapper estudianteMapper;
@@ -44,9 +44,9 @@ public class EstudianteService {
         if (estudianteRepository.existsByLegajo(estudianteDTO.getLegajo())) {
             throw new DuplicateFieldException("El legajo ya está en uso");
         }
-        if (estudianteDTO.getContrasenia() != null) {
-            String contraseniaHasheada = securityHasher.passwordEncoder().encode(estudianteDTO.getContrasenia());
-            estudianteDTO.setContrasenia(contraseniaHasheada);
+        if (estudianteDTO.getPassword() != null) {
+            String contraseniaHasheada = securityHasher.passwordEncoder().encode(estudianteDTO.getPassword());
+            estudianteDTO.setPassword(contraseniaHasheada);
         }
 
         // Por defecto se cargan los estudiantes con este rol
