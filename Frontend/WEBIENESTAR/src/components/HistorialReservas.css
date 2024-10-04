@@ -1,41 +1,57 @@
-/* HistorialReservas.css */
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa; /* Fondo suave */
-  margin: 0;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
 }
 
-h1 {
-  color: #343a40; /* Color del título */
+.title {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-div {
-  background-color: #fff; /* Fondo blanco para el contenedor */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  padding: 20px;
-  margin: 20px auto; /* Centrar el contenedor */
-  max-width: 600px; /* Ancho máximo del contenedor */
+.reserva-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-ul {
-  list-style-type: none; /* Quitar puntos de la lista */
-  padding: 0; /* Quitar padding de la lista */
+.reserva-table th,
+.reserva-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
 }
 
-li {
-  background-color: #e9ecef; /* Color de fondo para las reservas */
-  border-radius: 4px; /* Bordes redondeados para las reservas */
-  margin: 10px 0; /* Margen entre las reservas */
-  padding: 10px; /* Espaciado interno */
-  display: flex; /* Flexbox para alinear contenido */
-  justify-content: space-between; /* Espacio entre el texto y la fecha */
+.reserva-table th {
+  background-color: #f4f4f4;
 }
 
-p {
-  color: #6c757d; /* Color para textos secundarios */
-  text-align: center; /* Centrar texto */
+.badge {
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #ffc107; /* Color para el estado "Pendiente" */
+  color: #fff;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.approve-btn {
+  background-color: #28a745; /* Color verde para aprobar */
+  color: white;
+  margin-right: 5px;
+}
+
+.deny-btn {
+  background-color: #dc3545; /* Color rojo para denegar */
+  color: white;
+}
+
+.btn-container {
+  display: flex; /* Cambia a flex para que los botones estén en línea */
+  gap: 10px; /* Espacio entre los botones */
 }

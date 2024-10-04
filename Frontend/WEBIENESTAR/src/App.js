@@ -13,6 +13,7 @@ import ListaReservas from './components/listaReservas';
 import MenuDia from './components/menuDia';
 import VisualizarBeca from './components/visualizarBeca';
 import HistorialReservas from './components/HistorialReservas';
+import VisualizarReserva from './components/visualizarReserva';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/menu_dia" element={<MenuDia />} />
         <Route path="/visualizar_beca/:id" element={<VisualizarBeca />} />
         <Route path="/historial_reservas/:id" element={<HistorialReservas />} />
+        <Route path="/visualizar_reserva/:id" element={<VisualizarReserva />} />
       </Routes>
     </Router>
   );
