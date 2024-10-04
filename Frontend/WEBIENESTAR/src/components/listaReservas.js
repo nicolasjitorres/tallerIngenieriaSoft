@@ -4,7 +4,8 @@ import "./listaReservas.css";
 
 const ListaReservas = () => {
   const [reservas, setReservas] = useState([]);
-  const [estudiantes, setEstudiantes] = useState([]); 
+  const [estudiantes, setEstudiantes] = useState([]);
+  const [viandas, setViandas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,200 +32,158 @@ const ListaReservas = () => {
       setEstudiantes(response.data);
     } catch (error) {
       setError(error);
-      console.error("Error al obtener los estudiantes:", error);
+      console.error("Error al obtener las becas:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchEstudiantes();
+    fetchReservas();
   }, []);
+  console.log(reservas);
 
-  // Función para obtener las iniciales a partir del nombre del estudiante
-  const obtenerIniciales = (nombre) => {
-    if (!nombre) return ""; // Verificar que el nombre no sea undefined o null
-    return nombre.charAt(0).toUpperCase(); // Obtener la primera letra y convertirla a mayúscula
-  };
-
-  // Obtiene las reservas y estudiantes
   useEffect(() => {
-    const fetchReservas = async () => {
+    const fetchEstudiantes = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/reservas");
-        const reservasDeHoy = filtrarReservasPorFecha(response.data);
-        setReservas(reservasDeHoy);
+        const response = await axios.get("http://localhost:8080/estudiantes");
+        setEstudiantes(response.data); // Guardar los datos obtenidos en el estado
+        console.log("Datos recibidos:", response.data);
       } catch (error) {
         setError(error);
-        console.error("Error al obtener las reservas:", error);
+        console.error("Error al obtener los estudiantes:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Cambiar el estado de carga
       }
     };
 
-    fetchReservas();
+    fetchEstudiantes();
   }, []);
 
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    const fetchViandas = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/viandas");
+        setViandas(response.data); // Guardar los datos obtenidos en el estado
+        console.log("Datos recibidos:", response.data);
+      } catch (error) {
+        setError(error);
+        console.error("Error al obtener las viandas:", error);
+      } finally {
+        setLoading(false); // Cambiar el estado de carga
+      }
+    };
 
-   const indexOfLastItem = currentPage * itemsPerPage;
+    fetchViandas();
+  }, []);
+
+  // Calcular las reservas actuales según la paginación
+  const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = reservas.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Cambiar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Total de páginas
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(reservas.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
+  const handleEntregar = async (id) => {
+    const confirmEntrega = window.confirm("¿Estás seguro de entregar la vianda?");
+    if (confirmEntrega) {
+        try {
+            // Enviar el objeto que contiene el id y el estado que deseas establecer
+            await axios.put(`http://localhost:8080/reservas`, { id: id, estado: 'ENTREGADA' }); // Asegúrate de usar el estado correcto
+            await fetchReservas(); // Obtener la lista actualizada
+        } catch (error) {
+            console.error("Error al entregar la vianda:", error);
+        }
+    }
+};
+
   return (
-    <div>
-      <link
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        rel="stylesheet"
-      />
-      <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        rel="stylesheet"
-      />
+    <div className="container">
       <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"
-        integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY="
-        crossOrigin="anonymous"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
       />
+      <h2 className="title">Lista de Reservas del dia </h2>
 
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-10 mx-auto">
-            <div className="career-search mb-60">
-              <form action="#" className="career-form mb-60">
-                <div className="row">
-                  <div className="col-md-6 col-lg-3 my-3">
-                    <div className="input-group position-relative">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Buscar por DNI"
-                        id="keywords"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-lg-3 my-3">
-                    <div className="select-container">
-                      <select className="custom-select">
-                        <option defaultValue={" "}>Tipo de Menu</option>
-                        <option value="1">Clasico</option>
-                        <option value="2">Saludable</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-md-6 col-lg-3 my-3">
-                    <button
-                      type="button"
-                      className="btn btn-lg btn-block btn-light btn-custom"
-                      id="contact-submit"
-                    >
-                      Aplicar filtros
-                    </button>
-                  </div>
-                </div>
-              </form>
+      {loading && <p>Cargando reservas...</p>}
+      {error && <p>Error al cargar las reservas: {error.message}</p>}
 
-              <div className="filter-result">
-                <p className="mb-30 ff-montserrat">
-                  Total de reservas: {reservas.length}
-                </p>
+      {!loading && !error && (
+        <>
+          <table className="reserva-table">
+            <thead>
+              <tr>
+                <th>ID reserva</th>
+                <th>Nombre y Apellido</th>
+                <th>Tipo de menú</th>
+                <th>Plato</th>
+                <th>Postre</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((reserva, index) => {
+                const estudiante = estudiantes.find(
+                  (est) => est.id === reserva.idEstudiante
+                );
 
-                {reservas.map((reserva) => (
-                  <div
-                    key={reserva.id}
-                    className="job-box d-md-flex align-items-center justify-content-between mb-30"
-                  >
-                    <div className="job-left my-4 d-md-flex align-items-center flex-wrap">
-                      <div className="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                        {reserva.estudiante
-                          ? obtenerIniciales(reserva.estudiante.nombre)
-                          : ""}
-                      </div>
-                      <div className="job-content">
-                        <h5 className="text-center text-md-left">
-                          {reserva.estudiante
-                            ? reserva.estudiante.nombre
-                            : "Nombre no disponible"}
-                        </h5>
-                        <ul className="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                          <li className="mr-md-4">
-                            <i className="zmdi zmdi-pin mr-2"></i>{" "}
-                            {reserva.tipoMenu}
-                          </li>
-                          <li className="mr-md-4">
-                            <i className="zmdi zmdi-money mr-2"></i>
-                            {reserva.estadoBeca === "APROBADA"
-                              ? "Becario"
-                              : "No Becario"}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="job-right my-4 flex-shrink-0">
-                      <button className="btn d-block w-100 d-sm-inline-block btn-light">
-                        Marcar como entregada
+                const vianda = viandas.find(
+                  (v) => v.id === reserva.idVianda // Cambia idVianda por la propiedad correspondiente en tu reserva
+                );
+
+                return (
+                  <tr key={reserva.id}>
+                    <td>{index + 1 + indexOfFirstItem}</td>
+                    <td>
+                      {estudiante
+                        ? estudiante.nombre
+                        : "Estudiante no encontrado"}
+                    </td>
+                    <td>{vianda ? vianda.tipo : "N/A"}</td>
+                    <td>{vianda ? vianda.plato : "N/A"}</td>
+                    <td>{vianda ? vianda.postre : "N/A"}</td>
+                    <td>
+                      <button
+                        className="btn approve-btn"
+                        onClick={() => handleEntregar(reserva.id)}
+                      >
+                        Entregar
                       </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <nav aria-label="Page navigation">
-              <ul className="pagination pagination-reset justify-content-center">
-                <li className="page-item disabled">
-                  <a
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          <nav>
+            <ul className="pagination">
+              {pageNumbers.map((number) => (
+                <li
+                  key={number}
+                  className={`page-item ${
+                    currentPage === number ? "active" : ""
+                  }`}
+                >
+                  <button
                     className="page-link"
-                    href="#"
-                    tabIndex="-1"
-                    aria-disabled="true"
+                    onClick={() => paginate(number)}
                   >
-                    <i className="zmdi zmdi-long-arrow-left"></i>
-                  </a>
+                    {number}
+                  </button>
                 </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item d-none d-md-inline-block">
-                  <a className="page-link" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item d-none d-md-inline-block">
-                  <a className="page-link" href="#">
-                    3
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    ...
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    8
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    <i className="zmdi zmdi-long-arrow-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
+              ))}
+            </ul>
+          </nav>
+        </>
+      )}
     </div>
   );
 };
