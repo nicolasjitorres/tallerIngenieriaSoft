@@ -131,6 +131,7 @@ public class ReservaService {
                     "No se encontró una reserva confirmada para el estudiante en la fecha de hoy.");
         }
     }
+
     public void actualizarRetirarVianda(ReservaDTO reservaDTO) {
         Optional<Reserva> reservaAActualizar = reservaRepository.findById(reservaDTO.getId());
         LocalDate fechaActual = LocalDate.now();
@@ -146,7 +147,6 @@ public class ReservaService {
             Reserva reservaParaActualizar = reservaAActualizar.get();
             reservaParaActualizar.setEstado(EstadoReserva.RETIRADA); 
             reservaRepository.saveAndFlush(reservaParaActualizar);
-            System.out.println("Estoy adentro");
         }
     }
 
