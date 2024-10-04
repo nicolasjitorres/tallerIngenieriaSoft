@@ -9,7 +9,6 @@ const ListaReservas = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3; // Número de reservas por página
-  const navigate = useNavigate();
 
   // Obtiene la fecha actual en formato YYYY-MM-DD
   const obtenerFechaActual = () => {
