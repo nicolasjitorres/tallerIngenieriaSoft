@@ -1,0 +1,115 @@
+/* Estilo general de la vista */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.informe-vianda {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.informe-vianda div {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+input[type="date"],
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+button[type="button-generar"] {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button-generar"]:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 14px;
+}
+
+p[style="color: red;"] {
+  color: #dc3545;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+p[style="color: green;"] {
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Estilos de los gráficos */
+.graficos {
+  margin-top: 20px;
+}
+
+.graficos h3 {
+  text-align: center;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 15px;
+}
+
+/* Ajustes específicos de los gráficos */
+canvas {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .informe-vianda {
+    gap: 10px;
+  }
+
+  button[type="button-generar"] {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}

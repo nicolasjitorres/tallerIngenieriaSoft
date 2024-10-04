@@ -11,36 +11,23 @@ const ListaReservas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3; // Número de reservas por página
 
-  // Obtiene la fecha actual en formato YYYY-MM-DD
-  const obtenerFechaActual = () => {
-    const hoy = new Date();
-    const year = hoy.getFullYear();
-    const month = String(hoy.getMonth() + 1).padStart(2, "0");
-    const day = String(hoy.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`;
-  };
-
-  // Filtra las reservas por la fecha actual
-  const filtrarReservasPorFecha = (reservas) => {
-    const fechaActual = obtenerFechaActual();
-    return reservas.filter((reserva) => reserva.fecha === fechaActual);
-  };
-
-  const fetchEstudiantes = async () => {
+  const fetchReservas = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/estudiantes");
-      setEstudiantes(response.data);
+      const response = await axios.get("http://localhost:8080/reservas");
+      const reservasReservadas = response.data.filter(reserva => reserva.estado === 'RESERVADA');
+      setReservas(reservasReservadas);
     } catch (error) {
       setError(error);
-      console.error("Error al obtener las becas:", error);
+      console.error("Error al obtener las reservas:", error);
     } finally {
       setLoading(false);
     }
   };
-
+  
   useEffect(() => {
     fetchReservas();
   }, []);
+  
   console.log(reservas);
 
   useEffect(() => {
