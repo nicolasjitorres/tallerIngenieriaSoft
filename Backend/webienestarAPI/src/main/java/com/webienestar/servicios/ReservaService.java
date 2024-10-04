@@ -132,4 +132,33 @@ public class ReservaService {
         }
     }
 
+    public void actualizarRetirarVianda(ReservaDTO reservaDTO) {
+        Optional<Reserva> reservaAActualizar = reservaRepository.findById(reservaDTO.getId());
+        LocalDate fechaActual = LocalDate.now();
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String fechaFormateada = fechaActual.format(formateador);
+
+        System.out.println(fechaFormateada);
+        System.out.println(reservaAActualizar.get().getFecha());
+        System.out.println(reservaAActualizar.isPresent());
+        System.out.println(reservaAActualizar.get().getFecha() == fechaFormateada);
+
+        if (reservaAActualizar.isPresent() && (reservaAActualizar.get().getFecha().equals(fechaFormateada))) {
+            Reserva reservaParaActualizar = reservaAActualizar.get();
+            reservaParaActualizar.setEstado(EstadoReserva.RETIRADA); 
+            reservaRepository.saveAndFlush(reservaParaActualizar);
+        }
+    }
+
+    public void emitarRetroalimentacion(ReservaDTO reservaDTO) {
+        Optional<Reserva> reservaCalificar = reservaRepository.findById(reservaDTO.getId());
+        if (reservaCalificar.isPresent()) {
+            Reserva reservaParaCalificar = reservaCalificar.get();
+            reservaParaCalificar.setCalificacion(reservaDTO.getCalificacion());
+            reservaParaCalificar.setOpinion(reservaDTO.getOpinion());
+            reservaParaCalificar.setEstado(EstadoReserva.CALIFICADA);
+            reservaRepository.saveAndFlush(reservaParaCalificar);
+        }
+    }
+
 }

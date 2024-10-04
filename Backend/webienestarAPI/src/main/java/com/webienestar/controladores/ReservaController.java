@@ -121,25 +121,16 @@ public class ReservaController {
                     .body("No se encontró una reserva confirmada para el estudiante en la fecha de hoy.");
         }
     }
-    /*
-     * public ResponseEntity<String> cancelarVianda(@PathVariable Long idEstudiante)
-     * {
-     * String fechaHoy =
-     * LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-     * Optional<Reserva> reserva =
-     * reservaRepository.findByEstudiante_IdAndFechaAndEstado(
-     * idEstudiante, fechaHoy, EstadoReserva.RETIRADA);
-     * 
-     * if (reserva.isPresent()) {
-     * Reserva reservaEncontrada = reserva.get();
-     * reservaEncontrada.setEstado(EstadoReserva.CANCELADA);
-     * reservaRepository.save(reservaEncontrada);
-     * return ResponseEntity.ok("Vianda cancelada con éxito.");
-     * } else {
-     * throw new EntityNotFoundException(
-     * "No se encontró una reserva confirmada para el estudiante en la fecha de hoy."
-     * );
-     * }
-     * }
-     */
+
+    @PutMapping
+    public void actualizarEstadoReserva(@RequestBody ReservaDTO reservaDTO){
+        reservaService.actualizarRetirarVianda(reservaDTO);;
+    }
+
+    
+    @PutMapping("/retroalimentacion")
+    public void emitarRetroalimentacion(@RequestBody ReservaDTO reservaDTO){
+        reservaService.emitarRetroalimentacion(reservaDTO);;
+    }
+
 }
