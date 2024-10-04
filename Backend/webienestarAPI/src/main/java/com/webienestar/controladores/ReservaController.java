@@ -142,10 +142,4 @@ public class ReservaController {
      * }
      * }
      */
-
-    @PutMapping
-    public void actualizarEstadoReserva(@RequestBody ReservaDTO reservaDTO){
-        reservaService.actualizarRetirarVianda(reservaDTO);;
-    }
-
 }

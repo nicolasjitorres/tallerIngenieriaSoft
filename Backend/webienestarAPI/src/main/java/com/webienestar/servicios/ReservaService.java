@@ -131,24 +131,5 @@ public class ReservaService {
                     "No se encontró una reserva confirmada para el estudiante en la fecha de hoy.");
         }
     }
-    public void actualizarRetirarVianda(ReservaDTO reservaDTO) {
-        Optional<Reserva> reservaAActualizar = reservaRepository.findById(reservaDTO.getId());
-        LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String fechaFormateada = fechaActual.format(formateador);
-
-        System.out.println(fechaFormateada);
-        System.out.println(reservaAActualizar.get().getFecha());
-        System.out.println(reservaAActualizar.isPresent());
-        System.out.println(reservaAActualizar.get().getFecha() == fechaFormateada);
-
-        if (reservaAActualizar.isPresent() && (reservaAActualizar.get().getFecha().equals(fechaFormateada))) {
-            Reserva reservaParaActualizar = reservaAActualizar.get();
-            reservaParaActualizar.setEstado(EstadoReserva.RETIRADA); 
-            reservaRepository.saveAndFlush(reservaParaActualizar);
-            System.out.println("Estoy adentro");
-        }
-    }
-
 
 }

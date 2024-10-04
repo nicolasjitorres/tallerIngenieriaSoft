@@ -30,7 +30,7 @@ public class Reserva {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String fecha;
     private String opinion;
-    private String calificacion;
+    private Integer calificacion;
     private EstadoReserva estado;
 
     @ManyToOne
