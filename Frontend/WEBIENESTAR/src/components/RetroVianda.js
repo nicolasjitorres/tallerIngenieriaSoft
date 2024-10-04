@@ -7,50 +7,62 @@ import { Helmet } from "react-helmet";
 // Función para formatear la fecha a dd-MM-yyyy
 const formatFecha = (date) => {
   const dia = String(date.getDate()).padStart(2, "0");
-  const mes = String(date.getMonth() + 1).padStart(2, "0"); // Los meses en JS empiezan desde 0
+  const mes = String(date.getMonth() + 1).padStart(2, "0");
   const anio = date.getFullYear();
   return `${dia}-${mes}-${anio}`;
 };
 
 const RetroVianda = () => {
-  const { id } = useParams(); // Obtener el ID del estudiante de la URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [opinion, setOpinion] = useState("");
-  const [calificacion, setCalificacion] = useState("");
-  const [reservaParaCalificar, setReservaParaCalificar] = useState(null); // Guardar la reserva que debe calificar
-  const [mensaje, setMensaje] = useState(""); // Mostrar un mensaje si no hay reservas
+  const [calificacion, setCalificacion] = useState(""); 
+  const [reservaParaCalificar, setReservaParaCalificar] = useState(null); 
+  const [mensaje, setMensaje] = useState(""); 
 
-  // Obtener la fecha actual formateada en dd-MM-yyyy
   const fechaActual = formatFecha(new Date());
 
-  // Obtener la reserva que está en estado "RETIRADA" y corresponde a la fecha actual
   useEffect(() => {
     const fetchReserva = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/reservas/calificar/${id}` // Solo pasamos el ID del estudiante
+          `http://localhost:8080/reservas/calificar/${id}`
         );
-        
-        const reserva = response.data;
-        // Verificamos si la reserva tiene estado "RETIRADA" y es para la fecha de hoy
-        if (reserva && reserva.estado === "RETIRADA" && reserva.fecha === fechaActual) {
-          setReservaParaCalificar(reserva); // Si existe la reserva y cumple con las condiciones
+
+        if (response.status === 200 && response.data) {
+          const reserva = response.data;
+          if (reserva.estado === "RETIRADA" && reserva.fecha === fechaActual) {
+            setReservaParaCalificar(reserva);
+          } else {
+            setMensaje("No hay reservas para calificar hoy.");
+          }
         } else {
-          setMensaje("No hay reservas para calificar hoy.");
+          setMensaje("No se encontraron reservas.");
         }
       } catch (error) {
         console.error("Error al obtener la reserva:", error);
-        setMensaje("Error al obtener la reserva.");
+        setMensaje(error.response ? error.response.data : "Error desconocido.");
       }
     };
 
     fetchReserva();
   }, [id, fechaActual]);
 
-  // Manejar el envío de la retroalimentación
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     if (!reservaParaCalificar) {
+      return; 
+    }
+
+    // Validar la calificación
+    if (!opinion || calificacion === "") {
+      alert("Por favor, completa todos los campos antes de enviar.");
+      return;
+    }
+
+    const calificacionNumero = parseInt(calificacion, 10);
+    if (isNaN(calificacionNumero) || calificacionNumero < 1 || calificacionNumero > 5) {
+      alert("La calificación debe ser un número entre 1 y 5.");
       return;
     }
 
@@ -58,26 +70,34 @@ const RetroVianda = () => {
       const updatedReserva = {
         ...reservaParaCalificar,
         opinion,
-        calificacion,
+        calificacion: calificacionNumero, 
       };
 
-      // Actualizar la reserva en el backend
+      console.log("Actualizando reserva:", updatedReserva);
+
       await axios.put(
         `http://localhost:8080/reservas/${reservaParaCalificar.id}`,
-        updatedReserva
+        updatedReserva,
+        {
+          headers: {
+            "Content-Type": "application/json", 
+          },
+        }
       );
 
       alert("Retroalimentación enviada con éxito.");
-      setOpinion("");
-      setCalificacion("");
-      navigate("/"); // Navegar a la página principal después de enviar la retroalimentación
+      setOpinion(""); 
+      setCalificacion(""); 
+      navigate("/"); 
     } catch (error) {
       console.error("Error al enviar la retroalimentación:", error);
-      alert("Error al enviar la retroalimentación.");
+      alert(
+        "Error al enviar la retroalimentación. " +
+          (error.response ? error.response.data : "Error desconocido.")
+      );
     }
   };
 
-  // Si no hay reservas para calificar, mostrar el mensaje
   if (mensaje) {
     return (
       <div className="container">
@@ -125,34 +145,18 @@ const RetroVianda = () => {
               <div className="calificacion-section">
                 <h3 className="title">Califica tu vianda</h3>
                 <div className="radio-group">
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Mala"
-                      checked={calificacion === "Mala"}
-                      onChange={(e) => setCalificacion(e.target.value)}
-                      required
-                    />
-                    Mala
-                  </label>
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Buena"
-                      checked={calificacion === "Buena"}
-                      onChange={(e) => setCalificacion(e.target.value)}
-                    />
-                    Buena
-                  </label>
-                  <label className="radio-option">
-                    <input
-                      type="radio"
-                      value="Excelente"
-                      checked={calificacion === "Excelente"}
-                      onChange={(e) => setCalificacion(e.target.value)}
-                    />
-                    Excelente
-                  </label>
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <label key={i + 1} className="radio-option">
+                      <input
+                        type="radio"
+                        value={i + 1}
+                        checked={calificacion === (i + 1).toString()}
+                        onChange={(e) => setCalificacion(e.target.value)}
+                        required
+                      />
+                      {i + 1}
+                    </label>
+                  ))}
                 </div>
               </div>
               <div className="form-group col-sm-12">
@@ -169,4 +173,3 @@ const RetroVianda = () => {
 };
 
 export default RetroVianda;
-
