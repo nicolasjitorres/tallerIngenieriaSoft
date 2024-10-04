@@ -150,5 +150,17 @@ public class ReservaService {
         }
     }
 
+    public void emitarRetroalimentacion(ReservaDTO reservaDTO) {
+        Optional<Reserva> reservaCalificar = reservaRepository.findById(reservaDTO.getId());
+    
+        if (reservaCalificar.isPresent()) {
+            Reserva reservaParaCalificar = reservaCalificar.get();
+            System.out.println("Estoy adentro");
+            reservaParaCalificar.setCalificacion(reservaDTO.getCalificacion());
+            reservaParaCalificar.setOpinion(reservaDTO.getOpinion());
+            reservaParaCalificar.setEstado(EstadoReserva.CALIFICADA);
+            reservaRepository.saveAndFlush(reservaParaCalificar);
+        }
+    }
 
 }
