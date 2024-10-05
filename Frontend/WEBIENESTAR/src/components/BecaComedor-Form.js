@@ -1,29 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom"; // Importa useParams para obtener el parámetro id
 import "./BecaComedor-Form.css";
 
 const BecaComedor = () => {
+  const { id } = useParams(); // Obtiene el parámetro id de la URL
   const [ingresos, setIngresos] = useState("");
   const [tipoV, setTipoV] = useState("");
   const [condV, setCondV] = useState("");
-  const [grupoF, setGrupoF] = useState("");
+  const [grupoF, setGrupoF] = useState([]);
+
+  // Usa el id del estudiante obtenido desde la URL
+  const [idEstudiante, setIdEstudiante] = useState(id);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Si el id cambia (nueva ruta), actualiza el estado del idEstudiante
+    setIdEstudiante(id);
+  }, [id]);
 
   const handleIngresosChange = (event) => {
     setIngresos(event.target.value);
   };
+
   const handleTipoVChange = (event) => {
     setTipoV(event.target.value);
   };
+
   const handleCondVChange = (event) => {
     setCondV(event.target.value);
   };
+
   const handleGrupoFChange = (event) => {
-    setGrupoF(event.target.value);
+    const { value } = event.target;
+    if (grupoF.includes(value)) {
+      setGrupoF(grupoF.filter((item) => item !== value));
+    } else {
+      setGrupoF([...grupoF, value]);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const becaComedor = {
+      ingresos: ingresos,
+      tipoVivienda: tipoV,
+      condVivienda: condV,
+      grupoFamiliar: grupoF.join(", "),
+      anio: new Date().getFullYear().toString(),
+      idEstudiante: idEstudiante,
+    };
+
+    console.log("Datos de Beca Comedor:", becaComedor);
+
+    try {
+      const response = await fetch("http://localhost:8080/becascomedor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(becaComedor),
+      });
+
+      if (response.ok) {
+        alert("Formulario enviado correctamente"); // Alerta de éxito
+        navigate(-1); // Regresa a la vista anterior
+      } else {
+        const errorData = await response.json();
+        console.error("Error al enviar inscripción:", errorData);
+        alert(`Error al enviar la inscripción: ${errorData.message || 'Error desconocido'}`);
+        navigate(-1); // Regresa a la vista anterior en caso de error también
+      }
+    } catch (error) {
+      alert("Error en la conexión al servidor.");
+      console.error("Error en la conexión:", error);
+      navigate(-1); // Regresa a la vista anterior si hay un error
+    }
+  };
+
+  const handleReset = () => {
+    setIngresos("");
+    setTipoV("");
+    setCondV("");
+    setGrupoF([]);
+  };
+
+  const handleGoBack = () => {
+    navigate(-1); // Volver atrás usando navigate
   };
 
   return (
     <div className="register-photo">
       <div className="form-container">
-        <form method="post">
+        <form onSubmit={handleSubmit}>
           <h2>BECA COMEDOR UNIVERSITARIO</h2>
 
           {/* Ingresos - Radio buttons */}
@@ -35,22 +104,22 @@ const BecaComedor = () => {
                   className="form-check-input"
                   type="radio"
                   name="ingresos"
-                  value="Si"
-                  checked={ingresos === "Si"}
+                  value="true"
+                  checked={ingresos === "true"}
                   onChange={handleIngresosChange}
                 />
-                <label className="form-check-label">Si</label>
+                <label className="form-check-label">SI</label>
               </div>
               <div className="form-check-bc">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="ingresos"
-                  value="No"
-                  checked={ingresos === "No"}
+                  value="false"
+                  checked={ingresos === "false"}
                   onChange={handleIngresosChange}
                 />
-                <label className="form-check-label">No</label>
+                <label className="form-check-label">NO</label>
               </div>
             </div>
           </div>
@@ -64,33 +133,55 @@ const BecaComedor = () => {
                   className="form-check-input"
                   type="radio"
                   name="tipoV"
-                  value="Casa"
-                  checked={tipoV === "Casa"}
+                  value="CASA"
+                  checked={tipoV === "CASA"}
                   onChange={handleTipoVChange}
                 />
-                <label className="form-check-label">Casa</label>
+                <label className="form-check-label">CASA</label>
               </div>
               <div className="form-check-bc">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="tipoV"
-                  value="Departamento"
-                  checked={tipoV === "Departamento"}
+                  value="DEPARTAMENTO"
+                  checked={tipoV === "DEPARTAMENTO"}
                   onChange={handleTipoVChange}
                 />
-                <label className="form-check-label">Departamento</label>
+                <label className="form-check-label">DEPARTAMENTO</label>
               </div>
               <div className="form-check-bc">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="tipoV"
-                  value="Residencia/Pension"
-                  checked={tipoV === "Residencia/Pension"}
+                  value="RESIDENCIA"
+                  checked={tipoV === "RESIDENCIA"}
                   onChange={handleTipoVChange}
                 />
-                <label className="form-check-label">Residencia/Pensión</label>
+                <label className="form-check-label">RESIDENCIA</label>
+              </div>
+              <div className="form-check-bc">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="tipoV"
+                  value="PENSION"
+                  checked={tipoV === "PENSION"}
+                  onChange={handleTipoVChange}
+                />
+                <label className="form-check-label">PENSION</label>
+              </div>
+              <div className="form-check-bc">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="tipoV"
+                  value="OTRO"
+                  checked={tipoV === "OTRO"}
+                  onChange={handleTipoVChange}
+                />
+                <label className="form-check-label">OTRO</label>
               </div>
             </div>
           </div>
@@ -104,187 +195,79 @@ const BecaComedor = () => {
                   className="form-check-input"
                   type="radio"
                   name="condV"
-                  value="Propia"
-                  checked={condV === "Propia"}
+                  value="PROPIA"
+                  checked={condV === "PROPIA"}
                   onChange={handleCondVChange}
                 />
-                <label className="form-check-label">Propia</label>
+                <label className="form-check-label">PROPIA</label>
               </div>
               <div className="form-check-bc">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="condV"
-                  value="Alquilada"
-                  checked={condV === "Alquilada"}
+                  value="ALQUILADA"
+                  checked={condV === "ALQUILADA"}
                   onChange={handleCondVChange}
                 />
-                <label className="form-check-label">Alquilada</label>
+                <label className="form-check-label">ALQUILADA</label>
               </div>
               <div className="form-check-bc">
                 <input
                   className="form-check-input"
                   type="radio"
                   name="condV"
-                  value="Heredada"
-                  checked={condV === "Heredada"}
+                  value="HEREDADA"
+                  checked={condV === "HEREDADA"}
                   onChange={handleCondVChange}
                 />
-                <label className="form-check-label">Heredada</label>
+                <label className="form-check-label">HEREDADA</label>
               </div>
             </div>
           </div>
 
-          {/* Grupo Familiar - Radio buttons */}
+          {/* Grupo Familiar - Checkbox */}
           <div className="form-group-bc">
             <label className="label-bold">Grupo Familiar</label>
             <div className="form-check-group-bc">
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Padre"
-                  checked={grupoF === "Padre"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Padre</label>
-              </div>
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Madre"
-                  checked={grupoF === "Madre"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Madre</label>
-              </div>
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Hermano/a"
-                  checked={grupoF === "Hermano/a"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Hermano/a</label>
-              </div>
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Tio/a"
-                  checked={grupoF === "Tio/a"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Tío/a</label>
-              </div>
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Abuelo/a"
-                  checked={grupoF === "Abuelo/a"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Abuelo/a</label>
-              </div>
-              <div className="form-check-bc">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="grupoF"
-                  value="Otro"
-                  checked={grupoF === "Otro"}
-                  onChange={handleGrupoFChange}
-                />
-                <label className="form-check-label">Otro</label>
-              </div>
-            </div>
-          </div>
-
-          {/* Subida de Archivos Postulante*/}
-          <h3>Subir Archivos del Postulante</h3>
-          <div className="file-upload-group">
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>DNI (Ambos Lados) (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-              <div className="file-upload-column">
-                <label>Constancia Alumno (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-            </div>
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>Constancia de Ingresos (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-              <div className="file-upload-column">
-                <label>Declaración Jurada</label>
-                <input type="file" className="form-control" />
-              </div>
-            </div>
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>Certificación Negativa (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-              <div className="file-upload-column">
-                <label>C.U.D (si lo tuviera)</label>
-                <input type="file" className="form-control" />
-              </div>
-            </div>
-          </div>
-
-          {/* Subida de Archivos Familia*/}
-          <h3>Subir Archivos de Familia</h3>
-          <div className="file-upload-group">
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>DNI (Ambos Lados) (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-            </div>
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>Constancia de Ingresos (*)</label>
-                <input type="file" className="form-control" />
-              </div>
-            </div>
-            <div className="file-upload-row">
-              <div className="file-upload-column">
-                <label>Certificación Negativa (*)</label>
-                <input type="file" className="form-control" />
-              </div>
+              {["PADRE", "MADRE", "HERMANO/A", "TIO/A", "ABUELO/A", "OTRO"].map(
+                (member) => (
+                  <div className="form-check-bc" key={member}>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={member}
+                      checked={grupoF.includes(member)}
+                      onChange={handleGrupoFChange}
+                    />
+                    <label className="form-check-label">{member}</label>
+                  </div>
+                )
+              )}
             </div>
           </div>
 
           <div className="form-group d-flex justify-content-between">
-            {/* Botón borrar Formulario */}
+            {/* Botón Borrar Formulario */}
             <button
-              className="btn btn-borrar btn-bold"
-              style={{ marginRight: "25px" }}
-              type="submit"
+              className="btn btn-danger"
+              type="button"
+              onClick={handleReset}
             >
               Borrar Formulario
             </button>
+
             {/* Botón Enviar Inscripción */}
-            <button
-              className="btn btn-enviar btn-bold"
-              style={{ marginRight: "25px" }}
-              type="submit"
-            >
+            <button className="btn btn-success" type="submit">
               Enviar Inscripción
             </button>
+
             {/* Botón Volver Atrás */}
-            <button className="btn btn-volver btn-bold" type="submit">
+            <button
+              className="btn btn-secondary"
+              type="button"
+              onClick={handleGoBack}
+            >
               Volver Atrás
             </button>
           </div>
@@ -295,3 +278,4 @@ const BecaComedor = () => {
 };
 
 export default BecaComedor;
+
