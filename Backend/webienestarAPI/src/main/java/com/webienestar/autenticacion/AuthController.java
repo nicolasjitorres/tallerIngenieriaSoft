@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,4 +21,12 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
+    @GetMapping("/login/inicio")
+    public ResponseEntity<?> getMethodName(@RequestBody String token) {
+        String tokenN = token.substring(7); 
+        String rol = authService.getRol(tokenN);
+        return ResponseEntity.ok(rol);
+    }
+
 }

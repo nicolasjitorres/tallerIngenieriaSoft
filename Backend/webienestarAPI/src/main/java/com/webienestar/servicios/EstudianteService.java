@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.Year;
 
 @Service
 public class EstudianteService {
@@ -60,5 +61,16 @@ public class EstudianteService {
 
     public void eliminar(Long id) {
         estudianteRepository.deleteById(id);
+    }
+
+    public boolean tieneBecaComedorEsteAnio(Long idEstudiante) {
+        EstudianteDTO estudiante = obtenerPorId(idEstudiante); 
+        if (estudiante != null && estudiante.getBecasComedorDTO() != null) {
+            int anioActual = Year.now().getValue();
+            return estudiante.getBecasComedorDTO().stream()
+                    .anyMatch(beca -> beca.getAnio().equals(String.valueOf(anioActual))
+                            && "APROBADA".equalsIgnoreCase(beca.getEstadoBeca()));
+        }
+        return false; 
     }
 }

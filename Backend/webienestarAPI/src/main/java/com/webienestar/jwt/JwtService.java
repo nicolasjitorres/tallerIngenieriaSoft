@@ -65,7 +65,6 @@ public class JwtService {
         return getClaim(token, Claims::getSubject);    
     }
 
-    //Retorna el rol del token
     public String getRolFromToken(String token) {
         return getAllClaims(token).get("rol", String.class);  
     }

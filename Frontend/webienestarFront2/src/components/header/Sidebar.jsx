@@ -1,34 +1,42 @@
+import React from "react";
 import {
   Card,
+  Typography,
   List,
   ListItem,
   ListItemPrefix,
+  ListItemSuffix,
+  Chip,
+  Accordion,
+  AccordionHeader,
+  AccordionBody,
 } from "@material-tailwind/react";
 import {
+  PresentationChartBarIcon,
+  ShoppingBagIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  TagIcon,
+  InboxIcon,
+  PowerIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+ 
 export function Sidebar() {
-  // const [open, setOpen] = React.useState(0);
-
-  // const handleOpen = (value) => {
-  //   setOpen(open === value ? 0 : value);
-  // };
-
+  const [open, setOpen] = React.useState(0);
+ 
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
+ 
   return (
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 rounded-none">
-
-      {/* Esta es la barra de busqueda, por si la ocupamos luego XD */}
-      {/* <div className="p-2">
-        <Input icon={<MagnifyingGlassIcon className="h-5 w-5" />} label="Busqueda" />
-      </div> */}
+    <Card className="bg-white mt-14 !rounded-none h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div className="mb-2 p-4">
+        <Typography variant="h5" color="blue-gray">
+          Menu inicio
+        </Typography>
+      </div>
       <List>
-
-        {/* Acordeon por si queremos hacer de esa forma */}
-        {/* <Accordion
+        <Accordion
           open={open === 1}
           icon={
             <ChevronDownIcon
@@ -106,77 +114,34 @@ export function Sidebar() {
             </List>
           </AccordionBody>
         </Accordion>
-        <hr className="my-2 border-blue-gray-50" /> */}
-
-        <a href="/estudiantes" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Estudiantes
-            {/* Este sufijo sirve para, por ejemplo, notificaciones */}
-            {/* <ListItemSuffix>
+        <ListItem>
+          <ListItemPrefix>
+            <InboxIcon className="h-5 w-5" />
+          </ListItemPrefix>
+          Inbox
+          <ListItemSuffix>
             <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-          </ListItemSuffix> */}
-          </ListItem>
-        </a>
-
-        <a href="/empleados" className="text-initial">
-          <ListItem component={Link} to="/estudiantes">
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Empleados
-          </ListItem>
-        </a>
-
-        <a href="/viandas" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Viandas
-          </ListItem>
-        </a>
-
-        <a href="/becasComedor" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Becas Comedor
-          </ListItem>
-        </a>
-        
-        <a href="/reservas" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Reservas
-          </ListItem>
-        </a>
-
-        <a href="/configuracion" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Configuración
-          </ListItem>
-        </a>
-
-        <a href="/ayuda" className="text-initial">
-          <ListItem>
-            <ListItemPrefix>
-              <TagIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Ayuda
-          </ListItem>
-        </a>
-
+          </ListItemSuffix>
+        </ListItem>
+        <ListItem>
+          <ListItemPrefix>
+            <UserCircleIcon className="h-5 w-5" />
+          </ListItemPrefix>
+          Profile
+        </ListItem>
+        <ListItem>
+          <ListItemPrefix>
+            <Cog6ToothIcon className="h-5 w-5" />
+          </ListItemPrefix>
+          Settings
+        </ListItem>
+        <ListItem>
+          <ListItemPrefix>
+            <PowerIcon className="h-5 w-5" />
+          </ListItemPrefix>
+          Log Out
+        </ListItem>
       </List>
-
     </Card>
   );
 }

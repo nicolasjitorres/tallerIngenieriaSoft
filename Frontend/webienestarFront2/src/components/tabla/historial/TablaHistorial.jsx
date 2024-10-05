@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 
 import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from "@material-tailwind/react";
-// import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from "@material-tailwind/react";
-import CardHeaderContent from "./CardHeaderContent";
-import TableHeader from './TableHeader';
-import TableRow from './TableRow';
 
-const Tabla = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", cabeceras = [], datos = [], cabecerasPersonalizadas = [] }) => {
+import TableHeader from '../TableHeader';
+import TableRowHistorial from './TableRowHistorial';
+import CardHeaderContent from '../CardHeaderContent';
+
+const TablaHistorial = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", cabeceras = [], datos = [], cabecerasPersonalizadas = [], onRefresh = () => {} }) => {
 
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
-                <CardHeaderContent title={titulo} description={descripcion} buttons={false} search={false} />
+                <CardHeaderContent title={titulo} description={descripcion} buttons={false} />
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
                 <table className="mt-4 w-full min-w-max table-auto text-left">
@@ -19,7 +19,7 @@ const Tabla = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", c
                     {datos.length != 0 ? (
                         <tbody>
                             {datos.map((dato) => (
-                                <TableRow key={dato.id} data={dato} columns={cabeceras} />
+                                <TableRowHistorial key={dato.id} data={dato} columns={cabeceras} onRefresh={onRefresh} />
                             ))}
                         </tbody>
                     ) : (
@@ -42,12 +42,13 @@ const Tabla = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", c
     );
 };
 
-Tabla.propTypes = {
+TablaHistorial.propTypes = {
     titulo: PropTypes.string,
     descripcion: PropTypes.string,
     cabeceras: PropTypes.arrayOf(PropTypes.string),
     cabecerasPersonalizadas: PropTypes.arrayOf(PropTypes.string),
     datos: PropTypes.arrayOf(PropTypes.object),
+    onRefresh: PropTypes.func
 };
 
-export default Tabla;
+export default TablaHistorial;

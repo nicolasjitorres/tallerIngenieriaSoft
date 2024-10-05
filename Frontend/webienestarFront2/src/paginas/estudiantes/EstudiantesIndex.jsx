@@ -5,7 +5,7 @@ import Tabla from "../../components/tabla/Tabla";
 function EstudiantesIndex() {
     const [estudiantes, setEstudiantes] = useState([]);
     const CABECERAS = ['Nombre', 'dni', 'Legajo', 'mail', 'Localidad'];
-    const CABECERAS_PERSONALIZADAS = ['NomBRE', 'DNI', 'Legajo', 'E-mail', 'Localidad'];
+    const CABECERAS_PERSONALIZADAS = ['Nombre', 'DNI', 'Legajo', 'E-mail', 'Localidad'];
     const TITULO = 'Estudiantes';
     const DESCRIPCION = 'CRUD estudiantes, bienvenido.'
 

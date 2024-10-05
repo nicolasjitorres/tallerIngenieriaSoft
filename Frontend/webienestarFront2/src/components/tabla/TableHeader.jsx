@@ -32,7 +32,7 @@ const TableHeader = ({ headers = [] }) => {
             color="blue-gray"
             className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
           >
-            ABM{" "}
+            Acciones{" "}
           </Typography>
         </th>
       </tr>

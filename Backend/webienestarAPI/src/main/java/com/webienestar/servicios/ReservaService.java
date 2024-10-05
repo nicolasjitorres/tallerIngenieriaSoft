@@ -1,6 +1,9 @@
 package com.webienestar.servicios;
 
+import com.webienestar.dtos.EstudianteDTO;
 import com.webienestar.dtos.ReservaDTO;
+import com.webienestar.dtos.ReservaDetailDTO;
+import com.webienestar.dtos.ViandaDTO;
 import com.webienestar.mappers.ReservaMapper;
 import com.webienestar.modelos.Reserva;
 import com.webienestar.modelos.Vianda;
@@ -18,6 +21,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 @Service
 public class ReservaService {
@@ -30,6 +37,12 @@ public class ReservaService {
 
     @Autowired
     private ViandaRepository viandaRepository;
+
+    @Autowired
+    private EstudianteService estudianteService;
+
+    @Autowired
+    private ViandaService viandaService;
 
     public List<ReservaDTO> obtenerTodos() {
         return reservaRepository.findAll().stream()
@@ -89,10 +102,10 @@ public class ReservaService {
         }
     }
 
-    public Reserva verificarReserva(Long idEstudiante, String fecha) {
+    public ReservaDTO verificarReserva(Long idEstudiante, String fecha) {
         Optional<Reserva> reserva = reservaRepository.findByEstudiante_IdAndFecha(idEstudiante, fecha);
         if (reserva.isPresent()) {
-            return reserva.get();
+            return reservaMapper.toDto(reserva.get());
         } else {
             return null;
         }
@@ -136,4 +149,93 @@ public class ReservaService {
             reservaRepository.saveAndFlush(reservaParaCalificar);
         }
     }
+
+    public List<?> obtenerTodasDelDia() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String fechaActual = LocalDate.now().format(formatter);
+
+        List<ReservaDTO> reservas = reservaRepository.findAll().stream()
+                .map(reservaMapper::toDto)
+                .filter(reserva -> reserva.getFecha().equals(fechaActual) && reserva.getEstado() == "RESERVADA")
+                .collect(Collectors.toList());
+
+        List<EstudianteDTO> estudiantes = estudianteService.obtenerTodos();
+        List<ViandaDTO> viandas = viandaService.obtenerTodos();
+
+        Map<Long, EstudianteDTO> estudianteMap = estudiantes.stream()
+                .collect(Collectors.toMap(EstudianteDTO::getId, estudiante -> estudiante));
+
+        Map<Long, ViandaDTO> viandaMap = viandas.stream()
+                .collect(Collectors.toMap(ViandaDTO::getId, vianda -> vianda));
+
+        List<ReservaDetailDTO> detalles = reservas.stream()
+                .map(reserva -> {
+                    EstudianteDTO estudiante = estudianteMap.get(reserva.getIdEstudiante());
+                    ViandaDTO vianda = viandaMap.get(reserva.getIdVianda());
+
+                    ReservaDetailDTO reservaDetail = new ReservaDetailDTO();
+                    reservaDetail.setId(reserva.getId());
+                    reservaDetail.setNombreEstudiante(estudiante.getNombre());
+                    reservaDetail.setPlato(vianda.getPlato());
+                    reservaDetail.setPostre(vianda.getPostre());
+                    reservaDetail.setFecha(fechaActual);
+                    return reservaDetail;
+                })
+                .collect(Collectors.toList());
+
+        return detalles;
+    }
+
+    public List<?> obtenerReservasEstudianteVianda(String fechaInicioStr) throws ParseException {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date fechaInicio = dateFormat.parse(fechaInicioStr);
+
+        // Obtener las reservas y filtrar por estado "RETIRADA" y fecha mayor o igual a
+        // la fecha de inicio
+        List<ReservaDTO> reservas = reservaRepository.findAll().stream()
+                .map(reservaMapper::toDto)
+                .filter(reserva -> "RETIRADA".equals(reserva.getEstado())) // Verificar si el estado es "RETIRADA"
+                .filter(reserva -> {
+                    try {
+                        // Convertir la fecha de la reserva a un objeto Date
+                        Date fechaReserva = dateFormat.parse(reserva.getFecha());
+                        return !fechaReserva.before(fechaInicio); // Filtrar si la fecha de reserva es >= a la fecha de
+                                                                  // inicio
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                })
+                .collect(Collectors.toList());
+
+        List<EstudianteDTO> estudiantes = estudianteService.obtenerTodos();
+        List<ViandaDTO> viandas = viandaService.obtenerTodos();
+
+        Map<Long, EstudianteDTO> estudianteMap = estudiantes.stream()
+                .collect(Collectors.toMap(EstudianteDTO::getId, estudiante -> estudiante));
+
+        Map<Long, ViandaDTO> viandaMap = viandas.stream()
+                .collect(Collectors.toMap(ViandaDTO::getId, vianda -> vianda));
+
+        List<ReservaDetailDTO> detalles = reservas.stream()
+                .map(reserva -> {
+                    EstudianteDTO estudiante = estudianteMap.get(reserva.getIdEstudiante());
+                    ViandaDTO vianda = viandaMap.get(reserva.getIdVianda());
+
+                    ReservaDetailDTO reservaDetail = new ReservaDetailDTO();
+                    reservaDetail.setId(reserva.getId());
+                    reservaDetail.setNombreEstudiante(estudiante.getNombre());
+                    reservaDetail.setBecario(estudianteService.tieneBecaComedorEsteAnio(estudiante.getId()));
+                    reservaDetail.setPlato(vianda.getPlato());
+                    reservaDetail.setPostre(vianda.getPostre());
+                    reservaDetail.setFecha(reserva.getFecha());
+                    reservaDetail.setTipoVianda(vianda.getTipo());
+                    return reservaDetail;
+                })
+                .collect(Collectors.toList());
+
+        return detalles;
+    }
+
 }

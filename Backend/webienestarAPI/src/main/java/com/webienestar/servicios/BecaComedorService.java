@@ -1,6 +1,8 @@
 package com.webienestar.servicios;
 
 import com.webienestar.dtos.BecaComedorDTO;
+import com.webienestar.dtos.BecaComedorDetailDTO;
+import com.webienestar.dtos.EstudianteDTO;
 import com.webienestar.excepciones.ResourceNotFoundException;
 import com.webienestar.mappers.BecaComedorMapper;
 import com.webienestar.modelos.BecaComedor;
@@ -10,12 +12,16 @@ import com.webienestar.repositorios.BecaComedorRepository;
 import com.webienestar.repositorios.EstudianteRepository;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class BecaComedorService {
@@ -77,8 +83,49 @@ public class BecaComedorService {
         Optional<BecaComedor> becaAActualizar = becaComedorRepository.findById(becaComedorDTO.getId());
         if (becaAActualizar.isPresent() && becaAActualizar.get().getEstadoBeca() == EstadoBeca.EN_EVALUACION) {
             BecaComedor becaParaActualizar = becaAActualizar.get();
-            becaParaActualizar.setEstadoBeca(EstadoBeca.DENEGADA); 
+            becaParaActualizar.setEstadoBeca(EstadoBeca.DENEGADA);
             becaComedorRepository.saveAndFlush(becaParaActualizar);
         }
     }
+
+    public List<BecaComedorDTO> obtenerBecasEnEvaluacionDeEsteAnio() {
+        int anioActual = LocalDate.now().getYear();
+
+        List<BecaComedorDTO> todasLasBecas = obtenerTodos();
+
+        List<BecaComedorDTO> becasFiltradas = todasLasBecas.stream()
+                .filter(beca -> {
+                    return Integer.parseInt(beca.getAnio()) == anioActual &&
+                            "EN_EVALUACION".equals(beca.getEstadoBeca());
+                })
+                .collect(Collectors.toList());
+
+        return becasFiltradas;
+    }
+
+    public List<BecaComedorDetailDTO> listarSolicitudesBeca() {
+        List<BecaComedorDTO> becas = obtenerBecasEnEvaluacionDeEsteAnio();
+        List<Estudiante> estudiantes = estudianteRepository.findAll();
+
+        Map<Long, Estudiante> estudiantesMap = estudiantes.stream()
+                .collect(Collectors.toMap(Estudiante::getId, Function.identity()));
+
+        List<BecaComedorDetailDTO> solicitudesBeca = new ArrayList<>();
+        for (BecaComedorDTO beca : becas) {
+            Estudiante estudiante = estudiantesMap.get(beca.getIdEstudiante());
+            if (estudiante != null) {
+                BecaComedorDetailDTO detailDTO = new BecaComedorDetailDTO();
+                detailDTO.setId(beca.getId());
+                detailDTO.setNombreEst(estudiante.getNombre());
+                detailDTO.setCarrera(estudiante.getCarrera());
+                detailDTO.setEmail(estudiante.getMail());
+                detailDTO.setEstado(beca.getEstadoBeca());
+
+                solicitudesBeca.add(detailDTO);
+            }
+        }
+
+        return solicitudesBeca;
+    }
+
 }

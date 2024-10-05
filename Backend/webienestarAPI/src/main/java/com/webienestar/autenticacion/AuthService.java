@@ -53,4 +53,8 @@ public class AuthService {
                 .build();
     }
 
+    public String getRol(String token) {
+        return jwtService.getRolFromToken(token);
+    }
+
 }

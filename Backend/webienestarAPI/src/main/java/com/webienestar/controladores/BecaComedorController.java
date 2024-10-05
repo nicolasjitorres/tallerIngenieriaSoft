@@ -3,12 +3,16 @@ package com.webienestar.controladores;
 import java.util.List;
 
 import com.webienestar.dtos.BecaComedorDTO;
+import com.webienestar.dtos.BecaComedorDetailDTO;
 import com.webienestar.servicios.BecaComedorService;
 
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/becascomedor")
@@ -39,13 +43,17 @@ public class BecaComedorController {
 
     @PutMapping("/aprobar")
     public void aprobarBeca(@RequestBody BecaComedorDTO becaComedorDTO) {
-        System.out.println("DTO recibido: " + becaComedorDTO.getId() + " Estado: " + becaComedorDTO.getEstadoBeca());
         becaComedorService.aprobarBeca(becaComedorDTO);
     }
     
     @PutMapping("/denegar")
     public void denegarBeca(@RequestBody BecaComedorDTO becaComedorDTO) {
-        System.out.println("DTO recibido: " + becaComedorDTO.getId() + " Estado: " + becaComedorDTO.getEstadoBeca());
-        becaComedorService.denegarBeca(becaComedorDTO);
+       becaComedorService.denegarBeca(becaComedorDTO);
     }
+
+    @GetMapping("/lista")
+    public List<BecaComedorDetailDTO> listarBecas() {
+        return becaComedorService.listarSolicitudesBeca();
+    }
+    
 }

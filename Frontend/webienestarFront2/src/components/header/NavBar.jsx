@@ -6,20 +6,19 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
-import ProfileMenu from "./ProfileMenu";
 
 import logo from '../../assets/logo.png'
 import { Sidebar} from "./Sidebar";
 
 function NavBar() {
-    const [isSidebarOpen, setIsSidebarOpen] = React.useState(false); // Estado para el sidebar
+    const [isSidebarOpen, setIsSidebarOpen] = React.useState(false); 
 
     const toggleIsSidebarOpen = () => setIsSidebarOpen((cur) => !cur);
 
     React.useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 960) {
-                setIsSidebarOpen(false); // Ocultar sidebar en vista grande
+                setIsSidebarOpen(false); 
             }
         };
         window.addEventListener("resize", handleResize);
@@ -28,7 +27,7 @@ function NavBar() {
 
     return (
         <>
-            <Navbar className="mx-auto max-w-screen-3xl p-2 rounded-none lg:pl-6 bg-[#a70000] !border-none">
+            <Navbar className="z-50 fixed mx-auto max-w-screen-3xl p-2 rounded-none lg:pl-6 bg-[#a70000] !border-none">
                 <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
 
                     <IconButton
@@ -50,7 +49,7 @@ function NavBar() {
                         WEBIENESTAR
                     </Typography>
 
-                    <ProfileMenu />
+                    
 
                 </div>
 

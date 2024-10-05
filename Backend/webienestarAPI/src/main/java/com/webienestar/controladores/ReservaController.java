@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.text.ParseException;
 import com.webienestar.modelos.enums.EstadoReserva;
 import com.webienestar.repositorios.ReservaRepository;
 import com.webienestar.dtos.ReservaDTO;
@@ -33,8 +34,12 @@ public class ReservaController {
     }
 
     @GetMapping("/{id}")
-    public ReservaDTO obtenerPorId(@PathVariable Long id) {
-        return reservaService.obtenerPorId(id);
+    public ResponseEntity<ReservaDTO> obtenerPorId(@PathVariable Long id) {
+        ReservaDTO reserva = reservaService.obtenerPorId(id);
+        if (reserva == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(reserva);
     }
 
     @PostMapping
@@ -70,12 +75,9 @@ public class ReservaController {
     @GetMapping("/verificar/{idEstudiante}")
     public ResponseEntity<?> verificarReserva(@PathVariable Long idEstudiante) {
         String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        Reserva reserva = reservaService.verificarReserva(idEstudiante, fechaHoy);
-        if (reserva != null) {
-            return ResponseEntity.ok(reserva);
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error al verificar la reserva del estudiante. ");
+        System.out.println(fechaHoy);
+        ReservaDTO reserva = reservaService.verificarReserva(idEstudiante, fechaHoy);
+        return ResponseEntity.ok(reserva);
     }
 
     @GetMapping("/calificar/{idEstudiante}")
@@ -113,4 +115,16 @@ public class ReservaController {
     public void emitarRetroalimentacion(@RequestBody ReservaDTO reservaDTO) {
         reservaService.emitarRetroalimentacion(reservaDTO);
     }
+
+    @GetMapping("/lista-dia")
+    public List<?> listarReservasDelDia() {
+        return reservaService.obtenerTodasDelDia();
+    }
+
+    @GetMapping("/estudiante-vianda")
+    public List<?> listarReservasEstudianteVianda(@RequestParam("fechaInicio") String fechaInicio)
+            throws ParseException {
+        return reservaService.obtenerReservasEstudianteVianda(fechaInicio);
+    }
+
 }

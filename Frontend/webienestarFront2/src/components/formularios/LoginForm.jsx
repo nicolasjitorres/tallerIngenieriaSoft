@@ -2,21 +2,50 @@ import { useState } from "react";
 
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+
 
 export function LoginForm() {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
+  const [username, setUsername] = useState(null);
+  const [pass, setPass] = useState(null);
+
+
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8080/auth/login", {
+        username: username,
+        password: pass,
+      });
+
+      const token = response.data.token;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        console.log("Token almacenado:", token);
+        
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.error("Error en el inicio de sesión:", error);
+    }
+  };
 
   return (
-    <section className="grid text-center h-screen items-center p-8">
-      <div>
+    <section className="flex flex-wrap justify-center mb-20">
+      <div className="bg-white p-10 rounded-md max-w-2xl">
         <Typography variant="h3" color="blue-gray" className="mb-2">
           Iniciar Sesión
         </Typography>
         <Typography className="mb-16 text-gray-600 font-normal text-[18px]">
           ¡Bienvenido de nuevo! Ingresa tu usuario y contraseña para acceder
         </Typography>
-        <form action="#" className="mx-auto max-w-[24rem] text-left">
+        <form action="#" className="mx-auto text-left">
           <div className="mb-6">
             <label htmlFor="email">
               <Typography
@@ -37,6 +66,7 @@ export function LoginForm() {
               labelProps={{
                 className: "hidden",
               }}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -65,9 +95,16 @@ export function LoginForm() {
                   )}
                 </i>
               }
+              onChange={(e) => setPass(e.target.value)}
             />
           </div>
-          <Button color="red" size="lg" className="mt-6" fullWidth>
+          <Button
+            onClick={(e) => handleLogin(e)}
+            color="red"
+            size="lg"
+            className="mt-6"
+            fullWidth
+          >
             Ingresar
           </Button>
           <div className="!mt-4 flex justify-end">
@@ -81,7 +118,7 @@ export function LoginForm() {
               Olvidé mi contraseña
             </Typography>
           </div>
-          
+
           <Typography
             variant="small"
             color="gray"

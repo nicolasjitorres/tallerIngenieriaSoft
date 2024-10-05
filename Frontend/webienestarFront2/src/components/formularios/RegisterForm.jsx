@@ -8,8 +8,8 @@ export function RegisterForm() {
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
 
   return (
-    <section className="grid text-center h-screen items-center p-8">
-      <div>
+    <section className="flex flex-wrap justify-center mb-20 ">
+      <div className="bg-white p-10 rounded-md max-w-2xl">
         <Typography variant="h3" color="blue-gray" className="mb-2">
           Registro de estudiante
         </Typography>
@@ -18,7 +18,7 @@ export function RegisterForm() {
           Aquí podrás gestionar tu Beca Comedor y realizar reservas de viandas.
           Por favor ingresa tus datos.
         </Typography>
-        <form action="#" className="mx-auto max-w-[24rem] text-left">
+        <form action="#" className="mx-auto text-left">
           <div className="mb-6">
             <label htmlFor="email">
               <Typography
