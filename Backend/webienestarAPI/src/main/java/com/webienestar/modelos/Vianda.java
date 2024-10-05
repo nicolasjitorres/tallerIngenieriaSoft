@@ -3,6 +3,8 @@ package com.webienestar.modelos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +26,9 @@ public class Vianda{
     private String tipo;
     private String plato;
     private String postre;
+    private int cantidad;
 
     @OneToMany(mappedBy = "vianda")
+    @JsonIgnore
     private List<Reserva> reservas = new ArrayList<>();
 }

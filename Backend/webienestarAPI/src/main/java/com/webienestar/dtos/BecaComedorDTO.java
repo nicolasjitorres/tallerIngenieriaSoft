@@ -23,9 +23,8 @@ public class BecaComedorDTO {
     @NotBlank(message = "El campo 'grupoFamiliar' es obligatorio.")
     private String grupoFamiliar;
 
-    // @JsonIgnore 
-    // @NotBlank(message = "El campo 'archivos' es obligatorio.")
-    // private String archivos;
+    
+    private String estadoBeca;
 
     private String anio;
 

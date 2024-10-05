@@ -2,6 +2,7 @@ package com.webienestar.modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webienestar.modelos.enums.CondVivienda;
+import com.webienestar.modelos.enums.EstadoBeca;
 import com.webienestar.modelos.enums.TipoVivienda;
 
 import jakarta.persistence.Entity;
@@ -36,6 +37,9 @@ public class BecaComedor{
     
     private String grupoFamiliar;
     private String anio;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoBeca estadoBeca;
 
     @ManyToOne
     @JoinColumn(name = "estudiante_id")

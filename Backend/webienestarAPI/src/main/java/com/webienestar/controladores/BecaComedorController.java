@@ -27,7 +27,7 @@ public class BecaComedorController {
         return becaComedorService.obtenerPorId(id);
     }
 
-    @PostMapping
+    @PostMapping("/guardar")
     public BecaComedorDTO guardar(@Valid @RequestBody BecaComedorDTO becaComedorDTO) {
         return becaComedorService.guardar(becaComedorDTO);
     }
@@ -35,5 +35,17 @@ public class BecaComedorController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
         becaComedorService.eliminar(id);
+    }
+
+    @PutMapping("/aprobar")
+    public void aprobarBeca(@RequestBody BecaComedorDTO becaComedorDTO) {
+        System.out.println("DTO recibido: " + becaComedorDTO.getId() + " Estado: " + becaComedorDTO.getEstadoBeca());
+        becaComedorService.aprobarBeca(becaComedorDTO);
+    }
+    
+    @PutMapping("/denegar")
+    public void denegarBeca(@RequestBody BecaComedorDTO becaComedorDTO) {
+        System.out.println("DTO recibido: " + becaComedorDTO.getId() + " Estado: " + becaComedorDTO.getEstadoBeca());
+        becaComedorService.denegarBeca(becaComedorDTO);
     }
 }

@@ -8,6 +8,9 @@ import EmpleadosIndex from './paginas/empleados/EmpleadosIndex';
 import ViandasIndex from './paginas/viandas/ViandasIndex';
 import BecasComedorIndex from './paginas/becasComedor/becasComedorIndex';
 import ReservasIndex from './paginas/reservas/ReservasIndex';
+import Login from './paginas/auth/Login';
+import Register from './paginas/auth/Register';
+import Perfil from './paginas/perfil/perfil';
 
 function App() {
   
@@ -21,6 +24,9 @@ function App() {
         <Route path='/viandas' exact element={<ViandasIndex />} />
         <Route path='/becasComedor' exact element={<BecasComedorIndex />} />
         <Route path='/reservas' exact element={<ReservasIndex />} />
+        <Route path='/login' exact element={<Login />} />
+        <Route path='/register' exact element={<Register />} />
+        <Route path='/perfil' exact element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,22 +13,22 @@ VALUES
 (67891234, '$2a$10$Dq1K8bWmvGh8uJhY2yxpuO43HQM9IbXYvmNO5TgkO4gGCVwMmTlG2', 'user6', 'Lucia Ramirez', 'FEMENINO', 'Ciudad', 'Calle 654', 'lucia@example.com', 987654321, 'EMPLEADO_CONTROL');
 
 -- Insertar becas comedor
-INSERT INTO Beca_Comedor (ingresos, tipo_Vivienda, cond_Vivienda, grupo_Familiar, anio, estudiante_id) 
+INSERT INTO Beca_Comedor (ingresos, tipo_Vivienda, cond_Vivienda, grupo_Familiar, estado_beca, anio, estudiante_id) 
 VALUES 
-(TRUE, 'CASA', 'PROPIA', 'Familia de 4 personas', '2024', 1), 
-(FALSE, 'DEPARTAMENTO', 'ALQUILER', 'Familia de 2 personas', '2024', 2),
-(TRUE, 'PENSION', 'FAMILIAR', 'Vive solo', '2024', 3);
+(TRUE, 'CASA', 'PROPIA', 'Familia de 4 personas', 'EN_EVALUACION', '2024', 1), 
+(FALSE, 'DEPARTAMENTO', 'ALQUILER', 'Familia de 2 personas', 'APROBADA', '2024', 2),
+(TRUE, 'PENSION', 'FAMILIAR', 'Vive solo', 'DENEGADA', '2024', 3);
 
 -- Insertar viandas
-INSERT INTO Vianda (tipo, plato, postre) 
+INSERT INTO Vianda (tipo, plato, postre, cantidad) 
 VALUES 
-('Vegetariana', 'Ensalada Cesar', 'Fruta'), 
-('Vegana', 'Tofu con verduras', 'Mousse de chocolate vegano'), 
-('Clasica', 'Milanesa con papas fritas', 'Helado');
+('Vegetariana', 'Ensalada Cesar', 'Fruta', 100), 
+('Vegana', 'Tofu con verduras', 'Mousse de chocolate vegano', 0), 
+('Clasica', 'Milanesa con papas fritas', 'Helado', 150);
 
 -- Insertar reservas
 INSERT INTO Reserva (fecha, opinion, calificacion, estado, estudiante_id, vianda_id) 
 VALUES 
-('03-10-2024', 'Deliciosa', '5', 'CONFIRMADA', 1, 1), 
-('03-10-2024', 'Saludable y sabrosa', '4', 'CONFIRMADA', 2, 2), 
-('03-10-2024', 'Exquisita', '5', 'PENDIENTE', 3, 3);
+('03-10-2024', 'Deliciosa', 3, 'RESERVADA', 1, 1), 
+('03-10-2024', 'Saludable y sabrosa', 4, 'RETIRADA', 2, 2), 
+('03-10-2024', 'Exquisita', 5, 'CANCELADA', 3, 3);

@@ -1,12 +1,18 @@
 package com.webienestar.repositorios;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.webienestar.modelos.Reserva;
+import com.webienestar.modelos.enums.EstadoReserva;
 
+import java.util.Optional;
 
 @Repository
-public interface ReservaRepository extends JpaRepository<Reserva, Long>{
+public interface ReservaRepository extends JpaRepository<Reserva, Long> {
+    // Método para encontrar una reserva por estudiante, fecha y estado
+    Optional<Reserva> findByEstudiante_IdAndFechaAndEstado(Long idEstudiante, String fecha, EstadoReserva estado);
 
+    // Método para encontrar todas las reservas de un estudiante para una fecha
+    // específica
+    Optional<Reserva> findByEstudiante_IdAndFecha(Long idEstudiante, String fecha);
 }

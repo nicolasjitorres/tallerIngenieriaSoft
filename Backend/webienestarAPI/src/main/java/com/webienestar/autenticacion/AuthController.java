@@ -21,9 +21,4 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
-    
-    @PostMapping("/log")
-    public String log() {
-        return "hola";
-    }
 }
