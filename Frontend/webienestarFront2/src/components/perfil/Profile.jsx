@@ -6,7 +6,26 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
+import { useNavigate } from "react-router-dom"; // Necesario para la redirección
+
 function Profile() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userNombre = user?.nombre || "No definido";
+  const userDni = user?.dni || 0;
+  const userEmail = user?.email || "No definido"; 
+  const navigate = useNavigate(); // Hook para redirigir al usuario
+
+  const handleDarseDeBaja = () => {
+    // Mostrar la alerta
+    alert("Le avisaremos al administrador sobre su petición de baja.");
+
+    // Eliminar el usuario de localStorage
+    localStorage.removeItem("user");
+
+    // Redirigir al usuario a la página de login o inicio
+    navigate("/login");
+  };
+
   return (
     <section className="container mx-auto px-8 py-10 flex flex-wrap justify-center">
       <Card shadow={false} className="border border-gray-300 rounded-2xl">
@@ -20,13 +39,19 @@ function Profile() {
               />
               <div>
                 <Typography color="blue-gray" variant="h6">
-                  Usuario Prueba
+                  {userNombre}
                 </Typography>
                 <Typography
                   variant="small"
                   className="font-normal text-gray-600"
                 >
-                  Ejemplo@mail.com
+                  {"DNI: " + userDni}
+                </Typography>
+                <Typography
+                  variant="small"
+                  className="font-normal text-gray-600"
+                >
+                  {"EMAIL: " + userEmail}
                 </Typography>
               </div>
             </div>
@@ -40,6 +65,7 @@ function Profile() {
               <Button
                 variant="outlined"
                 className="border-gray-300 bg-red-300 flex items-center gap-2"
+                onClick={handleDarseDeBaja} // Llama a la función al hacer clic
               >
                 Darse de baja
               </Button>

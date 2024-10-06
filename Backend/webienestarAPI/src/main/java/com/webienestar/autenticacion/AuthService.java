@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.webienestar.jwt.JwtService;
 import com.webienestar.modelos.Empleado;
 import com.webienestar.modelos.Estudiante;
+import com.webienestar.modelos.enums.Rol;
 import com.webienestar.repositorios.EmpleadoRepository;
 import com.webienestar.repositorios.EstudianteRepository;
 
@@ -30,29 +31,50 @@ public class AuthService {
     private final JwtService jwtService;
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    
         String token;
-
+        Long id;
+        String nombre;
+        String email;
+        Long dni;
+        Rol rol;
+    
         Optional<Estudiante> estudiante = estudianteRepository.findByUsername(request.getUsername());
         Optional<Empleado> empleado = empleadoRepository.findByUsername(request.getUsername());
-
+    
         if (estudiante.isEmpty()) {
             if (empleado.isEmpty()) {
-                throw new NoSuchElementException("Credenciales invalidas.");
-            } else{
-                token = jwtService.getTokenEmpleado(empleado.get());
+                throw new NoSuchElementException("Credenciales inválidas.");
+            } else {
+                Empleado emp = empleado.get();
+                token = jwtService.getTokenEmpleado(emp);
+                id = emp.getId();
+                nombre = emp.getNombre();
+                email = emp.getMail();
+                dni = emp.getDni();
+                rol = emp.getRol();
             }
         } else {
-            token = jwtService.getTokenEstudiante(estudiante.get());
+            Estudiante est = estudiante.get();
+            token = jwtService.getTokenEstudiante(est);
+            id = est.getId();
+            nombre = est.getNombre();
+            email = est.getMail();
+            dni = est.getDni();
+            rol = est.getRol();
         }
-
+    
         return AuthResponse.builder()
                 .token(token)
+                .id(id)
+                .nombre(nombre)
+                .email(email)
+                .dni(dni)
+                .rol(rol)
                 .build();
     }
-
+    
     public String getRol(String token) {
         return jwtService.getRolFromToken(token);
     }

@@ -11,7 +11,6 @@ const HistorialReservas = () => {
   const [currentPage, setCurrentPage] = useState(1); // Estado de la página actual
   const itemsPerPage = 3; // Cantidad de items por página
 
-
   const CABECERAS = ["id", "fecha", "estado"];
   const CABECERAS_PERSONALIZADAS = ["Numero de reserva", "Fecha", "Estado"];
   const TITULO = "Historial de reservas";

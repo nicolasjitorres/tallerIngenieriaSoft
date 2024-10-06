@@ -22,6 +22,7 @@ import VisualizarBeca from "./paginas/becasComedor/VisualizarBeca";
 import Footer from "./components/footer/Footer";
 import MenuDia from "./paginas/viandas/MenuDia";
 import BecaComedorFormulario from "./paginas/becasComedor/becaComedorFormulario";
+import HistorialInscripcionesIndex from "./paginas/becasComedor/HistorialInscripcionesIndex";
 
 import { Menu } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
@@ -46,6 +47,7 @@ function App() {
             <Route path="/becasComedor" exact element={<BecasComedorIndex />} />
             <Route path="/becasComedor/lista" exact element={<ListaBecas />} />
             <Route path="/becasComedor/formulario/:id" element={<BecaComedorFormulario />} />
+            <Route path="/becasComedor/historial_inscripciones/:id" element={<HistorialInscripcionesIndex />} />
             <Route
               path="/becasComedor/visualizar/:id"
               exact

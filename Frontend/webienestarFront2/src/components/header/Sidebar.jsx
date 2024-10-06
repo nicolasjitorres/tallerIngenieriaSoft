@@ -28,11 +28,23 @@ import {
   FolderIcon,
   TvIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from 'react-router-dom';
-
+import {Link, useNavigate} from "react-router-dom";
 
 export function Sidebar() {
-  const userRole = "estudiante";
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id || 0; 
+  const userRole = user?.rol || "No definido"; // Acceder al rol del usuario
+  console.log("Rol del usuario:", userRole);
+  console.log("Id del usuario:", userId);
+
+  const navigate = useNavigate(); // Hook para redirigir al usuario
+
+  const handleLogout = () => {
+    // Eliminar el usuario de localStorage
+    localStorage.removeItem("user");
+    // Redirigir al usuario a la página de login
+    navigate("/login");
+  };
 
   const [open, setOpen] = React.useState(0);
   const handleOpen = (value) => {
@@ -54,7 +66,7 @@ export function Sidebar() {
           <Link to={`/`}>Inicio</Link>
         </ListItem>
 
-        {userRole === "estudiante" && (
+        {userRole === "ESTUDIANTE" && (
           <>
             {/* Sección Beca Comedor */}
             <Accordion
@@ -83,8 +95,14 @@ export function Sidebar() {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem>Inscripción a Beca Comedor</ListItem>
-                  <ListItem>Historial de Becas</ListItem>
+                  <ListItem>
+                    <Link to={`/becasComedor/formulario/${userId}`}>
+                      Inscribirse a Beca Comedor
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                  <Link to={`/becasComedor/historial_inscripciones/${userId}`}>Ver Historial</Link>
+                  </ListItem>
                 </List>
               </AccordionBody>
             </Accordion>
@@ -116,15 +134,23 @@ export function Sidebar() {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem><Link to={`/reservas/reservar/1`}>Realizar una Reserva</Link></ListItem>
-                  <ListItem><Link to={`/reservas/historial/1`}>Historial de Reservas</Link></ListItem>
+                  <ListItem>
+                    <Link to={`/reservas/reservar/${userId}`}>
+                      Realizar una Reserva
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link to={`/reservas/historial/${userId}`}>
+                      Historial de Reservas
+                    </Link>
+                  </ListItem>
                 </List>
               </AccordionBody>
             </Accordion>
           </>
         )}
 
-        {userRole === "empleado_control" && (
+        {userRole === "EMPLEADO_CONTROL" && (
           <>
             {/* Sección Beca Comedor */}
             <Accordion
@@ -154,7 +180,9 @@ export function Sidebar() {
               <AccordionBody className="py-1">
                 <List className="p-0">
                   <ListItem>
-                    <ListItem><Link to={`/becasComedor`}>Lista de Inscripciones</Link></ListItem>
+                    <ListItem>
+                      <Link to={`/becasComedor`}>Lista de Inscripciones</Link>
+                    </ListItem>
                   </ListItem>
                 </List>
               </AccordionBody>
@@ -162,7 +190,7 @@ export function Sidebar() {
           </>
         )}
 
-        {userRole === "empleado_comedor" && (
+        {userRole === "EMPLEADO_COMEDOR" && (
           <>
             {/* Sección Beca Comedor */}
             <Accordion
@@ -197,7 +225,9 @@ export function Sidebar() {
                   </ListItem>
                   <ListItem>
                     <ListItemPrefix></ListItemPrefix>
-                    <Link to={`/viandas/menu_del_dia`}>Elegir el Menú del Dia</Link>
+                    <Link to={`/viandas/menu_del_dia`}>
+                      Elegir el Menú del Dia
+                    </Link>
                   </ListItem>
                 </List>
               </AccordionBody>
@@ -205,7 +235,7 @@ export function Sidebar() {
           </>
         )}
 
-        {userRole === "empleado_secretario" && (
+        {userRole === "SECRETARIO" && (
           <>
             {/* Sección Beca Comedor */}
             <Accordion
@@ -296,11 +326,11 @@ export function Sidebar() {
           <Link to={`/perfil`}>Perfil</Link>
         </ListItem>
         <ListItem>
-          <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Log Out
-        </ListItem>
+        <ListItemPrefix>
+          <PowerIcon className="h-5 w-5" />
+        </ListItemPrefix>
+        <button onClick={handleLogout}>Cerrar Sesión</button>
+      </ListItem>
       </List>
     </Card>
   );
