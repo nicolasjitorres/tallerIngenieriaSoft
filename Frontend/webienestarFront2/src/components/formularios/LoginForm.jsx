@@ -22,12 +22,19 @@ export function LoginForm() {
         password: pass,
       });
 
-      const token = response.data.token;
+      const datos = response.data;
 
-      if (token) {
-        localStorage.setItem("token", token);
-        console.log("Token almacenado:", token);
-        
+      if (datos.token) {
+        const usuario = {
+          "nombre": datos.nombre,
+          "dni": datos.dni,
+          "rol": datos.rol
+        };
+        localStorage.setItem("token", datos.token);
+        localStorage.setItem("user", JSON.stringify(usuario));
+        console.log("Token almacenado:", datos);
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
       } else {
         console.log("error");
       }
