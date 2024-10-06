@@ -21,6 +21,8 @@ import ListaBecas from "./paginas/becasComedor/ListaBecas";
 import VisualizarBeca from "./paginas/becasComedor/VisualizarBeca";
 import Footer from "./components/footer/Footer";
 import MenuDia from "./paginas/viandas/MenuDia";
+import BecaComedorFormulario from "./paginas/becasComedor/becaComedorFormulario";
+
 import { Menu } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 
@@ -43,6 +45,7 @@ function App() {
             <Route path="/viandas/menu_del_dia" exact element={<MenuDia />} />
             <Route path="/becasComedor" exact element={<BecasComedorIndex />} />
             <Route path="/becasComedor/lista" exact element={<ListaBecas />} />
+            <Route path="/becasComedor/formulario/:id" element={<BecaComedorFormulario />} />
             <Route
               path="/becasComedor/visualizar/:id"
               exact
