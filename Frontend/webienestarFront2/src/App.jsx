@@ -20,6 +20,12 @@ import InformeViandas from "./paginas/viandas/InformeViandas";
 import ListaBecas from "./paginas/becasComedor/ListaBecas";
 import VisualizarBeca from "./paginas/becasComedor/VisualizarBeca";
 import Footer from "./components/footer/Footer";
+import MenuDia from "./paginas/viandas/MenuDia";
+import BecaComedorFormulario from "./paginas/becasComedor/becaComedorFormulario";
+import HistorialInscripcionesIndex from "./paginas/becasComedor/HistorialInscripcionesIndex";
+
+import { Menu } from "@material-tailwind/react";
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -37,8 +43,11 @@ function App() {
             <Route path="/empleados" exact element={<EmpleadosIndex />} />
             <Route path="/viandas" exact element={<ViandasIndex />} />
             <Route path="/viandas/informe" exact element={<InformeViandas />} />
+            <Route path="/viandas/menu_del_dia" exact element={<MenuDia />} />
             <Route path="/becasComedor" exact element={<BecasComedorIndex />} />
             <Route path="/becasComedor/lista" exact element={<ListaBecas />} />
+            <Route path="/becasComedor/formulario/:id" element={<BecaComedorFormulario />} />
+            <Route path="/becasComedor/historial_inscripciones/:id" element={<HistorialInscripcionesIndex />} />
             <Route
               path="/becasComedor/visualizar/:id"
               exact
