@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/viandas")
 public class ViandaController {
-    
+
     @Autowired
     private ViandaService viandaService;
 
@@ -36,4 +36,10 @@ public class ViandaController {
     public void eliminar(@PathVariable Long id) {
         viandaService.eliminar(id);
     }
+
+    @PutMapping
+    public void actualizarCantidad(@RequestBody List<ViandaDTO> viandasDTO) {
+        viandaService.actualizarCantidad(viandasDTO);
+    }
+
 }

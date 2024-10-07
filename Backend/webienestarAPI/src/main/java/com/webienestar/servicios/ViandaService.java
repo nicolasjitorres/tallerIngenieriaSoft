@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,4 +41,18 @@ public class ViandaService {
     public void eliminar(Long id) {
         viandaRepository.deleteById(id);
     }
+
+    public void actualizarCantidad(List<ViandaDTO> viandasDtos) {
+        for (ViandaDTO vianda : viandasDtos) {
+            Optional<Vianda> viandaAActualizar = viandaRepository.findById(vianda.getId());
+            System.out.println(vianda.getCantidad());
+            if (viandaAActualizar.isPresent()) {
+                Vianda viandaParaActualizar = viandaAActualizar.get();
+                viandaParaActualizar.setCantidad(vianda.getCantidad());
+                viandaRepository.saveAndFlush(viandaParaActualizar);
+            }
+        }
+
+    }
+
 }
