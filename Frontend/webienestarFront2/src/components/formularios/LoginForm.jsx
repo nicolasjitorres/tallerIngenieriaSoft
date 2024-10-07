@@ -1,16 +1,16 @@
 import { useState } from "react";
-
-import { Typography, Input, Button } from "@material-tailwind/react";
+import { Typography, Input, Button, Alert } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
   const [username, setUsername] = useState(null);
   const [pass, setPass] = useState(null);
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // Para redirigir a la vista "/"
 
 
   const handleLogin = async (e) => {
@@ -27,11 +27,17 @@ export function LoginForm() {
       if (token) {
         localStorage.setItem("token", token);
         console.log("Token almacenado:", token);
-        
+        navigate("/");
       } else {
+        setErrorMessage(
+          "El nombre de usuario y/o contraseña es incorrecto. Por favor intenta de nuevo."
+        );
         console.log("error");
       }
     } catch (error) {
+      setErrorMessage(
+        "El nombre de usuario y/o contraseña es incorrecto. Por favor intenta de nuevo."
+      );
       console.error("Error en el inicio de sesión:", error);
     }
   };
@@ -98,6 +104,13 @@ export function LoginForm() {
               onChange={(e) => setPass(e.target.value)}
             />
           </div>
+
+          {errorMessage && (
+            <Alert color="red" className="mb-6">
+              {errorMessage}
+            </Alert>
+          )}
+
           <Button
             onClick={(e) => handleLogin(e)}
             color="red"
