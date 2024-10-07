@@ -9,6 +9,22 @@ const BecaComedorFormulario = () => {
   const [grupoF, setGrupoF] = useState([]);
   const [idEstudiante] = useState(id); // El id del estudiante se obtiene de la URL
   const navigate = useNavigate();
+  const [tieneBeca, settieneBeca] = useState(false); 
+
+  useEffect(() => {
+    const fetchBecasComedor = async () => {
+      try {
+        const reservaResponse = await axios.get(
+          `http://localhost:8080/becascomedor/${id}`
+        );
+        setTieneReserva(reservaResponse.data);
+      } catch (error) {
+        console.error("Error al verificar la reserva:", error);
+      }
+    };
+
+    fetchBecasComedor();
+  }, [id]);
 
   const handleIngresosChange = (event) => {
     setIngresos(event.target.value === "true");
@@ -76,7 +92,7 @@ const BecaComedorFormulario = () => {
   };
 
   const handleGoBack = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return (
@@ -196,5 +212,8 @@ const BecaComedorFormulario = () => {
     </div>
   );
 };
+
+
+
 
 export default BecaComedorFormulario;

@@ -7,6 +7,13 @@ import {
 } from "@material-tailwind/react";
 
 function Profile() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user?.id || 0; 
+  const userRole = user?.rol || "No definido";
+  const userName = user?.nombre || "No definido";
+   // Acceder al rol del usuario
+  console.log("Rol del usuario:", userRole);
+
   return (
     <section className="container mx-auto px-8 py-10 flex flex-wrap justify-center">
       <Card shadow={false} className="border border-gray-300 rounded-2xl">
@@ -20,13 +27,13 @@ function Profile() {
               />
               <div>
                 <Typography color="blue-gray" variant="h6">
-                  Usuario Prueba
+                  {userName}
                 </Typography>
                 <Typography
                   variant="small"
                   className="font-normal text-gray-600"
                 >
-                  Ejemplo@mail.com
+                  {userRole}
                 </Typography>
               </div>
             </div>

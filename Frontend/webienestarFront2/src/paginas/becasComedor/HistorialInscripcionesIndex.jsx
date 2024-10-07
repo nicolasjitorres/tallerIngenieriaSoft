@@ -9,7 +9,7 @@ function HistorialInscripcionesIndex() {
     const CABECERAS = ['tipoVivienda', 'condVivienda', 'anio', 'idEstudiante', 'grupoFamiliar'];
     const CABECERAS_PERSONALIZADAS = ['Tipo de vivienda', 'Condicion de vivienda', 'Año', 'Id estudiante', 'Grupo familiar'];
     const TITULO = 'Historial de Beca Comedor';
-    const DESCRIPCION = 'Aquí';
+    const DESCRIPCION = 'Aquí podrás visualizar todas tus inscripciones de la Beca Comedor';
 
     useEffect(() => {
         const fetchBecasComedor = async () => {

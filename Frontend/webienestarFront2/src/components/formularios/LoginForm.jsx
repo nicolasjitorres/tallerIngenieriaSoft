@@ -27,7 +27,8 @@ export function LoginForm() {
         const usuario = {
           "nombre": datos.nombre,
           "dni": datos.dni,
-          "rol": datos.rol
+          "rol": datos.rol,
+          "id": datos.id
         };
         localStorage.setItem("token", datos.token);
         localStorage.setItem("user", JSON.stringify(usuario));

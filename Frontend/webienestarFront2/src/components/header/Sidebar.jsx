@@ -35,7 +35,6 @@ export function Sidebar() {
   const userId = user?.id || 0; 
   const userRole = user?.rol || "No definido"; // Acceder al rol del usuario
   console.log("Rol del usuario:", userRole);
-  console.log("Id del usuario:", userId);
 
   const navigate = useNavigate(); // Hook para redirigir al usuario
 
@@ -181,7 +180,7 @@ export function Sidebar() {
                 <List className="p-0">
                   <ListItem>
                     <ListItem>
-                      <Link to={`/becasComedor`}>Lista de Inscripciones</Link>
+                      <Link to={`/becasComedor/lista`}>Lista de Inscripciones</Link>
                     </ListItem>
                   </ListItem>
                 </List>
@@ -274,7 +273,7 @@ export function Sidebar() {
           </>
         )}
 
-        {userRole === "admi" && (
+        {userRole === "ADMI" && (
           <>
             {/* Sección Beca Comedor */}
             <Accordion
