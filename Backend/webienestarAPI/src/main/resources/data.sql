@@ -8,7 +8,7 @@ VALUES
 -- Insertar empleados
 INSERT INTO Empleado (dni, password, username, nombre, genero, localidad, direccion, mail, celular, rol) 
 VALUES 
-(13579246, '$2a$10$abctest5Qs.eKJ1g/8G6wlZaP5ObDGlfyHkYFvNeMk3Axz8AFwXljXSHzu', 'user4', 'Carlos Sanchez', 'MASCULINO', 'Ciudad', 'Calle 789', 'carlos@example.com', 555123456, 'EMPLEADO_COMEDOR'),
+(13579246, '$2a$10$sLPuR1rt0nffKBV/LHXEfewHSUxWOfuErfzOaHqhXTT1Q3UeO0qem', 'user4', 'Carlos Sanchez', 'MASCULINO', 'Ciudad', 'Calle 789', 'carlos@example.com', 555123456, 'EMPLEADO_COMEDOR'),
 (24681357, '$2a$10$abcdud5EhUD5tWj./fbE4PUSWeYrOQO43CG3U6pznQHzpHpM1TohMnaKsZAO', 'user5', 'Maria Lopez', 'FEMENINO', 'Ciudad', 'Calle 321', 'maria@example.com', 123456789, 'EMPLEADO_CONTROL'),
 (67891234, '$2a$10$Dq1K8bWmvGh8uJhY2yxpuO43HQM9IbXYvmNO5TgkO4gGCVwMmTlG2', 'user6', 'Lucia Ramirez', 'FEMENINO', 'Ciudad', 'Calle 654', 'lucia@example.com', 987654321, 'EMPLEADO_CONTROL');
 

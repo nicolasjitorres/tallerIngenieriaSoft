@@ -22,11 +22,5 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @GetMapping("/login/inicio")
-    public ResponseEntity<?> getMethodName(@RequestBody String token) {
-        String tokenN = token.substring(7); 
-        String rol = authService.getRol(tokenN);
-        return ResponseEntity.ok(rol);
-    }
 
 }

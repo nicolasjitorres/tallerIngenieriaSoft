@@ -1,5 +1,7 @@
 package com.webienestar.configuracion;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.webienestar.modelos.Empleado;
+import com.webienestar.modelos.Estudiante;
+import com.webienestar.repositorios.EmpleadoRepository;
 import com.webienestar.repositorios.EstudianteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +27,8 @@ public class ApplicationConfig {
 
     @Autowired
     private EstudianteRepository estudianteRepository;
+    @Autowired
+    private EmpleadoRepository empleadoRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -38,12 +45,23 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();    
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> estudianteRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username)); 
+        return username -> {
+            Optional<Estudiante> estudiante = estudianteRepository.findByUsername(username);
+            if (estudiante.isPresent()) {
+                return estudiante.get();
+            }
+
+            Optional<Empleado> empleado = empleadoRepository.findByUsername(username);
+            if (empleado.isPresent()) {
+                return empleado.get();
+            }
+
+            throw new UsernameNotFoundException("Usuario no encontrado con username: " + username);
+        };
     }
 }
