@@ -12,6 +12,9 @@ import {
 const VisualizarBeca = () => {
   const { id } = useParams();
   const [inscripcion, setInscripcion] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userRole = user?.rol || "No definido"; // Acceder al rol del usuario
+  console.log("Rol del usuario:", userRole);
 
   const fetchInscripcion = async () => {
     try {
@@ -64,14 +67,15 @@ const VisualizarBeca = () => {
     return <div>Cargando...</div>;
   }
 
-  if (inscripcion != null && inscripcion.estadoBeca != "EN_EVALUACION") {
+  // Verificar si el usuario es empleado
+  if (userRole === "EMPLEADO_CONTROL" && inscripcion.estadoBeca !== "EN_EVALUACION") {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="bg-blue-500 text-white p-4 rounded-md shadow-md text-center">
           ¡Lo sentimos! Esta Beca no se encuentra en evaluación.
         </div>
         <div className="mt-4">
-          <Button onClick={() => window.history.back()}> Volver atras</Button>
+          <Button onClick={() => window.history.back()}> Volver atrás</Button>
         </div>
       </div>
     );
@@ -82,10 +86,10 @@ const VisualizarBeca = () => {
       <Card className="mt-6 w-96">
         <CardBody className="p-10 pb-3 gap-5">
           <Typography variant="h4" color="black" className="mb-2 text-center">
-            Inscripcion a Beca N° {inscripcion.id}
+            Inscripción a Beca N° {inscripcion.id}
           </Typography>
           <Typography>
-            Ingresos: {inscripcion.ingresos ? "Si" : "No"}
+            Ingresos: {inscripcion.ingresos ? "Sí" : "No"}
           </Typography>
           <Typography>Tipo de vivienda: {inscripcion.tipoVivienda}</Typography>
           <Typography>Condición: {inscripcion.condVivienda}</Typography>
@@ -93,18 +97,22 @@ const VisualizarBeca = () => {
           <Typography>Año de inscripción: {inscripcion.anio}</Typography>
 
           <div className="w-full flex flex-wrap justify-center gap-5">
-            <Button
-              onClick={() => handleAprobar(inscripcion.id)}
-              className="bg-green-600 mt-5"
-            >
-              Aprobar
-            </Button>
-            <Button
-              onClick={() => handleDenegar(inscripcion.id)}
-              className="bg-red-600 mt-5 "
-            >
-              Denegar
-            </Button>
+            {userRole === "EMPLEADO_CONTROL" && inscripcion.estadoBeca === "EN_EVALUACION" && (
+              <>
+                <Button
+                  onClick={() => handleAprobar(inscripcion.id)}
+                  className="bg-green-600 mt-5"
+                >
+                  Aprobar
+                </Button>
+                <Button
+                  onClick={() => handleDenegar(inscripcion.id)}
+                  className="bg-red-600 mt-5 "
+                >
+                  Denegar
+                </Button>
+              </>
+            )}
           </div>
         </CardBody>
 
@@ -119,3 +127,4 @@ const VisualizarBeca = () => {
 };
 
 export default VisualizarBeca;
+

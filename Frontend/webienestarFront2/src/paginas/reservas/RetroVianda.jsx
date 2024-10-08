@@ -63,7 +63,7 @@ const RetroVianda = () => {
     );
   }
 
-  if (reservaParaCalificar.opinion != null) {
+  if (reservaParaCalificar.opinion !== null && reservaParaCalificar.opinion.trim() !== '') {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="bg-blue-500 text-white p-4 rounded-md shadow-md text-center">

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Card, CardHeader, CardBody, CardFooter, Button, Typography } from "@material-tailwind/react";
 
 import TableHeader from '../TableHeader';
-import TableRowHistorial from './TableRowHistorial';
+import TableRowHistorialBecaComedor from './TableRowHistorialBeca';
 import CardHeaderContent from '../CardHeaderContent';
 
-const TablaHistorial = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", cabeceras = [], datos = [], cabecerasPersonalizadas = [], onRefresh = () => {} }) => {
+const TablaHistorialBecaComedor = ({ titulo = "Ejemplo", descripcion = "Esta es una descripción", cabeceras = [], datos = [], cabecerasPersonalizadas = [], onRefresh = () => {} }) => {
 
     return (
         <Card className="h-full w-full">
@@ -19,7 +19,7 @@ const TablaHistorial = ({ titulo = "Ejemplo", descripcion = "Esta es una descrip
                     {datos.length != 0 ? (
                         <tbody>
                             {datos.map((dato) => (
-                                <TableRowHistorial key={dato.id} data={dato} columns={cabeceras} onRefresh={onRefresh} />
+                                <TableRowHistorialBecaComedor key={dato.id} data={dato} columns={cabeceras} onRefresh={onRefresh} />
                             ))}
                         </tbody>
                     ) : (
@@ -42,17 +42,13 @@ const TablaHistorial = ({ titulo = "Ejemplo", descripcion = "Esta es una descrip
     );
 };
 
-TablaHistorial.propTypes = {
+TablaHistorialBecaComedor.propTypes = {
     titulo: PropTypes.string,
     descripcion: PropTypes.string,
     cabeceras: PropTypes.arrayOf(PropTypes.string),
     cabecerasPersonalizadas: PropTypes.arrayOf(PropTypes.string),
     datos: PropTypes.arrayOf(PropTypes.object),
-    onRefresh: PropTypes.func,
-    idEstudiante: PropTypes.oneOfType([
-        PropTypes.string, 
-        PropTypes.number 
-      ]).isRequired
+    onRefresh: PropTypes.func
 };
 
-export default TablaHistorial;
+export default TablaHistorialBecaComedor;

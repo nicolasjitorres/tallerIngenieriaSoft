@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TablaHistorial from "../../components/tabla/historial/TablaHistorial";
+import TablaHistorialBecaComedor from "../../components/tabla/becaComedor/TablaHistorialBecaComedor";
 
 const ListaBecas = () => {
   const [listaBecas, setListaBecas] = useState([]);
@@ -56,7 +56,7 @@ console.log(loading, error, currentItems);
 
   return (
     <>
-      <TablaHistorial
+      <TablaHistorialBecaComedor
         titulo={TITULO}
         descripcion={DESCRIPCION}
         datos={listaBecas}

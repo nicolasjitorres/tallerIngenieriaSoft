@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";  // Importa useParams
-import Tabla from "../../components/tabla/Tabla";
+import TablaHistorialBecaComedor from "../../components/tabla/becaComedor/TablaHistorialBecaComedor";
 
 function HistorialInscripcionesIndex() {
     const [becasComedor, setBecasComedor] = useState([]);
     const { id } = useParams();  // Obtén el id del estudiante desde la URL
-    const CABECERAS = ['tipoVivienda', 'condVivienda', 'anio', 'idEstudiante', 'grupoFamiliar'];
-    const CABECERAS_PERSONALIZADAS = ['Tipo de vivienda', 'Condicion de vivienda', 'Año', 'Id estudiante', 'Grupo familiar'];
+    const CABECERAS = ['id', 'anio', 'estadoBeca', 'tipoVivienda', 'condVivienda', 'grupoFamiliar'];
+    const CABECERAS_PERSONALIZADAS = ['ID', 'Año', 'Estado de la Beca', 'Tipo de vivienda', 'Condicion de vivienda', 'Grupo familiar'];
     const TITULO = 'Historial de Beca Comedor';
     const DESCRIPCION = 'Aquí podrás visualizar todas tus inscripciones de la Beca Comedor';
 
@@ -25,7 +25,7 @@ function HistorialInscripcionesIndex() {
     }, [id]);  // Asegúrate de ejecutar el efecto cuando cambie el id
 
     return (
-        <Tabla 
+        <TablaHistorialBecaComedor 
             titulo={TITULO} 
             descripcion={DESCRIPCION} 
             datos={becasComedor} 

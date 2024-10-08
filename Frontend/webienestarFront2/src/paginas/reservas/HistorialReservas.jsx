@@ -10,7 +10,7 @@ const HistorialReservas = () => {
   const [error, setError] = useState(null); // Estado de error
   const [currentPage, setCurrentPage] = useState(1); // Estado de la página actual
   const itemsPerPage = 3; // Cantidad de items por página
-
+  const [refresh, setRefresh] = useState(false);
 
   const CABECERAS = ["id", "fecha", "estado"];
   const CABECERAS_PERSONALIZADAS = ["Numero de reserva", "Fecha", "Estado"];
@@ -37,10 +37,9 @@ const HistorialReservas = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = reservas.slice(indexOfFirstItem, indexOfLastItem);
-
+  
   console.log(error,loading,currentItems);
   
-
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(reservas.length / itemsPerPage); i++) {
     pageNumbers.push(i);
@@ -50,11 +49,14 @@ const HistorialReservas = () => {
 
   useEffect(() => {
     fetchReservas();
-  }, []);
+  }, [id, refresh]); // Agregar 'refresh' como dependencia
+
+  const handleRefresh = () => {
+    setRefresh(!refresh); // Alterna el valor de 'refresh' para disparar el useEffect
+  };
 
   console.log(paginate);
   
-
   return (
     <>
       <TablaHistorial
@@ -63,24 +65,12 @@ const HistorialReservas = () => {
         datos={reservas}
         cabeceras={CABECERAS}
         cabecerasPersonalizadas={CABECERAS_PERSONALIZADAS}
+        onRefresh={handleRefresh}
+        idEstudiante={id}  // Pasamos el id del estudiante
       />
-
-      {/* <nav>
-        <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li
-              key={number}
-              className={`page-item ${currentPage === number ? "active" : ""}`}
-            >
-              <button className="page-link" onClick={() => paginate(number)}>
-                {number}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav> */}
     </>
   );
+  
 };
 
 export default HistorialReservas;

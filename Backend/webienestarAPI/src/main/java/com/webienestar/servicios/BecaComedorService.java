@@ -62,6 +62,7 @@ public class BecaComedorService {
         }
 
         BecaComedor becaComedor = becaComedorMapper.toEntity(becaComedorDTO);
+        becaComedor.setEstadoBeca(EstadoBeca.EN_EVALUACION);
         becaComedor = becaComedorRepository.save(becaComedor);
         return becaComedorMapper.toDto(becaComedor);
     }
