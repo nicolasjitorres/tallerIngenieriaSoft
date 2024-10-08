@@ -64,6 +64,7 @@ const Dashboard = () => {
         </>
       ) : (
         <>
+          <img src={logoHeader} alt="Logo header" className="h-full w-full bg-cover" />
           <Typography variant="h3" color="blue-gray" className="w-full m-5 text-center">
             ¡Bienvenido!
           </Typography>

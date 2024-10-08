@@ -85,13 +85,9 @@ const TableRowHistorial = ({ data, columns, onRefresh }) => {
           <Tooltip content="Dar una calificación">
             <Button onClick={() => handleCalificar(data.id)}>Calificar</Button>
           </Tooltip>
-        ) : data.estado === "RESERVADA" && data.fecha === formattedCurrentDate ? (
+        ) : data.estado === "RESERVADA" &&
+          data.fecha === formattedCurrentDate ? (
           <>
-            <Tooltip content="Ver reserva">
-              <Button onClick={() => handleVerReserva(data.id)}>
-                Ver Reserva
-              </Button>
-            </Tooltip>
             <Tooltip content="Cancelar reserva">
               <Button onClick={() => handleCancelarReserva(data.idEstudiante)}>
                 Cancelar Reserva
@@ -99,7 +95,13 @@ const TableRowHistorial = ({ data, columns, onRefresh }) => {
             </Tooltip>
           </>
         ) : (
-          <></>
+          <>
+            <Tooltip content="Ver reserva">
+              <Button onClick={() => handleVerReserva(data.id)}>
+                Ver Reserva
+              </Button>
+            </Tooltip>
+          </>
         )}
         {data.nombreEstudiante ? (
           <Tooltip content="Entregar vianda en la reserva">
