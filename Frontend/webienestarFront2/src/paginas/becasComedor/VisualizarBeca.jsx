@@ -95,25 +95,58 @@ const VisualizarBeca = () => {
           <Typography>Condición: {inscripcion.condVivienda}</Typography>
           <Typography>Grupo familiar: {inscripcion.grupoFamiliar}</Typography>
           <Typography>Año de inscripción: {inscripcion.anio}</Typography>
+          <Typography>Fecha de inscripción: {inscripcion.fecha}</Typography>
+          
+          {/* Checkboxes para documentación */}
+          {userRole === "EMPLEADO_CONTROL" && inscripcion.estadoBeca === "EN_EVALUACION" && (
+            <>
+              <Typography variant="h6" color="blue-gray" className="mt-4">
+                Verificar documentación:
+              </Typography>
+              <div className="flex flex-col gap-2 mt-2">
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Foto de ambos lados del DNI (estudiante y grupo familiar)</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Constancia de alumno regular</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Negativa de ANSES o denegatoria (estudiante y grupo familiar)</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Constancia de ingresos (estudiante y grupo familiar si tuvieran)</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Declaraciones juradas (si tuviera)</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">C.U.D (si tuviera)</span>
+                </label>
+              </div>
 
-          <div className="w-full flex flex-wrap justify-center gap-5">
-            {userRole === "EMPLEADO_CONTROL" && inscripcion.estadoBeca === "EN_EVALUACION" && (
-              <>
+              {/* Botones de Aprobar y Denegar */}
+              <div className="w-full flex flex-wrap justify-center gap-5 mt-5">
                 <Button
                   onClick={() => handleAprobar(inscripcion.id)}
-                  className="bg-green-600 mt-5"
+                  className="bg-green-600"
                 >
                   Aprobar
                 </Button>
                 <Button
                   onClick={() => handleDenegar(inscripcion.id)}
-                  className="bg-red-600 mt-5 "
+                  className="bg-red-600"
                 >
                   Denegar
                 </Button>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </CardBody>
 
         <CardFooter className="p-10 pt-0">
@@ -127,4 +160,3 @@ const VisualizarBeca = () => {
 };
 
 export default VisualizarBeca;
-

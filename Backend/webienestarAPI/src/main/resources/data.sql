@@ -13,11 +13,11 @@ VALUES
 (67891234, '$2a$10$sLPuR1rt0nffKBV/LHXEfewHSUxWOfuErfzOaHqhXTT1Q3UeO0qem', 'user6', 'Otto Duran', 'MASCULINO', 'Ciudad', 'Calle 654', 'lucia@example.com', 987654321, 'SECRETARIO');
 
 -- Insertar becas comedor
-INSERT INTO Beca_Comedor (ingresos, tipo_Vivienda, cond_Vivienda, grupo_Familiar, estado_beca, anio, estudiante_id) 
+INSERT INTO Beca_Comedor (ingresos, tipo_Vivienda, cond_Vivienda, grupo_Familiar, estado_beca, anio, fecha, estudiante_id) 
 VALUES 
-(TRUE, 'CASA', 'PROPIA', 'Familia de 4 personas', 'EN_EVALUACION', '2024', 1), 
-(FALSE, 'DEPARTAMENTO', 'ALQUILER', 'Familia de 2 personas', 'APROBADA', '2024', 2),
-(TRUE, 'PENSION', 'FAMILIAR', 'Vive solo', 'DENEGADA', '2024', 3);
+(TRUE, 'CASA', 'PROPIA', 'Familia de 4 personas', 'EN_EVALUACION', '2024', '03-10-2024', 1), 
+(FALSE, 'DEPARTAMENTO', 'ALQUILER', 'Familia de 2 personas', 'APROBADA', '2024', '20-10-2024', 2),
+(TRUE, 'PENSION', 'FAMILIAR', 'Vive solo', 'DENEGADA', '2024', '23-03-2024', 3);
 
 -- Insertar viandas
 INSERT INTO Vianda (tipo, plato, postre, cantidad) 

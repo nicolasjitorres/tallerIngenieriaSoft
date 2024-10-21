@@ -28,6 +28,8 @@ const InformeViandas = () => {
   const [fechaFin, setFechaFin] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [conclusion, setConclusion] = useState(""); // Conclusión
+  const [mostrarConclusion, setMostrarConclusion] = useState(false); // Estado para mostrar conclusión
   const [datosGrafico, setDatosGrafico] = useState(null);
   const [reservas, setReservas] = useState([]);
   const pdfRef = useRef();
@@ -118,41 +120,60 @@ const InformeViandas = () => {
 
     setError("");
     setSuccess("Informe generado exitosamente.");
+    setMostrarConclusion(true); // Mostrar el campo de conclusión
   };
 
   const handleDownloadPDF = () => {
     const content = pdfRef.current;
     html2canvas(content).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      
+      const imgWidth = 120; 
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+      const pageWidth = pdf.internal.pageSize.getWidth(); 
+      const xPosition = (pageWidth - imgWidth) / 2; 
+      let position = 10;
+  
+      // Agregar el rango de fechas en la parte superior
+      pdf.text(
+        `Rango de fechas: ${formatDate(fechaInicio)} a ${formatDate(fechaFin)}`,
+        10,
+        position
+      );
+  
+      // Agregar el gráfico
+      position += 10; // Espacio para la fecha
+      pdf.addImage(imgData, "PNG", xPosition, position, imgWidth, imgHeight);
+      position += imgHeight + 10; // Espacio para el gráfico
+  
+      // Agregar conclusión
+      const conclusionText = `Se puede notar una clara preferencia de los becarios a la hora de reservar las viandas. Hay una escasez de no becarios, deberíamos revisar este problema.\nHola hola Hola hola Hola hola Hola hola Hola hola Hola hola\nHola hola \nHola holaHola hola`;
+      const conclusionLines = pdf.splitTextToSize(conclusionText, pageWidth - 20); // Divide el texto si es necesario
+      
+      conclusionLines.forEach((line, index) => {
+        const conclusionX = 10; // Alineado a la izquierda con margen
+        const conclusionY = position + (index * 10); // Espacio entre líneas
+        pdf.text(line, conclusionX, conclusionY);
         
-        const imgWidth = 120; 
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        const pageWidth = pdf.internal.pageSize.getWidth(); // Ancho de la página
-        const xPosition = (pageWidth - imgWidth) / 2; // Posición x centrada
-        const pageHeight = 290; // Altura de la página
-        let heightLeft = imgHeight;
-        let position = 10;
-
-        pdf.addImage(imgData, "PNG", xPosition, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, "PNG", xPosition, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+        // Si la posición se sale de la página, agregar nueva página
+        if (conclusionY >= pdf.internal.pageSize.height - 20) {
+          pdf.addPage();
+          position = 10; // Reiniciar posición en nueva página
         }
-        pdf.save("informe_viandas.pdf");
+      });
+  
+      // Guardar el PDF
+      pdf.save("informe_viandas.pdf");
     });
-};
-
-
+  };
+  
+   
   return (
     <div className="container mt-10 flex flex-wrap w-full justify-center">
       <Card className="mt-6 mb-6 w-96 p-5 justify-center">
-        <CardBody className=" pb-3 gap-5">
+        <CardBody className="pb-3 gap-5">
           <Typography
             variant="h5"
             color="black"
@@ -192,7 +213,7 @@ const InformeViandas = () => {
               Generar informe
             </Button>
 
-            <Button type="submit" className="">
+            <Button type="button" className="">
               Volver
             </Button>
           </form>
@@ -220,6 +241,17 @@ const InformeViandas = () => {
             </div>
           )}
         </div>
+
+        {/* Campo de conclusión debajo del gráfico */}
+        {mostrarConclusion && (
+                <textarea
+                  className="w-full p-2 mt-4 border border-gray-300 rounded"
+                  rows="4"
+                  placeholder="Escribe una conclusión para el informe..."
+                  value={conclusion}
+                  onChange={(e) => setConclusion(e.target.value)}
+                />
+              )}
 
         <Button onClick={handleDownloadPDF} className="bg-green-500 mt-5">
           Descargar PDF

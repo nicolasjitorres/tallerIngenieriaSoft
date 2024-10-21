@@ -6,8 +6,8 @@ import TablaHistorialBecaComedor from "../../components/tabla/becaComedor/TablaH
 function HistorialInscripcionesIndex() {
     const [becasComedor, setBecasComedor] = useState([]);
     const { id } = useParams();  // Obtén el id del estudiante desde la URL
-    const CABECERAS = ['id', 'anio', 'estadoBeca', 'tipoVivienda', 'condVivienda', 'grupoFamiliar'];
-    const CABECERAS_PERSONALIZADAS = ['ID', 'Año', 'Estado de la Beca', 'Tipo de vivienda', 'Condicion de vivienda', 'Grupo familiar'];
+    const CABECERAS = ['id', 'anio', 'fecha','estadoBeca', 'tipoVivienda', 'condVivienda', 'grupoFamiliar'];
+    const CABECERAS_PERSONALIZADAS = ['ID', 'Año', 'Fecha de Inscripción', 'Estado de la Beca', 'Tipo de vivienda', 'Condicion de vivienda', 'Grupo familiar'];
     const TITULO = 'Historial de Beca Comedor';
     const DESCRIPCION = 'Aquí podrás visualizar todas tus inscripciones de la Beca Comedor';
 

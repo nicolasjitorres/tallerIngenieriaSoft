@@ -23,10 +23,11 @@ public class BecaComedorDTO {
     @NotBlank(message = "El campo 'grupoFamiliar' es obligatorio.")
     private String grupoFamiliar;
 
-    
     private String estadoBeca;
 
     private String anio;
+
+    private String fecha;
 
     private Long idEstudiante;
 }

@@ -207,13 +207,27 @@ const BecaComedorFormulario = () => {
               Volver Atrás
             </button>
           </div>
+
+          {/* Mensaje de documentación importante */}
+          <div className="mt-8 p-4 bg-yellow-100 rounded">
+            <p className="text-red-500 font-bold">Importante:</p>
+            <p>
+              Deberá enviar la siguiente documentación al email <a href="mailto:bienestar@unse.com" className="text-blue-600 underline">bienestar@unse.com </a> 
+              o bien ir a la oficina en el horario de 8 a 12 y 18 a 20:
+            </p>
+            <ul className="list-disc list-inside mt-2">
+              <li> - Foto de ambos lados del DNI (estudiante y grupo familiar).</li>
+              <li> - Constancia de alumno regular.</li>
+              <li> - Negativa de ANSES o denegatoria (estudiante y grupo familiar).</li>
+              <li> - Constancia de ingresos (estudiante y grupo familiar si tuvieran).</li>
+              <li> - Declaraciones juradas (si tuviera).</li>
+              <li> - C.U.D (si tuviera).</li>
+            </ul>
+          </div>
         </form>
       </div>
     </div>
   );
 };
-
-
-
 
 export default BecaComedorFormulario;
