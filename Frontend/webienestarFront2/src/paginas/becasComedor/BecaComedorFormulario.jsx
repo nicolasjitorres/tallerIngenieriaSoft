@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import { Alert, Button } from "@material-tailwind/react";
 
 const BecaComedorFormulario = () => {
   const { id } = useParams(); // Obtiene el parámetro id de la URL
@@ -17,7 +19,7 @@ const BecaComedorFormulario = () => {
         const reservaResponse = await axios.get(
           `http://localhost:8080/becascomedor/${id}`
         );
-        setTieneReserva(reservaResponse.data);
+        settieneBeca(reservaResponse.data);
       } catch (error) {
         console.error("Error al verificar la reserva:", error);
       }
@@ -95,6 +97,23 @@ const BecaComedorFormulario = () => {
     navigate("/");
   };
 
+  if (tieneBeca) {
+    return (
+      <div className="container mx-auto p-4">
+        <Alert color="blue" className="text-center">
+          Ya tienes una solicitud a tu beca.
+        </Alert>
+        <div className="text-center mt-4">
+          <Button onClick={handleGoBack} color="gray">
+            Volver Atrás
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
@@ -151,7 +170,7 @@ const BecaComedorFormulario = () => {
           {/* Condición de la Vivienda - Radio buttons */}
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2">Condición de la Vivienda</label>
-            {["PROPIA", "ALQUILADA", "HEREDADA"].map((cond) => (
+            {["PROPIA", "ALQUILER", "FAMILIAR"].map((cond) => (
               <div className="flex items-center mb-2" key={cond}>
                 <input
                   className="form-radio text-yellow-500"
