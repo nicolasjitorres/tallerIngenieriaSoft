@@ -1,5 +1,6 @@
 package com.webienestar.modelos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webienestar.modelos.enums.CondVivienda;
 import com.webienestar.modelos.enums.EstadoBeca;
@@ -37,6 +38,9 @@ public class BecaComedor{
     
     private String grupoFamiliar;
     private String anio;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private String fecha;
 
     @Enumerated(EnumType.STRING)
     private EstadoBeca estadoBeca;

@@ -238,4 +238,17 @@ public class ReservaService {
         return detalles;
     }
 
+    public ReservaDTO obtenerUltimaReservaNoHoy(Long idEstudiante) {
+        Optional<Reserva> reservas = reservaRepository.findReservasByIdOrderByFechaDesc(idEstudiante);
+    
+        String fechaHoy = LocalDate.now().toString(); // Formato ISO (yyyy-MM-dd)
+    
+        // Filtrar la primera reserva que no sea de la fecha de hoy
+        Optional<Reserva> ultimaReservaNoHoy = reservas.stream()
+            .filter(reserva -> !reserva.getFecha().equals(fechaHoy))
+            .findFirst();
+    
+        return ultimaReservaNoHoy.map(reservaMapper::toDto).orElse(null);
+    }
+
 }

@@ -127,4 +127,17 @@ public class ReservaController {
         return reservaService.obtenerReservasEstudianteVianda(fechaInicio);
     }
 
+    @GetMapping("/verificar-ultima-reserva-no-hoy/{idEstudiante}")
+    public ResponseEntity<ReservaDTO> verificarUltimaReservaNoHoy(@PathVariable Long idEstudiante) {
+        try {
+            ReservaDTO ultimaReservaNoHoy = reservaService.obtenerUltimaReservaNoHoy(idEstudiante);
+            if (ultimaReservaNoHoy == null) {
+                return ResponseEntity.ok(null);
+            }
+            return ResponseEntity.ok(ultimaReservaNoHoy);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null); 
+        }
+    }
+
 }

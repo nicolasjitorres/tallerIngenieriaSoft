@@ -1,5 +1,7 @@
 package com.webienestar.repositorios;
+import org.hibernate.mapping.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.webienestar.modelos.Reserva;
@@ -15,4 +17,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     // Método para encontrar todas las reservas de un estudiante para una fecha
     // específica
     Optional<Reserva> findByEstudiante_IdAndFecha(Long idEstudiante, String fecha);
+
+    Optional<Reserva> findReservasByIdOrderByFechaDesc(Long idEstudiante);
+
 }

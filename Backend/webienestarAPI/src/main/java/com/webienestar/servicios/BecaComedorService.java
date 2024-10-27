@@ -2,7 +2,6 @@ package com.webienestar.servicios;
 
 import com.webienestar.dtos.BecaComedorDTO;
 import com.webienestar.dtos.BecaComedorDetailDTO;
-import com.webienestar.dtos.EstudianteDTO;
 import com.webienestar.excepciones.ResourceNotFoundException;
 import com.webienestar.mappers.BecaComedorMapper;
 import com.webienestar.modelos.BecaComedor;
@@ -22,6 +21,8 @@ import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.function.Function;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class BecaComedorService {
@@ -61,8 +62,12 @@ public class BecaComedorService {
                     "El estudiante ya posee una inscripcion en el año académico " + becaComedorDTO.getAnio());
         }
 
+        // Formatear y asignar la fecha actual
+        LocalDate hoy = LocalDate.now();
+        String fechaHoy = hoy.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         BecaComedor becaComedor = becaComedorMapper.toEntity(becaComedorDTO);
         becaComedor.setEstadoBeca(EstadoBeca.EN_EVALUACION);
+        becaComedor.setFecha(fechaHoy);
         becaComedor = becaComedorRepository.save(becaComedor);
         return becaComedorMapper.toDto(becaComedor);
     }
