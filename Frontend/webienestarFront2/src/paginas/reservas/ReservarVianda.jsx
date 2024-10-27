@@ -16,6 +16,7 @@ const ReservarVianda = () => {
   const navigate = useNavigate(); 
   const [viandas, setViandas] = useState([]); 
   const [tieneReserva, setTieneReserva] = useState(false); 
+  const [ultimoEstadoReserva, setUltimoEstadoReserva] = useState(null); // Cambiado aquí
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -31,6 +32,23 @@ const ReservarVianda = () => {
 
     fetchReservas();
   }, [id]);
+
+  useEffect(() => {
+    const fetchUltimaReserva = async () => { // Cambiado el nombre de la función para más claridad
+      try {
+        const reservaResponse = await axios.get(
+          `http://localhost:8080/reservas/verificar-ultima-reserva-no-hoy/${id}`
+        );
+        setUltimoEstadoReserva(reservaResponse.data); // Actualizado aquí
+        console.log("Último estado de reserva:", reservaResponse.data); // Agregado aquí
+      } catch (error) {
+        console.error("Error al verificar la última reserva:", error);
+      }
+    };
+
+    fetchUltimaReserva();
+  }, [id]);
+
 
   useEffect(() => {
     const fetchViandas = async () => {
@@ -53,6 +71,12 @@ const ReservarVianda = () => {
 
     if (tieneReserva) {
       alert("Ya tienes una reserva para hoy.");
+      return;
+    }
+
+    // Verificar el estado de la última reserva
+    if (ultimoEstadoReserva.estado == "RESERVADA") {
+      alert("No puedes reservar debido a que fuiste penalizado por incumplimiento al no retirar tu ultima reserva.");
       return;
     }
 
@@ -117,6 +141,21 @@ const ReservarVianda = () => {
       </div>
     );
   }
+
+  if (ultimoEstadoReserva && ultimoEstadoReserva.estado === "RESERVADA") {
+    return (
+      <div className="container mx-auto p-4">
+        <Alert color="blue" className="text-center">
+          No puedes reservar debido a que fuiste penalizado por incumplimiento al no retirar tu última reserva.
+        </Alert>
+        <div className="text-center mt-4">
+          <Button onClick={handleGoBack} color="gray">
+            Volver Atrás
+          </Button>
+        </div>
+      </div>
+    );
+  }  
 
   return (
     <section className="p-4">
