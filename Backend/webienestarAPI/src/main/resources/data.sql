@@ -23,9 +23,9 @@ VALUES
 -- Insertar viandas
 INSERT INTO Vianda (tipo, plato, postre, cantidad) 
 VALUES 
-('Saludable', 'Ensalada Cesar', 'Fruta', 10), 
+('Saludable', 'Ensalada Cesar', 'Fruta', 0), 
 ('Saludable', 'Tofu con verduras', 'Mousse de chocolate vegano', 0), 
-('Clasico', 'Milanesa con papas fritas', 'Helado', 10),
+('Clasico', 'Milanesa con papas fritas', 'Helado', 0),
 ('Clasico', 'Asado con verduras', 'Flan', 0);
 
 -- Insertar reservas

@@ -46,8 +46,7 @@ public class AuthServiceTest {
     private JwtService jwtService;
 
     @Autowired
-    private AuthService authService; // Cambiado a @Autowired
-
+    private AuthService authService;
     private LoginRequest studentRequest;
     private LoginRequest employeeRequest;
     private LoginRequest invalidRequest;
@@ -106,6 +105,8 @@ public class AuthServiceTest {
         assertEquals("Employee Name", response.getNombre());
         assertEquals("ADMIN", response.getRol());
         assertEquals(2L, response.getId());
+
+        System.out.println("Inicio de sesión exitoso para el estudiante: " + response.getNombre());
     }
 
     @Test

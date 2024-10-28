@@ -11,12 +11,12 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 
-const ReservarVianda = async () => {
+const ReservarVianda = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [viandas, setViandas] = useState([]);
   const [tieneReserva, setTieneReserva] = useState(false);
-  const [ultimoEstadoReserva, setUltimoEstadoReserva] = useState(null);
+  // const [ultimoEstadoReserva, setUltimoEstadoReserva] = useState(null);
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -33,21 +33,21 @@ const ReservarVianda = async () => {
     fetchReservas();
   }, [id]);
 
-  useEffect(() => {
-    const fetchUltimaReserva = async () => {
-      try {
-        const reservaResponse = await axios.get(
-          `http://localhost:8080/reservas/ultima-reserva/${id}`
-        );
-        setUltimoEstadoReserva(reservaResponse.data);
-        console.log("Último estado de reserva:", reservaResponse.data);
-      } catch (error) {
-        console.error("Error al verificar la última reserva:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUltimaReserva = async () => {
+  //     try {
+  //       const reservaResponse = await axios.get(
+  //         `http://localhost:8080/reservas/ultima-reserva/${id}`
+  //       );
+  //       setUltimoEstadoReserva(reservaResponse.data);
+  //       console.log("Último estado de reserva:", reservaResponse.data);
+  //     } catch (error) {
+  //       console.error("Error al verificar la última reserva:", error);
+  //     }
+  //   };
 
-    fetchUltimaReserva();
-  }, [id]);
+  //   fetchUltimaReserva();
+  // }, [id]);
 
   useEffect(() => {
     const fetchViandas = async () => {
@@ -98,28 +98,28 @@ const ReservarVianda = async () => {
     }
   };
 
-  const actualizarPenalizacion = async (reserva) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:8080/reservas/actualizar-penalizacion`,
-        {
-          id: reserva.id, // Asegúrate de usar el ID de la reserva
-          estado: "NO_RETIRADA",
-        }
-      );
+  // const actualizarPenalizacion = async (reserva) => {
+  //   try {
+  //     const response = await axios.put(
+  //       `http://localhost:8080/reservas/actualizar-penalizacion`,
+  //       {
+  //         id: reserva.id, // Asegúrate de usar el ID de la reserva
+  //         estado: "NO_RETIRADA",
+  //       }
+  //     );
 
-      if (response.status === 200) {
-        console.log("Estado de penalización actualizado con éxito");
-      } else {
-        console.error(
-          "Error al actualizar el estado de penalización:",
-          response.data
-        );
-      }
-    } catch (error) {
-      console.error("Error al cambiar el estado de la vianda:", error);
-    }
-  };
+  //     if (response.status === 200) {
+  //       console.log("Estado de penalización actualizado con éxito");
+  //     } else {
+  //       console.error(
+  //         "Error al actualizar el estado de penalización:",
+  //         response.data
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al cambiar el estado de la vianda:", error);
+  //   }
+  // };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -132,7 +132,7 @@ const ReservarVianda = async () => {
           Ya tienes una reserva para el día de hoy.
         </Alert>
         <div className="text-center mt-4">
-          <Button onClick={handleGoBack} color="gray">
+          <Button onClick={actualizarPenalizacion} color="gray">
             Volver Atrás
           </Button>
         </div>
@@ -140,20 +140,20 @@ const ReservarVianda = async () => {
     );
   }
 
-  if (ultimoEstadoReserva && ultimoEstadoReserva.estado === "RESERVADA") {
-    return (
-      <div className="container mx-auto p-4">
-        <Alert color="blue" className="text-center">
-          No puedes reservar debido a que fuiste penalizado por incumplimiento al no retirar tu última reserva.
-        </Alert>
-        <div className="text-center mt-4">
-          <Button onClick={handleGoBack} color="gray">
-            Volver Atrás
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  // if (ultimoEstadoReserva && ultimoEstadoReserva.estado === "RESERVADA") {
+  //   return (
+  //     <div className="container mx-auto p-4">
+  //       <Alert color="blue" className="text-center">
+  //         No puedes reservar debido a que fuiste penalizado por incumplimiento al no retirar tu última reserva.
+  //       </Alert>
+  //       <div className="text-center mt-4">
+  //         <Button onClick={handleGoBack} color="gray">
+  //           Confirmar Penalización
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <section className="p-4">
