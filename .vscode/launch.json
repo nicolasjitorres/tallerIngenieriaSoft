@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-WebienestarApplication<webienestar>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.webienestar.WebienestarApplication",
+            "projectName": "webienestar",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
