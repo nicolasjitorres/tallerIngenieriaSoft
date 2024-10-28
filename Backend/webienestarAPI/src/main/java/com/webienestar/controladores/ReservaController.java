@@ -127,17 +127,22 @@ public class ReservaController {
         return reservaService.obtenerReservasEstudianteVianda(fechaInicio);
     }
 
-    @GetMapping("/verificar-ultima-reserva-no-hoy/{idEstudiante}")
-    public ResponseEntity<ReservaDTO> verificarUltimaReservaNoHoy(@PathVariable Long idEstudiante) {
+    @GetMapping("/ultima-reserva/{idEstudiante}")
+    public ResponseEntity<ReservaDTO> verificarUltimaReserva(@PathVariable Long idEstudiante) {
         try {
-            ReservaDTO ultimaReservaNoHoy = reservaService.obtenerUltimaReservaNoHoy(idEstudiante);
-            if (ultimaReservaNoHoy == null) {
+            ReservaDTO ultimaReserva = reservaService.obtenerUltimaReserva(idEstudiante);
+            if (ultimaReserva == null) {
                 return ResponseEntity.ok(null);
             }
-            return ResponseEntity.ok(ultimaReservaNoHoy);
+            return ResponseEntity.ok(ultimaReserva);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null); 
         }
+    }
+
+    @PutMapping("/actualizar-penalizacion")
+    public void actualizarEstadoNoRetirada(@RequestBody ReservaDTO reservaDTO) {
+        reservaService.actualizarNoRetirarVianda(reservaDTO);
     }
 
 }

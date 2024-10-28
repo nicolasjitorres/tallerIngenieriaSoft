@@ -9,14 +9,14 @@ import {
   Typography,
   Alert,
   CardFooter,
-} from "@material-tailwind/react"; 
+} from "@material-tailwind/react";
 
-const ReservarVianda = () => {
-  const { id } = useParams(); 
-  const navigate = useNavigate(); 
-  const [viandas, setViandas] = useState([]); 
-  const [tieneReserva, setTieneReserva] = useState(false); 
-  const [ultimoEstadoReserva, setUltimoEstadoReserva] = useState(null); // Cambiado aquí
+const ReservarVianda = async () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [viandas, setViandas] = useState([]);
+  const [tieneReserva, setTieneReserva] = useState(false);
+  const [ultimoEstadoReserva, setUltimoEstadoReserva] = useState(null);
 
   useEffect(() => {
     const fetchReservas = async () => {
@@ -34,13 +34,13 @@ const ReservarVianda = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUltimaReserva = async () => { // Cambiado el nombre de la función para más claridad
+    const fetchUltimaReserva = async () => {
       try {
         const reservaResponse = await axios.get(
-          `http://localhost:8080/reservas/verificar-ultima-reserva-no-hoy/${id}`
+          `http://localhost:8080/reservas/ultima-reserva/${id}`
         );
-        setUltimoEstadoReserva(reservaResponse.data); // Actualizado aquí
-        console.log("Último estado de reserva:", reservaResponse.data); // Agregado aquí
+        setUltimoEstadoReserva(reservaResponse.data);
+        console.log("Último estado de reserva:", reservaResponse.data);
       } catch (error) {
         console.error("Error al verificar la última reserva:", error);
       }
@@ -48,7 +48,6 @@ const ReservarVianda = () => {
 
     fetchUltimaReserva();
   }, [id]);
-
 
   useEffect(() => {
     const fetchViandas = async () => {
@@ -64,26 +63,9 @@ const ReservarVianda = () => {
   }, []);
 
   const handleReserve = async (vianda) => {
-    if (vianda.cantidad <= 0) {
-      alert("No hay más viandas disponibles para reservar.");
-      return; 
-    }
-
-    if (tieneReserva) {
-      alert("Ya tienes una reserva para hoy.");
-      return;
-    }
-
-    // Verificar el estado de la última reserva
-    if (ultimoEstadoReserva.estado == "RESERVADA") {
-      alert("No puedes reservar debido a que fuiste penalizado por incumplimiento al no retirar tu ultima reserva.");
-      return;
-    }
-
     try {
-      // Crear un objeto de reserva
       const reservaData = {
-        fecha: new Date().toLocaleDateString("es-AR"), // Asegúrate de que sea en formato dd-MM-yyyy
+        fecha: new Date().toLocaleDateString("es-AR"),
         opinion: "",
         calificacion: "",
         estado: "RESERVADA",
@@ -91,25 +73,19 @@ const ReservarVianda = () => {
         idVianda: vianda.id,
       };
 
-      // Realiza la solicitud POST para crear la reserva
       const response = await axios.post(
         `http://localhost:8080/reservas`,
         reservaData
       );
 
-      // Manejo de la respuesta
       if (response.status === 201) {
         alert("Reserva realizada con éxito.");
-
-        // Actualiza el estado de las viandas después de la reserva
         setViandas((prevViandas) =>
           prevViandas.map((v) =>
             v.id === vianda.id ? { ...v, cantidad: v.cantidad - 1 } : v
           )
         );
-
-        // Recarga la página para reflejar cambios
-        window.location.reload(); // Recarga la página completamente
+        window.location.reload();
       }
     } catch (error) {
       console.error(
@@ -122,11 +98,33 @@ const ReservarVianda = () => {
     }
   };
 
-  const handleGoBack = () => {
-    navigate(-1); // Navegar a la página anterior
+  const actualizarPenalizacion = async (reserva) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/reservas/actualizar-penalizacion`,
+        {
+          id: reserva.id, // Asegúrate de usar el ID de la reserva
+          estado: "NO_RETIRADA",
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Estado de penalización actualizado con éxito");
+      } else {
+        console.error(
+          "Error al actualizar el estado de penalización:",
+          response.data
+        );
+      }
+    } catch (error) {
+      console.error("Error al cambiar el estado de la vianda:", error);
+    }
   };
 
-  // Si el estudiante ya tiene una reserva para hoy, mostrar un mensaje y no cargar las viandas
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   if (tieneReserva) {
     return (
       <div className="container mx-auto p-4">
@@ -155,7 +153,7 @@ const ReservarVianda = () => {
         </div>
       </div>
     );
-  }  
+  }
 
   return (
     <section className="p-4">
@@ -167,12 +165,12 @@ const ReservarVianda = () => {
               <CardHeader className="text-center relative">
                 <img
                   src={
-                    vianda.tipo == "Saludable"
+                    vianda.tipo === "Saludable"
                       ? "https://www.herbalife.com/dmassets/regional-reusable-assets/workflow/amer/samcam/lifestyle/como-armar-un-menu-saludable-para-la-semana.png"
                       : "https://gesgourmet.es/wp-content/uploads/2022/11/menu-casero-semanal.jpg"
                   }
                   alt="Imagen del plato"
-                  className=" bg-cover"
+                  className="bg-cover"
                 />
               </CardHeader>
 
@@ -183,9 +181,7 @@ const ReservarVianda = () => {
                 <Typography>
                   {vianda.plato} y {vianda.postre}
                 </Typography>
-                <Typography>
-                  Cantidad restante: {vianda.cantidad}
-                </Typography>
+                <Typography>Cantidad restante: {vianda.cantidad}</Typography>
               </CardBody>
 
               <CardFooter className="pt-0">
@@ -201,7 +197,6 @@ const ReservarVianda = () => {
           ))}
       </div>
 
-      {/* Botón para volver atrás */}
       <div className="text-center mt-4">
         <Button onClick={handleGoBack} color="gray">
           Volver Atrás
