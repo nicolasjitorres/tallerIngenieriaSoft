@@ -10,7 +10,7 @@ import logo from '../../assets/logo.png';
 import { Sidebar } from "./Sidebar";
 import { useLocation } from "react-router-dom"; // Importar useLocation
 
-function NavBar({ user }) { // Asegúrate de pasar `user` como prop
+function NavBar() { 
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
     const location = useLocation(); // Obtener la ubicación actual
 
@@ -30,8 +30,10 @@ function NavBar({ user }) { // Asegúrate de pasar `user` como prop
     const noSidebarRoutes = ["/login", "/register"];
 
     // Acceder al rol del usuario
-    const userRole = user?.rol || "No definido"; 
-    console.log("Rol del usuario:", userRole); // Para verificar el rol del usuario
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.id || 0; 
+    const userRole = user?.rol || "No definido"; // Acceder al rol del usuario
+    console.log("Rol del usuario:", userRole);
 
     return (
         <>
