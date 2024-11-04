@@ -65,6 +65,9 @@ public class AuthServiceTest {
         // Cambiar el comportamiento de los mocks para el repositorio
         when(estudianteRepository.findByUsername(anyString())).thenReturn(Optional.empty());
         when(empleadoRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+
+        when(estudianteRepository.findByUsername("invalidUsername")).thenReturn(Optional.empty());
+        when(empleadoRepository.findByUsername("invalidUsername")).thenReturn(Optional.empty());
     }
 
     @Test
@@ -75,15 +78,28 @@ public class AuthServiceTest {
         estudiante.setNombre("Student Name");
         estudiante.setRol(Rol.ESTUDIANTE);
 
+        System.out.println("Configurando el mock para el estudiante...");
         when(estudianteRepository.findByUsername("studentUsername")).thenReturn(Optional.of(estudiante));
         when(empleadoRepository.findByUsername("studentUsername")).thenReturn(Optional.empty());
         when(jwtService.getTokenEstudiante(estudiante)).thenReturn("studentToken");
 
+        System.out.println("Ejecutando el método de login en authService...");
         AuthResponse response = authService.login(studentRequest);
 
+        System.out.println("Verificando el token devuelto...");
+        System.out.println("Token esperado: studentToken, Token actual: " + response.getToken());
         assertEquals("studentToken", response.getToken());
+
+        System.out.println("Verificando el nombre devuelto...");
+        System.out.println("Nombre esperado: Student Name, Nombre actual: " + response.getNombre());
         assertEquals("Student Name", response.getNombre());
+
+        System.out.println("Verificando el rol devuelto...");
+        System.out.println("Rol esperado: ESTUDIANTE, Rol actual: " + response.getRol());
         assertEquals("ESTUDIANTE", response.getRol());
+
+        System.out.println("Verificando el ID devuelto...");
+        System.out.println("ID esperado: 1, ID actual: " + response.getId());
         assertEquals(1L, response.getId());
     }
 
@@ -99,23 +115,44 @@ public class AuthServiceTest {
         when(empleadoRepository.findByUsername("employeeUsername")).thenReturn(Optional.of(empleado));
         when(jwtService.getTokenEmpleado(empleado)).thenReturn("employeeToken");
 
+        System.out.println("Configurando el empleado mock...");
+        System.out.println("Empleado ID: " + empleado.getId());
+        System.out.println("Empleado Nombre: " + empleado.getNombre());
+        System.out.println("Empleado Rol: " + empleado.getRol());
+
         AuthResponse response = authService.login(employeeRequest);
+
+        System.out.println("Respuesta de inicio de sesión: ");
+        System.out.println("Token: " + response.getToken());
+        System.out.println("Nombre: " + response.getNombre());
+        System.out.println("Rol: " + response.getRol());
+        System.out.println("ID: " + response.getId());
 
         assertEquals("employeeToken", response.getToken());
         assertEquals("Employee Name", response.getNombre());
         assertEquals("ADMIN", response.getRol());
         assertEquals(2L, response.getId());
 
-        System.out.println("Inicio de sesión exitoso para el estudiante: " + response.getNombre());
+        System.out.println("Inicio de sesión exitoso para el empleado: " + response.getNombre());
     }
 
     @Test
-    @DisplayName("No se ha iniciado sesión para credenciales invalidas")
+    @DisplayName("No se ha iniciado sesión para credenciales inválidas")
     void testLoginWithInvalidCredentials() {
-        when(estudianteRepository.findByUsername("invalidUsername")).thenReturn(Optional.empty());
-        when(empleadoRepository.findByUsername("invalidUsername")).thenReturn(Optional.empty());
+        String invalidUsername = "invalidUsername";
 
-        assertThrows(NoSuchElementException.class, () -> authService.login(invalidRequest));
+        // Configurar el mock para que devuelva vacío para un nombre de usuario inválido
+        when(estudianteRepository.findByUsername(invalidUsername)).thenReturn(Optional.empty());
+        when(empleadoRepository.findByUsername(invalidUsername)).thenReturn(Optional.empty());
+
+        System.out.println("Intentando iniciar sesión con credenciales inválidas para el usuario: " + invalidUsername);
+
+        // Se espera que se lance NoSuchElementException
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+                () -> authService.login(invalidRequest));
+
+        // Imprimir mensaje de error
+        System.out.println("Se lanzó una excepción de NoSuchElementException: " + exception.getMessage());
     }
 
 }
