@@ -1,0 +1,124 @@
+@startuml
+
+' Define las entidades
+
+entity "Estudiante" as Estudiante {
+    + Long id
+    + String legajo
+    + String carrera
+    + String facultad
+    + Rol rol
+}
+
+entity "BecaComedor" as BecaComedor {
+    + Long id
+    + Boolean ingresos
+    + TipoVivienda tipoVivienda
+    + CondVivienda condVivienda
+    + String grupoFamiliar
+    + String anio
+    + String fecha
+    + EstadoBeca estadoBeca
+}
+
+entity "Empleado" as Empleado {
+    + Long id
+    + Rol rol
+}
+
+entity "Reserva" as Reserva {
+    + Long id
+    + String fecha
+    + String opinion
+    + int calificacion
+    + EstadoReserva estado
+}
+
+entity "Vianda" as Vianda {
+    + Long id
+    + String tipo
+    + String plato
+    + String postre
+    + int cantidad
+}
+
+entity "Rol" as Rol {
+    + ESTUDIANTE
+    + ADMIN
+    + EMPLEADO_COMEDOR
+    + EMPLEADO_CONTROL
+    + SECRETARIO
+}
+
+entity "CondVivienda" as CondVivienda {
+    + PROPIA
+    + ALQUILER
+    + FAMILIAR
+}
+
+entity "EstadoBeca" as EstadoBeca {
+    + EN_EVALUACION
+    + APROBADA
+    + DENEGADA
+}
+
+entity "EstadoReserva" as EstadoReserva {
+    + PENDIENTE
+    + CONFIRMADA
+    + CANCELADA
+}
+
+entity "TipoVivienda" as TipoVivienda {
+    + DEPARTAMENTO
+    + CASA
+    + RESIDENCIA
+    + PENSION
+    + OTRO
+}
+
+entity "Genero" as Genero {
+    + MASCULINO
+    + FEMENINO
+    + OTRO
+}
+
+' Relaciona Usuario (superclase)
+entity "Usuario" as Usuario {
+    + Long dni
+    + String password
+    + String username
+    + String nombre
+    + Genero genero
+    + String localidad
+    + String direccion
+    + String mail
+    + Long celular
+}
+
+' Relaciones
+
+Estudiante --> "1" BecaComedor : tiene
+Estudiante --> "0..*" Reserva : realiza
+Reserva --> "1" Estudiante : pertenece_a
+Reserva --> "1" Vianda : incluye
+Vianda --> "0..*" Reserva : tiene
+
+BecaComedor --> "1" Estudiante : asignada_a
+
+Empleado --> "0..*" Estudiante : gestiona
+Empleado --> "0..*" BecaComedor : evalua
+
+' Enum relaciones
+Rol --> Estudiante : tiene
+Rol --> Empleado : tiene
+CondVivienda --> BecaComedor : clasifica
+EstadoBeca --> BecaComedor : determina_estado
+EstadoReserva --> Reserva : estado
+TipoVivienda --> BecaComedor : clasifica
+
+' Relación entre Usuario y las entidades específicas
+Usuario <|-- Estudiante : extiende
+Usuario <|-- Empleado : extiende
+Genero --> Usuario : clasifica
+
+@enduml
