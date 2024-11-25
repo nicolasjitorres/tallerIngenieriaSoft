@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-  Button,
   Card,
-  CardBody,
-  Input,
-  Option,
-  Select,
   Typography,
 } from "@material-tailwind/react";
+import handleLogs from '../../api/api';
 
 const MenuDia = () => {
   const [clasico, setClasico] = useState('');
@@ -67,6 +63,7 @@ const MenuDia = () => {
         await axios.put('http://localhost:8080/viandas', viandasConCantidad);
         setCantidadesActualizadas(true);
         setMensaje('Cantidades actualizadas correctamente');
+        handleLogs("El usuario actualizó las cantidades de viandas.", "EMPLEADO");
       } catch (error) {
         setMensaje('Error al actualizar las cantidades');
         console.error('Error al actualizar las cantidades:', error);

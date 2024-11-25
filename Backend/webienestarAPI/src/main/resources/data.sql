@@ -31,7 +31,7 @@ VALUES
 -- Insertar reservas
 INSERT INTO Reserva (fecha, opinion, calificacion, estado, estudiante_id, vianda_id, fecha_penalizacion) 
 VALUES 
-('07-10-2024', null, 0, 'PENALIZADA', 1, 1, '08-10-2024'), 
+('07-10-2024', null, 0, 'RETIRADA', 1, 1, null), 
 ('07-10-2024', null, 0, 'RETIRADA', 2, 1, null), 
 ('08-10-2024', 'Saludable y sabrosa', 4, 'CANCELADA', 2, 2, null), 
 ('08-10-2024', 'Exquisita', 2, 'RESERVADA', 3, 3, null),

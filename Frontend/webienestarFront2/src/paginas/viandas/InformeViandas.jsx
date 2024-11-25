@@ -13,6 +13,7 @@ import {
   Select,
   Typography,
 } from "@material-tailwind/react";
+import handleLogs from "../../api/api";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -120,7 +121,8 @@ const InformeViandas = () => {
 
     setError("");
     setSuccess("Informe generado exitosamente.");
-    setMostrarConclusion(true); // Mostrar el campo de conclusión
+    setMostrarConclusion(true);
+    handleLogs("El usuario generó un informe de viandas.", "EMPLEADO");
   };
 
   const handleDownloadPDF = () => {

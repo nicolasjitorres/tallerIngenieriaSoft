@@ -10,6 +10,7 @@ import {
   Alert,
   CardFooter,
 } from "@material-tailwind/react";
+import handleLogs from "../../api/api";
 
 const ReservarVianda = () => {
   const { id } = useParams();
@@ -111,6 +112,7 @@ const ReservarVianda = () => {
             v.id === vianda.id ? { ...v, cantidad: v.cantidad - 1 } : v
           )
         );
+        handleLogs("El usuario realizó una reserva de la vianda con id: "+ vianda.id, "ESTUDIANTE");
         window.location.reload();
       }
     } catch (error) {
@@ -137,6 +139,7 @@ const ReservarVianda = () => {
 
       if (response.status === 200) {
         alert("Penalización completada con éxito.");
+        handleLogs(id, "El usuario cumplió con la penalización.", "ESTUDIANTE");
         window.location.reload();
       }
     } catch (error) {

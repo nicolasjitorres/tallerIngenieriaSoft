@@ -8,6 +8,7 @@ import {
   CardFooter,
   Typography,
 } from "@material-tailwind/react";
+import handleLogs from "../../api/api";
 
 const VisualizarBeca = () => {
   const { id } = useParams();
@@ -41,6 +42,7 @@ const VisualizarBeca = () => {
           id: id,
         });
         await fetchInscripcion();
+        handleLogs("El usuario aprobó una beca con exito.", "EMPLEADO");
       } catch (error) {
         console.error("Error al aprobar la beca comedor:", error);
       }
@@ -56,7 +58,8 @@ const VisualizarBeca = () => {
         await axios.put(`http://localhost:8080/becascomedor/denegar`, {
           id: id,
         });
-        await fetchInscripcion(); // Obtener la lista actualizada
+        await fetchInscripcion();
+        handleLogs("El usuario rechazo una beca con exito.", "EMPLEADO");
       } catch (error) {
         console.error("Error al denegar la inscripción:", error);
       }

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import handleLogs from "../../api/api";
 
 const CancelarVianda = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Asumiendo que id es el ID del estudiante
+  const { id } = useParams();
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("");
   const [reserva, setReserva] = useState(null);
@@ -41,12 +42,13 @@ const CancelarVianda = () => {
   const handleCancelarClick = async () => {
     try {
       const response = await axios.put(`http://localhost:8080/reservas/cancelar/${id}`);
+      handleLogs("El usuario canceló una reserva.", "ESTUDIANTE");
       console.log("Respuesta de cancelación:", response.data);
       setMensaje("Reserva cancelada con éxito.");
       setTipoMensaje("success");
-      setReserva(null); // Limpia la reserva después de cancelarla
+      setReserva(null); 
       setTimeout(() => {
-        navigate("/"); // Cambia a la página que desees
+        navigate("/"); 
       }, 2000);
     } catch (error) {
       console.error("Error al cancelar la vianda:", error);
