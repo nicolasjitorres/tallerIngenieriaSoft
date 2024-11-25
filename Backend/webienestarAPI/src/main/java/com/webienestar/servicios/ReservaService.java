@@ -249,17 +249,30 @@ public class ReservaService {
         return detalles;
     }
 
-    public ReservaDTO obtenerUltimaReservaNoHoy(Long idEstudiante) {
-        Optional<Reserva> reservas = reservaRepository.findReservasByIdOrderByFechaDesc(idEstudiante);
-    
-        String fechaHoy = LocalDate.now().toString(); // Formato ISO (yyyy-MM-dd)
-    
-        // Filtrar la primera reserva que no sea de la fecha de hoy
-        Optional<Reserva> ultimaReservaNoHoy = reservas.stream()
-            .filter(reserva -> !reserva.getFecha().equals(fechaHoy))
-            .findFirst();
-    
-        return ultimaReservaNoHoy.map(reservaMapper::toDto).orElse(null);
+    public ReservaDTO obtenerUltimaReserva(Long idEstudiante) {
+        // Obtener la lista de reservas en orden descendente
+        List<Reserva> reservas = reservaRepository.findReservasByEstudiante_Id(idEstudiante);
+
+        // Verificar si hay reservas disponibles
+        if (!reservas.isEmpty()) {
+            // Tomar la última reserva de la lista
+            System.out.println("Size: "+reservas.size());
+            Reserva ultimaReserva = reservas.get(reservas.size()-1); // Última posición
+
+            return reservaMapper.toDto(ultimaReserva); // Convertir a DTO
+        }
+
+        return null; // Si no hay reservas, devolver null
+    }
+
+    public void actualizarNoRetirarVianda(ReservaDTO reservaDTO) {
+        Optional<Reserva> reservaANoRetirada = reservaRepository.findById(reservaDTO.getId());
+
+        if (reservaANoRetirada.isPresent()) {
+            Reserva reservaParaActualizar = reservaANoRetirada.get();
+            reservaParaActualizar.setEstado(EstadoReserva.NO_RETIRADA);
+            reservaRepository.saveAndFlush(reservaParaActualizar);
+        }
     }
 
 }

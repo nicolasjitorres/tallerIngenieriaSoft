@@ -46,7 +46,7 @@ const ReservarVianda = () => {
     const fetchUltimaReserva = async () => {
       try {
         const reservaResponse = await axios.get(
-          `http://localhost:8080/reservas/verificar-ultima-reserva-no-hoy/${id}`
+          `http://localhost:8080/reservas/ultima-reserva/${id}`
         );
         setUltimoEstadoReserva(reservaResponse.data);
         console.log("Último estado de reserva:", reservaResponse.data);
@@ -106,13 +106,11 @@ const ReservarVianda = () => {
 
       if (response.status === 201) {
         alert("Reserva realizada con éxito.");
-
         setViandas((prevViandas) =>
           prevViandas.map((v) =>
             v.id === vianda.id ? { ...v, cantidad: v.cantidad - 1 } : v
           )
         );
-
         window.location.reload();
       }
     } catch (error) {
@@ -209,9 +207,9 @@ const ReservarVianda = () => {
 
   return (
     <section className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {viandas.filter((vianda) => vianda.cantidad > 0).length > 0 ? (
-          viandas
+      {viandas.filter((vianda) => vianda.cantidad > 0).length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {viandas
             .filter((vianda) => vianda.cantidad > 0)
             .map((vianda) => (
               <Card key={vianda.id} className="mt-6 pt-10 w-full">
@@ -247,15 +245,14 @@ const ReservarVianda = () => {
                   </Button>
                 </CardFooter>
               </Card>
-            ))
-        ) : (
-          <Typography variant="h6" color="gray" className="text-center w-full justify-self-center">
-            No hay viandas disponibles en este momento.
-          </Typography>
-        )}
-      </div>
+            ))}
+        </div>
+      ) : (
+        <Typography variant="h6" color="gray" className="text-center w-full">
+          No hay viandas disponibles en este momento.
+        </Typography>
+      )}
 
-      {/* Botón para volver atrás */}
       <div className="text-center mt-4">
         <Button onClick={handleGoBack} color="gray">
           Volver Atrás
