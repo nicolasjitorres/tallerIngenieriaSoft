@@ -138,6 +138,17 @@ public class ReservaService {
         }
     }
 
+    public void actualizarEstado(ReservaDTO reservaDTO) {
+        Optional<Reserva> reservaAActualizar = reservaRepository.findById(reservaDTO.getId());
+
+        if (reservaAActualizar.isPresent()) {
+            Reserva reservaParaActualizar = reservaAActualizar.get();
+            reservaParaActualizar.setEstado(EstadoReserva.PENALIZADA);
+            reservaParaActualizar.setFechaPenalizacion(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            reservaRepository.saveAndFlush(reservaParaActualizar);
+        }
+    }
+
     public void emitarRetroalimentacion(ReservaDTO reservaDTO) {
         Optional<Reserva> reservaCalificar = reservaRepository.findById(reservaDTO.getId());
 

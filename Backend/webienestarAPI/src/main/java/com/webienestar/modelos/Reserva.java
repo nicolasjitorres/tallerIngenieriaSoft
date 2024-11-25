@@ -41,4 +41,6 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "vianda_id")
     private Vianda vianda;
+
+    private String fechaPenalizacion;
 }

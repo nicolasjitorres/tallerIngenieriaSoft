@@ -5,5 +5,6 @@ public enum EstadoReserva {
     RETIRADA,
     CANCELADA,
     CALIFICADA,
-    NO_RETIRADA
+    NO_RETIRADA,
+    PENALIZADA
 }

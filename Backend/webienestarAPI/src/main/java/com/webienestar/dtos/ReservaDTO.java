@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ReservaDTO {
     private Long id;
-    
+
     @NotBlank(message = "La fecha es obligatoria")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private String fecha;
@@ -21,8 +21,10 @@ public class ReservaDTO {
     @NotBlank(message = "El estado es obligatorio")
     @Size(min = 2, max = 20, message = "El estado debe tener entre 2 y 20 caracteres")
     private String estado;
-    
 
     private Long idEstudiante;
     private Long idVianda;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private String fechaPenalizacion;
 }

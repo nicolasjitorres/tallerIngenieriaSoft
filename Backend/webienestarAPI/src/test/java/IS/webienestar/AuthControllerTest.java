@@ -1,0 +1,54 @@
+package IS.webienestar;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webienestar.WebienestarApplication;
+import com.webienestar.autenticacion.AuthController;
+import com.webienestar.autenticacion.AuthResponse;
+import com.webienestar.autenticacion.AuthService;
+import com.webienestar.autenticacion.LoginRequest;
+
+@SpringBootTest
+public class AuthControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private AuthService authService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void testLogin() throws Exception {
+        // Arrange
+        LoginRequest loginRequest = new LoginRequest("12345678", "password123");
+        AuthResponse authResponse = AuthResponse.builder()
+                .token("test-token")
+                .nombre("Test User")
+                .rol("ADMIN")
+                .id(123L)
+                .build();
+
+        when(authService.login(any(LoginRequest.class))).thenReturn(authResponse);
+
+        // Act & Assert
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk());
+    }
+}

@@ -111,6 +111,11 @@ public class ReservaController {
         reservaService.actualizarRetirarVianda(reservaDTO);
     }
 
+    @PutMapping("/penalizar")
+    public void actualizarEstadoReservaPenalizada(@RequestBody ReservaDTO reservaDTO) {
+        reservaService.actualizarEstado(reservaDTO);
+    }
+
     @PutMapping("/retroalimentacion")
     public void emitarRetroalimentacion(@RequestBody ReservaDTO reservaDTO) {
         reservaService.emitarRetroalimentacion(reservaDTO);
