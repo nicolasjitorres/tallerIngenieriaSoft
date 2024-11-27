@@ -127,50 +127,69 @@ const InformeViandas = () => {
 
   const handleDownloadPDF = () => {
     const content = pdfRef.current;
+  
     html2canvas(content).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
-      
-      const imgWidth = 120; 
+  
+      const imgWidth = 120;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
   
-      const pageWidth = pdf.internal.pageSize.getWidth(); 
-      const xPosition = (pageWidth - imgWidth) / 2; 
-      let position = 10;
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const xPosition = (pageWidth - imgWidth) / 2;
+      let position = 10; // Posición inicial en la página
+  
+      // Cambiar la fuente a Times
+      pdf.setFont("times");
+      pdf.setFontSize(12); // Ajustar el tamaño de fuente si es necesario
   
       // Agregar el rango de fechas en la parte superior
       pdf.text(
-        `Rango de fechas: ${formatDate(fechaInicio)} a ${formatDate(fechaFin)}`,
+        `Rango de fechas: ${fechaInicio} a ${fechaFin}`,
         10,
         position
       );
   
       // Agregar el gráfico
-      position += 10; // Espacio para la fecha
+      position += 5; // Espacio para la fecha
       pdf.addImage(imgData, "PNG", xPosition, position, imgWidth, imgHeight);
-      position += imgHeight + 10; // Espacio para el gráfico
+      position += imgHeight + 10; // Espacio después del gráfico
   
-      // Agregar conclusión
-      const conclusionText = `Se puede notar una clara preferencia de los becarios a la hora de reservar las viandas. Hay una escasez de no becarios, deberíamos revisar este problema.\nHola hola Hola hola Hola hola Hola hola Hola hola Hola hola\nHola hola \nHola holaHola hola`;
-      const conclusionLines = pdf.splitTextToSize(conclusionText, pageWidth - 20); // Divide el texto si es necesario
-      
-      conclusionLines.forEach((line, index) => {
-        const conclusionX = 10; // Alineado a la izquierda con margen
-        const conclusionY = position + (index * 10); // Espacio entre líneas
-        pdf.text(line, conclusionX, conclusionY);
-        
-        // Si la posición se sale de la página, agregar nueva página
-        if (conclusionY >= pdf.internal.pageSize.height - 20) {
-          pdf.addPage();
-          position = 10; // Reiniciar posición en nueva página
-        }
-      });
+      // Validar si hay conclusión escrita
+      if (conclusion && conclusion.trim()) {
+        const conclusionText = conclusion.trim();
+        const conclusionLines = pdf.splitTextToSize(
+          conclusionText,
+          pageWidth - 20 // Margen horizontal
+        );
+  
+        // Agregar líneas de la conclusión al PDF
+        conclusionLines.forEach((line, index) => {
+          const conclusionY = position + index * 10; // Espaciado entre líneas
+  
+          // Si la posición excede el tamaño de la página, agregar nueva página
+          if (conclusionY >= pageHeight + 200) {
+            pdf.addPage();
+            position = 10; // Reiniciar posición en la nueva página
+          }
+  
+          // Agregar la línea de texto
+          pdf.text(line, 10, position);
+          position += 5; // Incrementar posición para la siguiente línea
+        });
+      } else {
+        pdf.text(
+          "No se proporcionó una conclusión para este informe.",
+          10,
+          position
+        );
+      }
   
       // Guardar el PDF
       pdf.save("informe_viandas.pdf");
     });
   };
-  
    
   return (
     <div className="container mt-10 flex flex-wrap w-full justify-center">
