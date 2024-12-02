@@ -10,6 +10,7 @@ import com.webienestar.repositorios.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.Year;
 
@@ -59,9 +60,16 @@ public class EstudianteService {
         return estudianteMapper.toDto(estudiante);
     }
 
-    public void eliminar(Long id) {
-        estudianteRepository.deleteById(id);
+    public boolean eliminar(Long estudianteId) {
+        Optional<Estudiante> estudiante = estudianteRepository.findById(estudianteId);
+        if (estudiante.isPresent()) {
+            estudianteRepository.deleteById(estudianteId);
+            return true;
+        } else {
+            throw new Error("Estudiante no encontrado");
+        }
     }
+    
 
     public boolean tieneBecaComedorEsteAnio(Long idEstudiante) {
         EstudianteDTO estudiante = obtenerPorId(idEstudiante); 
